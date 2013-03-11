@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<locatingRules xmlns="http://thaiopensource.com/ns/locating-rules/1.0">
+  <documentElement localName="book" uri="docbook-schema/docbook.rnc"/>
+  <documentElement localName="chapter" uri="docbook-schema/docbook.rnc"/>
+  <documentElement localName="section" uri="docbook-schema/docbook.rnc"/>
+</locatingRules>

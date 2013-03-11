@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<!DOCTYPE programlisting PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+]>
+<!-- Automatically generated file.  Do not edit. -->
+<programlisting language="C">
+ssize_t
+extract_strings(const char *in, size_t inlen, char **out, size_t outlen)
+{
+  const char *inp = in;
+  const char *inend = in + inlen;
+  char **outp = out;
+  char **outend = out + outlen;
+
+  while (inp != inend) {
+    size_t len;
+    char *s;
+    if (outp == outend) {
+      errno = ENOSPC;
+      goto err;
+    }
+    len = (unsigned char)*inp;
+    ++inp;
+    if (len &#62; (size_t)(inend - inp)) {
+      errno = EINVAL;
+      goto err;
+    }
+    s = malloc(len + 1);
+    if (s == NULL) {
+      goto err;
+    }
+    memcpy(s, inp, len);
+    inp += len;
+    s[len] = '\0';
+    *outp = s;
+    ++outp;
+  }
+  return outp - out;
+err:
+  {
+    int errno_old = errno;
+    while (out != outp) {
+      free(*out);
+      ++out;
+    }
+    errno = errno_old;
+  }
+  return -1;
+}
+</programlisting>

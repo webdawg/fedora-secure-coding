@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<!DOCTYPE programlisting PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+]>
+<!-- Automatically generated file.  Do not edit. -->
+<programlisting language="C">
+unsigned
+mul(unsigned a, unsigned b)
+{
+  if (b &#38;&#38; a &#62; ((unsigned)-1) / b) {
+    report_overflow();
+  }
+  return a * b;
+}
+</programlisting>

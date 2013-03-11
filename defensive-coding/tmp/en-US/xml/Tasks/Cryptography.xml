@@ -1,0 +1,158 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+<!ENTITY % BOOK_ENTITIES SYSTEM "../Defensive_Coding.ent">
+%BOOK_ENTITIES;
+]>
+<chapter id="chap-Defensive_Coding-Tasks-Cryptography" lang="en-US">
+	<title>Cryptography</title>
+	 <section>
+		<title>Primitives</title>
+		 <para>
+			Chosing from the following cryptographic primitives is recommended:
+		</para>
+		 <itemizedlist>
+			<listitem>
+				<para>
+					RSA with 2048 bit keys and OAEP
+				</para>
+			</listitem>
+			 <listitem>
+				<para>
+					AES-128 in CBC mode
+				</para>
+			</listitem>
+			 <listitem>
+				<para>
+					SHA-256
+				</para>
+			</listitem>
+			 <listitem>
+				<para>
+					HMAC-SHA-256
+				</para>
+			</listitem>
+			 <listitem>
+				<para>
+					HMAC-SHA-1
+				</para>
+			</listitem>
+
+		</itemizedlist>
+		 <para>
+			Other cryptographic algorithms can be used if they are required for interoperability with existing software:
+		</para>
+		 <itemizedlist>
+			<listitem>
+				<para>
+					RSA with key sizes larger than 1024 and legacy padding
+				</para>
+			</listitem>
+			 <listitem>
+				<para>
+					AES-192
+				</para>
+			</listitem>
+			 <listitem>
+				<para>
+					AES-256
+				</para>
+			</listitem>
+			 <listitem>
+				<para>
+					3DES (triple DES, with two or three 56 bit keys)
+				</para>
+			</listitem>
+			 <listitem>
+				<para>
+					RC4 (but very, very strongly discouraged)
+				</para>
+			</listitem>
+			 <listitem>
+				<para>
+					SHA-1
+				</para>
+			</listitem>
+			 <listitem>
+				<para>
+					HMAC-MD5
+				</para>
+			</listitem>
+
+		</itemizedlist>
+		 <important>
+			<title>Important</title>
+			 <para>
+				These primitives are difficult to use in a secure way. Custom implementation of security protocols should be avoided. For protecting confidentiality and integrity of network transmissions, TLS should be used (<xref linkend="chap-Defensive_Coding-TLS" />).
+			</para>
+
+		</important>
+		<!--  TODO: More algorithms are available in the NIST documents
+     linked from: http://wiki.brq.redhat.com/SecurityTechnologies/FIPS  -->
+	</section>
+	
+	 <section>
+		<title id="sect-Defensive_Coding-Tasks-Cryptography-Randomness">Randomness</title>
+		 <para>
+			The following facilities can be used to generate unpredictable and non-repeating values. When these functions are used without special safeguards, each individual rnadom value should be at least 12 bytes long.
+		</para>
+		 <itemizedlist>
+			<listitem>
+				<para>
+					<function>PK11_GenerateRandom</function> in the NSS library (usable for high data rates)
+				</para>
+
+			</listitem>
+			 <listitem>
+				<para>
+					<function>RAND_bytes</function> in the OpenSSL library (usable for high data rates)
+				</para>
+
+			</listitem>
+			 <listitem>
+				<para>
+					<function>gnutls_rnd</function> in GNUTLS, with <literal>GNUTLS_RND_RANDOM</literal> as the first argument (usable for high data rates)
+				</para>
+
+			</listitem>
+			 <listitem>
+				<para>
+					<type>java.security.SecureRandom</type> in Java (usable for high data rates)
+				</para>
+
+			</listitem>
+			 <listitem>
+				<para>
+					<function>os.urandom</function> in Python
+				</para>
+
+			</listitem>
+			 <listitem>
+				<para>
+					Reading from the <filename>/dev/urandom</filename> character device
+				</para>
+
+			</listitem>
+
+		</itemizedlist>
+		 <para>
+			All these functions should be non-blocking, and they should not wait until physical randomness becomes available. (Some cryptography providers for Java can cause <type>java.security.SecureRandom</type> to block, however.) Those functions which do not obtain all bits directly from <filename>/dev/urandom</filename> are suitable for high data rates because they do not deplete the system-wide entropy pool.
+		</para>
+		 <important>
+			<title>Difficult to use API</title>
+			 <para>
+				Both <function>RAND_bytes</function> and <function>PK11_GenerateRandom</function> have three-state return values (with conflicting meanings). Careful error checking is required. Please review the documentation when using these functions.
+			</para>
+
+		</important>
+		 <para>
+			Other sources of randomness should be considered predictable.
+		</para>
+		 <para>
+			Generating randomness for cryptographic keys in long-term use may need different steps and is best left to cryptographic libraries.
+		</para>
+
+	</section>
+	
+
+</chapter>
+

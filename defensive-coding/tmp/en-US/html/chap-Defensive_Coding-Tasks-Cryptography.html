@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Chapter 10. Cryptography</title><link rel="stylesheet" type="text/css" href="Common_Content/css/default.css" /><link rel="stylesheet" media="print" href="Common_Content/css/print.css" type="text/css" /><meta name="generator" content="publican 2.8" /><meta name="package" content="Defensive_Coding-Defensive_Coding-1-en-US-1.0-20" /><link rel="home" href="index.html" title="Defensive Coding" /><link rel="up" href="pt02.html" title="Part II. Specific Programming Tasks" /><link rel="prev" href="ch09s05.html" title="9.5. Protocol Encoders" /><link rel="next" href="ch10s02.html" title="10.2. Randomness" /></head><body><p id="title"><a class="left" href="http://www.redhat.com"><img src="Common_Content/images/image_left.png" alt="Product Site" /></a><a class="right" href="http://docs.redhat.com"><img src="Common_Content/images/image_right.png" alt="Documentation Site" /></a></p><ul class="docnav"><li class="previous"><a accesskey="p" href="ch09s05.html"><strong>Prev</strong></a></li><li class="next"><a accesskey="n" href="ch10s02.html"><strong>Next</strong></a></li></ul><div xml:lang="en-US" class="chapter" id="chap-Defensive_Coding-Tasks-Cryptography" lang="en-US"><div class="titlepage"><div><div><h2 class="title">Chapter 10. Cryptography</h2></div></div></div><div class="toc"><dl><dt><span class="section"><a href="chap-Defensive_Coding-Tasks-Cryptography.html#idp25485952">10.1. Primitives</a></span></dt><dt><span class="section"><a href="ch10s02.html">10.2. Randomness</a></span></dt></dl></div><div class="section" id="idp25485952"><div class="titlepage"><div><div><h2 class="title" id="idp25485952">10.1. Primitives</h2></div></div></div><div class="para">
+			Chosing from the following cryptographic primitives is recommended:
+		</div><div class="itemizedlist"><ul><li class="listitem"><div class="para">
+					RSA with 2048 bit keys and OAEP
+				</div></li><li class="listitem"><div class="para">
+					AES-128 in CBC mode
+				</div></li><li class="listitem"><div class="para">
+					SHA-256
+				</div></li><li class="listitem"><div class="para">
+					HMAC-SHA-256
+				</div></li><li class="listitem"><div class="para">
+					HMAC-SHA-1
+				</div></li></ul></div><div class="para">
+			Other cryptographic algorithms can be used if they are required for interoperability with existing software:
+		</div><div class="itemizedlist"><ul><li class="listitem"><div class="para">
+					RSA with key sizes larger than 1024 and legacy padding
+				</div></li><li class="listitem"><div class="para">
+					AES-192
+				</div></li><li class="listitem"><div class="para">
+					AES-256
+				</div></li><li class="listitem"><div class="para">
+					3DES (triple DES, with two or three 56 bit keys)
+				</div></li><li class="listitem"><div class="para">
+					RC4 (but very, very strongly discouraged)
+				</div></li><li class="listitem"><div class="para">
+					SHA-1
+				</div></li><li class="listitem"><div class="para">
+					HMAC-MD5
+				</div></li></ul></div><div class="important"><div class="admonition_header"><h2>Important</h2></div><div class="admonition"><div class="para">
+				These primitives are difficult to use in a secure way. Custom implementation of security protocols should be avoided. For protecting confidentiality and integrity of network transmissions, TLS should be used (<a class="xref" href="chap-Defensive_Coding-TLS.html">Chapter 12, <em>Transport Layer Security</em></a>).
+			</div></div></div></div></div><ul class="docnav"><li class="previous"><a accesskey="p" href="ch09s05.html"><strong>Prev</strong>9.5. Protocol Encoders</a></li><li class="up"><a accesskey="u" href="#"><strong>Up</strong></a></li><li class="home"><a accesskey="h" href="index.html"><strong>Home</strong></a></li><li class="next"><a accesskey="n" href="ch10s02.html"><strong>Next</strong>10.2. Randomness</a></li></ul></body></html>

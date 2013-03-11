@@ -1,0 +1,107 @@
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/repos/product-security/!svn/ver/302/defensive-coding/trunk/src
+END
+tcp_connect.c
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/repos/product-security/!svn/ver/230/defensive-coding/trunk/src/tcp_connect.c
+END
+TLS-Client-OpenSSL.c
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/repos/product-security/!svn/ver/276/defensive-coding/trunk/src/TLS-Client-OpenSSL.c
+END
+C-Arithmetic-add.c
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/repos/product-security/!svn/ver/203/defensive-coding/trunk/src/C-Arithmetic-add.c
+END
+x509_check_host.c
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/repos/product-security/!svn/ver/235/defensive-coding/trunk/src/x509_check_host.c
+END
+TLS-Client-Python.py
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/repos/product-security/!svn/ver/269/defensive-coding/trunk/src/TLS-Client-Python.py
+END
+tcp_connect.h
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/repos/product-security/!svn/ver/230/defensive-coding/trunk/src/tcp_connect.h
+END
+check-function.py
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/repos/product-security/!svn/ver/235/defensive-coding/trunk/src/check-function.py
+END
+XML-Parser-Expat.c
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/repos/product-security/!svn/ver/277/defensive-coding/trunk/src/XML-Parser-Expat.c
+END
+TLSClientOpenJDK.java
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/repos/product-security/!svn/ver/302/defensive-coding/trunk/src/TLSClientOpenJDK.java
+END
+src.mk
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/repos/product-security/!svn/ver/277/defensive-coding/trunk/src/src.mk
+END
+TLS-Client-NSS.c
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/repos/product-security/!svn/ver/259/defensive-coding/trunk/src/TLS-Client-NSS.c
+END
+DERParser.java
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/repos/product-security/!svn/ver/298/defensive-coding/trunk/src/DERParser.java
+END
+XMLParserOpenJDK.java
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/repos/product-security/!svn/ver/287/defensive-coding/trunk/src/XMLParserOpenJDK.java
+END
+TLS-Client-GNUTLS.c
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/repos/product-security/!svn/ver/264/defensive-coding/trunk/src/TLS-Client-GNUTLS.c
+END
+C-Arithmetic-mult.c
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/repos/product-security/!svn/ver/203/defensive-coding/trunk/src/C-Arithmetic-mult.c
+END
+C-Pointers-remaining.c
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/repos/product-security/!svn/ver/199/defensive-coding/trunk/src/C-Pointers-remaining.c
+END
+C-String-Functions.c
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/repos/product-security/!svn/ver/266/defensive-coding/trunk/src/C-String-Functions.c
+END

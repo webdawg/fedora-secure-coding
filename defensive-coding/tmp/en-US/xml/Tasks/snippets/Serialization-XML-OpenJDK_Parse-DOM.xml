@@ -1,0 +1,22 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<!DOCTYPE programlisting PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+<!ENTITY % BOOK_ENTITIES SYSTEM "../../Defensive_Coding.ent">
+%BOOK_ENTITIES;
+]>
+
+<programlisting lang="en-US" language="Java"><!--  Automatically generated file.  Do not edit.  -->
+DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+// Impose restrictions on the complexity of the DTD.
+factory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
+
+// Turn on validation.
+// This step can be omitted if validation is not desired.
+factory.setValidating(true);
+
+// Parse the document.
+DocumentBuilder builder = factory.newDocumentBuilder();
+builder.setEntityResolver(new NoEntityResolver());
+builder.setErrorHandler(new Errors());
+Document document = builder.parse(inputStream);
+</programlisting>
+

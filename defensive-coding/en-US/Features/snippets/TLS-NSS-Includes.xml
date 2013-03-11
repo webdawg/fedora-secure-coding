@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<!DOCTYPE programlisting PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+]>
+<!-- Automatically generated file.  Do not edit. -->
+<programlisting language="C">
+// NSPR include files
+#include &#60;prerror.h&#62;
+#include &#60;prinit.h&#62;
+
+// NSS include files
+#include &#60;nss.h&#62;
+#include &#60;pk11pub.h&#62;
+#include &#60;secmod.h&#62;
+#include &#60;ssl.h&#62;
+#include &#60;sslproto.h&#62;
+
+// Private API, no other way to turn a POSIX file descriptor into an
+// NSPR handle.
+NSPR_API(PRFileDesc*) PR_ImportTCPSocket(int);
+</programlisting>

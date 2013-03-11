@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>8.3. SUID/SGID processes</title><link rel="stylesheet" type="text/css" href="Common_Content/css/default.css" /><link rel="stylesheet" media="print" href="Common_Content/css/print.css" type="text/css" /><meta name="generator" content="publican 2.8" /><meta name="package" content="Defensive_Coding-Defensive_Coding-1-en-US-1.0-20" /><link rel="home" href="index.html" title="Defensive Coding" /><link rel="up" href="sect-Defensive_Coding-Tasks-Processes.html" title="Chapter 8. Processes" /><link rel="prev" href="ch08s02.html" title="8.2. Handling child process termination" /><link rel="next" href="sect-Defensive_Coding-Tasks-Processes-Daemons.html" title="8.4. Daemons" /></head><body><p id="title"><a class="left" href="http://www.redhat.com"><img src="Common_Content/images/image_left.png" alt="Product Site" /></a><a class="right" href="http://docs.redhat.com"><img src="Common_Content/images/image_right.png" alt="Documentation Site" /></a></p><ul class="docnav"><li class="previous"><a accesskey="p" href="ch08s02.html"><strong>Prev</strong></a></li><li class="next"><a accesskey="n" href="sect-Defensive_Coding-Tasks-Processes-Daemons.html"><strong>Next</strong></a></li></ul><div class="section" id="idp23456352"><div class="titlepage"><div><div><h2 class="title" id="idp23456352">8.3. <code class="literal">SUID</code>/<code class="literal">SGID</code> processes</h2></div></div></div><div class="para">
+			Programs can be marked in the file system to indicate to the kernel that a trust transition should happen if the program is run. The <code class="literal">SUID</code> file permission bit indicates that an executable should run with the effective user ID equal to the owner of the executable file. Similarly, with the <code class="literal">SGID</code> bit, the effective group ID is set to the group of the executable file.
+		</div><div class="para">
+			Linux supports <span class="emphasis"><em>fscaps</em></span>, which can grant additional capabilities to a process in a finer-grained manner. Additional mechanisms can be provided by loadable security modules.
+		</div><div class="para">
+			When such a trust transition has happened, the process runs in a potentially hostile environment. Additional care is necessary not to rely on any untrusted information. These concerns also apply to libraries which can be linked into such processes.
+		</div><div class="section" id="sect-Defensive_Coding-Tasks-secure_getenv"><div class="titlepage"><div><div><h3 class="title">8.3.1. Accessing environment variables</h3></div></div></div><div class="para">
+				The following steps are required so that a program does not accidentally pick up untrusted data from environment variables.
+			</div><div class="itemizedlist"><ul><li class="listitem"><div class="para">
+						Compile your C/C++ sources with <code class="literal">-D_GNU_SOURCE</code>. The Autoconf macro <code class="literal">AC_GNU_SOURCE</code> ensures this.
+					</div></li><li class="listitem"><div class="para">
+						Check for the presence of the <code class="function">secure_getenv</code> and <code class="function">__secure_getenv</code> function. The Autoconf directive <code class="literal">AC_CHECK_FUNCS([__secure_getenv secure_getenv])</code> performs these checks.
+					</div></li><li class="listitem"><div class="para">
+						Arrange for a proper definition of the <code class="function">secure_getenv</code> function. See <a class="xref" href="ch08s03.html#ex-Defensive_Coding-Tasks-secure_getenv">Example 8.1, “Obtaining a definition for <code class="function">secure_getenv</code>”</a>.
+					</div></li><li class="listitem"><div class="para">
+						Use <code class="function">secure_getenv</code> instead of <code class="function">getenv</code> to obtain the value of critical environment variables. <code class="function">secure_getenv</code> will pretend the variable has not bee set if the process environment is not trusted.
+					</div></li></ul></div><div class="para">
+				Critical environment variables are debugging flags, configuration file locations, plug-in and log file locations, and anything else that might be used to bypass security restrictions or cause a privileged process to behave in an unexpected way.
+			</div><div class="para">
+				Either the <code class="function">secure_getenv</code> function or the <code class="function">__secure_getenv</code> is available from GNU libc.
+			</div><div class="example" id="ex-Defensive_Coding-Tasks-secure_getenv"><h6>Example 8.1. Obtaining a definition for <code class="function">secure_getenv</code></h6><div class="example-contents"><pre class="programlisting">
+
+<span class="perl_Others">#include &lt;stdlib.h&gt;</span><span class="perl_Others"></span>
+<span class="perl_Others"></span>
+<span class="perl_Others">#ifndef HAVE_SECURE_GETENV</span><span class="perl_Others"></span>
+<span class="perl_Others"></span><span class="perl_Others">#  ifdef HAVE__SECURE_GETENV</span><span class="perl_Others"></span>
+<span class="perl_Others"></span><span class="perl_Others">#    define secure_getenv __secure_getenv</span><span class="perl_Others"></span>
+<span class="perl_Others"></span><span class="perl_Others">#  else</span><span class="perl_Others"></span>
+<span class="perl_Others"></span><span class="perl_Others">#    error neither secure_getenv nor __secure_getenv are available</span><span class="perl_Others"></span>
+<span class="perl_Others"></span><span class="perl_Others">#  endif</span><span class="perl_Others"></span>
+<span class="perl_Others"></span><span class="perl_Others">#endif</span><span class="perl_Others"></span>
+<span class="perl_Others"></span>
+</pre></div></div><br class="example-break" /></div></div><ul class="docnav"><li class="previous"><a accesskey="p" href="ch08s02.html"><strong>Prev</strong>8.2. Handling child process termination</a></li><li class="up"><a accesskey="u" href="#"><strong>Up</strong></a></li><li class="home"><a accesskey="h" href="index.html"><strong>Home</strong></a></li><li class="next"><a accesskey="n" href="sect-Defensive_Coding-Tasks-Processes-Daemons.html"><strong>Next</strong>8.4. Daemons</a></li></ul></body></html>

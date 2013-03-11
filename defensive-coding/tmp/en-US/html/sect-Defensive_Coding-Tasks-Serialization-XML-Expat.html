@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>9.4.5. Using Expat for XML parsing</title><link rel="stylesheet" type="text/css" href="Common_Content/css/default.css" /><link rel="stylesheet" media="print" href="Common_Content/css/print.css" type="text/css" /><meta name="generator" content="publican 2.8" /><meta name="package" content="Defensive_Coding-Defensive_Coding-1-en-US-1.0-20" /><link rel="home" href="index.html" title="Defensive Coding" /><link rel="up" href="sect-Defensive_Coding-Tasks-Serialization-XML.html" title="9.4. XML serialization" /><link rel="prev" href="sect-Defensive_Coding-Tasks-Serialization-XML-Validation.html" title="9.4.4. Algorithmic complexity of XML validation" /><link rel="next" href="sect-Defensive_Coding-Tasks-Serialization-XML-OpenJDK_Parse.html" title="9.4.6. Using OpenJDK for XML parsing and validation" /></head><body><p id="title"><a class="left" href="http://www.redhat.com"><img src="Common_Content/images/image_left.png" alt="Product Site" /></a><a class="right" href="http://docs.redhat.com"><img src="Common_Content/images/image_right.png" alt="Documentation Site" /></a></p><ul class="docnav"><li class="previous"><a accesskey="p" href="sect-Defensive_Coding-Tasks-Serialization-XML-Validation.html"><strong>Prev</strong></a></li><li class="next"><a accesskey="n" href="sect-Defensive_Coding-Tasks-Serialization-XML-OpenJDK_Parse.html"><strong>Next</strong></a></li></ul><div class="section" id="sect-Defensive_Coding-Tasks-Serialization-XML-Expat"><div class="titlepage"><div><div><h3 class="title">9.4.5. Using Expat for XML parsing</h3></div></div></div><div class="para">
+				By default, Expat does not try to resolve external IDs, so no steps are required to block them. However, internal entity declarations are processed. Installing a callback which stops parsing as soon as such entities are encountered disables them, see <a class="xref" href="sect-Defensive_Coding-Tasks-Serialization-XML-Expat.html#ex-Defensive_Coding-Tasks-Serialization-XML-Expat-EntityDeclHandler">Example 9.1, “Disabling XML entity processing with Expat”</a>. Expat does not perform any validation, so there are no problems related to that.
+			</div><div class="example" id="ex-Defensive_Coding-Tasks-Serialization-XML-Expat-EntityDeclHandler"><h6>Example 9.1. Disabling XML entity processing with Expat</h6><div class="example-contents"><pre xml:lang="en-US" class="programlisting" lang="en-US">
+<span class="perl_Comment">// Stop the parser when an entity declaration is encountered.</span><span class="perl_Comment"></span>
+<span class="perl_Comment"></span><span class="perl_DataType">static</span> <span class="perl_DataType">void</span>
+EntityDeclHandler(<span class="perl_DataType">void</span> *userData,
+		  <span class="perl_DataType">const</span> XML_Char *entityName, <span class="perl_DataType">int</span> is_parameter_entity,
+		  <span class="perl_DataType">const</span> XML_Char *value, <span class="perl_DataType">int</span> value_length,
+		  <span class="perl_DataType">const</span> XML_Char *base, <span class="perl_DataType">const</span> XML_Char *systemId,
+		  <span class="perl_DataType">const</span> XML_Char *publicId, <span class="perl_DataType">const</span> XML_Char *notationName)
+{
+  XML_StopParser((XML_Parser)userData, XML_FALSE);
+}
+</pre></div></div><br class="example-break" /><div class="para">
+				This handler must be installed when the <code class="literal">XML_Parser</code> object is created (<a class="xref" href="sect-Defensive_Coding-Tasks-Serialization-XML-Expat.html#ex-Defensive_Coding-Tasks-Serialization-XML-Expat-Create">Example 9.2, “Creating an Expat XML parser”</a>).
+			</div><div class="example" id="ex-Defensive_Coding-Tasks-Serialization-XML-Expat-Create"><h6>Example 9.2. Creating an Expat XML parser</h6><div class="example-contents"><pre xml:lang="en-US" class="programlisting" lang="en-US">
+XML_Parser parser = XML_ParserCreate(<span class="perl_String">"UTF-8"</span>);
+<span class="perl_Keyword">if</span> (parser == NULL) {
+  fprintf(stderr, <span class="perl_String">"XML_ParserCreate failed</span><span class="perl_Char">\n</span><span class="perl_String">"</span>);
+  close(fd);
+  exit(<span class="perl_Float">1</span>);
+}
+<span class="perl_Comment">// EntityDeclHandler needs a reference to the parser to stop</span><span class="perl_Comment"></span>
+<span class="perl_Comment"></span><span class="perl_Comment">// parsing.</span><span class="perl_Comment"></span>
+<span class="perl_Comment"></span>XML_SetUserData(parser, parser);
+<span class="perl_Comment">// Disable entity processing, to inhibit entity expansion.</span><span class="perl_Comment"></span>
+<span class="perl_Comment"></span>XML_SetEntityDeclHandler(parser, EntityDeclHandler);
+</pre></div></div><br class="example-break" /><div class="para">
+				It is also possible to reject internal DTD subsets altogeher, using a suitable <code class="literal">XML_StartDoctypeDeclHandler</code> handler installed with <code class="function">XML_SetDoctypeDeclHandler</code>.
+			</div></div><ul class="docnav"><li class="previous"><a accesskey="p" href="sect-Defensive_Coding-Tasks-Serialization-XML-Validation.html"><strong>Prev</strong>9.4.4. Algorithmic complexity of XML validation</a></li><li class="up"><a accesskey="u" href="#"><strong>Up</strong></a></li><li class="home"><a accesskey="h" href="index.html"><strong>Home</strong></a></li><li class="next"><a accesskey="n" href="sect-Defensive_Coding-Tasks-Serialization-XML-OpenJDK_Parse.html"><strong>Next</strong>9.4.6. Using OpenJDK for XML parsing and validati...</a></li></ul></body></html>

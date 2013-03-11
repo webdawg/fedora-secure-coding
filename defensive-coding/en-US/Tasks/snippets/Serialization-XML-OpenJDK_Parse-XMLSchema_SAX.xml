@@ -1,0 +1,26 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<!DOCTYPE programlisting PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+]>
+<!-- Automatically generated file.  Do not edit. -->
+<programlisting language="Java">
+SchemaFactory factory = SchemaFactory.newInstance(
+        XMLConstants.W3C_XML_SCHEMA_NS_URI);
+
+// This enables restrictions on the schema and document
+// complexity.
+factory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
+
+// This prevents resource resolution by the schema itself.
+// If the schema is trusted and references additional files,
+// this line must be omitted, otherwise loading these files
+// will fail.
+factory.setResourceResolver(new NoResourceResolver());
+
+Schema schema = factory.newSchema(schemaFile);
+Validator validator = schema.newValidator();
+
+// This prevents external resource resolution.
+validator.setResourceResolver(new NoResourceResolver());
+
+validator.validate(new SAXSource(new InputSource(inputStream)));
+</programlisting>

@@ -1,0 +1,71 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<!DOCTYPE programlisting PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+]>
+<!-- Automatically generated file.  Do not edit. -->
+<programlisting language="C">
+// Configure a client connection context.  Send a hendshake for the
+// highest supported TLS version, and disable compression.
+const SSL_METHOD *const req_method = SSLv23_client_method();
+SSL_CTX *const ctx = SSL_CTX_new(req_method);
+if (ctx == NULL) {
+  ERR_print_errors(bio_err);
+  exit(1);
+}
+SSL_CTX_set_options(ctx, SSL_OP_NO_SSLv2 | SSL_OP_NO_COMPRESSION);
+
+// Adjust the ciphers list based on a whitelist.  First enable all
+// ciphers of at least medium strength, to get the list which is
+// compiled into OpenSSL.
+if (SSL_CTX_set_cipher_list(ctx, "HIGH:MEDIUM") != 1) {
+  ERR_print_errors(bio_err);
+  exit(1);
+}
+{
+  // Create a dummy SSL session to obtain the cipher list.
+  SSL *ssl = SSL_new(ctx);
+  if (ssl == NULL) {
+    ERR_print_errors(bio_err);
+    exit(1);
+  }
+  STACK_OF(SSL_CIPHER) *active_ciphers = SSL_get_ciphers(ssl);
+  if (active_ciphers == NULL) {
+    ERR_print_errors(bio_err);
+    exit(1);
+  }
+  // Whitelist of candidate ciphers.
+  static const char *const candidates[] =  {
+    "AES128-GCM-SHA256", "AES128-SHA256", "AES256-SHA256", // strong ciphers
+    "AES128-SHA", "AES256-SHA", // strong ciphers, also in older versions
+    "RC4-SHA", "RC4-MD5", // backwards compatibility, supposed to be weak
+    "DES-CBC3-SHA", "DES-CBC3-MD5", // more backwards compatibility
+    NULL
+  };
+  // Actually selected ciphers.
+  char ciphers[300];
+  ciphers[0] = '\0';
+  for (const char *const *c = candidates; *c; ++c) {
+    for (int i = 0; i &#60; sk_SSL_CIPHER_num(active_ciphers); ++i) {
+	if (strcmp(SSL_CIPHER_get_name(sk_SSL_CIPHER_value(active_ciphers, i)),
+		   *c) == 0) {
+	  if (*ciphers) {
+	    strcat(ciphers, ":");
+	  }
+	  strcat(ciphers, *c);
+	  break;
+	}
+    }
+  }
+  SSL_free(ssl);
+  // Apply final cipher list.
+  if (SSL_CTX_set_cipher_list(ctx, ciphers) != 1) {
+    ERR_print_errors(bio_err);
+    exit(1);
+  }
+}
+
+// Load the set of trusted root certificates.
+if (!SSL_CTX_set_default_verify_paths(ctx)) {
+  ERR_print_errors(bio_err);
+  exit(1);
+}
+</programlisting>

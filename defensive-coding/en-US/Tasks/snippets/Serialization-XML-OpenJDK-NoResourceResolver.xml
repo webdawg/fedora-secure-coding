@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<!DOCTYPE programlisting PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+]>
+<!-- Automatically generated file.  Do not edit. -->
+<programlisting language="Java">
+class NoResourceResolver implements LSResourceResolver {
+    @Override
+    public LSInput resolveResource(String type, String namespaceURI,
+            String publicId, String systemId, String baseURI) {
+        // Throwing an exception stops validation.
+        throw new RuntimeException(String.format(
+                "resolution attempt: type=%s namespace=%s " +
+                "publicId=%s systemId=%s baseURI=%s",
+                type, namespaceURI, publicId, systemId, baseURI));
+    }
+}
+</programlisting>

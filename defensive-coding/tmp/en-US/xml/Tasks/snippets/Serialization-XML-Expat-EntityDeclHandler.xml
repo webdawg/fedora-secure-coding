@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<!DOCTYPE programlisting PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+<!ENTITY % BOOK_ENTITIES SYSTEM "../../Defensive_Coding.ent">
+%BOOK_ENTITIES;
+]>
+
+<programlisting lang="en-US" language="C"><!--  Automatically generated file.  Do not edit.  -->
+// Stop the parser when an entity declaration is encountered.
+static void
+EntityDeclHandler(void *userData,
+		  const XML_Char *entityName, int is_parameter_entity,
+		  const XML_Char *value, int value_length,
+		  const XML_Char *base, const XML_Char *systemId,
+		  const XML_Char *publicId, const XML_Char *notationName)
+{
+  XML_StopParser((XML_Parser)userData, XML_FALSE);
+}
+</programlisting>
+

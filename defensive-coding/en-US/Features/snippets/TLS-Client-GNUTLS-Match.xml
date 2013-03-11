@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<!DOCTYPE programlisting PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+]>
+<!-- Automatically generated file.  Do not edit. -->
+<programlisting language="C">
+// Match the peer certificate against the host name.
+// We can only obtain a set of DER-encoded certificates from the
+// session object, so we have to re-parse the peer certificate into
+// a certificate object.
+gnutls_x509_crt_t cert;
+ret = gnutls_x509_crt_init(&#38;cert);
+if (ret != GNUTLS_E_SUCCESS) {
+  fprintf(stderr, "error: gnutls_x509_crt_init: %s\n",
+	    gnutls_strerror(ret));
+  exit(1);
+}
+// The peer certificate is the first certificate in the list.
+ret = gnutls_x509_crt_import(cert, certs, GNUTLS_X509_FMT_DER);
+if (ret != GNUTLS_E_SUCCESS) {
+  fprintf(stderr, "error: gnutls_x509_crt_import: %s\n",
+	    gnutls_strerror(ret));
+  exit(1);
+}
+ret = gnutls_x509_crt_check_hostname(cert, host);
+if (ret == 0 &#38;&#38; !certificate_host_name_override(certs[0], host)) {
+  fprintf(stderr, "error: host name does not match certificate\n");
+  exit(1);
+}
+gnutls_x509_crt_deinit(cert);
+</programlisting>

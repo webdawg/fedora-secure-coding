@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>9.4. XML serialization</title><link rel="stylesheet" type="text/css" href="Common_Content/css/default.css" /><link rel="stylesheet" media="print" href="Common_Content/css/print.css" type="text/css" /><meta name="generator" content="publican 2.8" /><meta name="package" content="Defensive_Coding-Defensive_Coding-1-en-US-1.0-20" /><link rel="home" href="index.html" title="Defensive Coding" /><link rel="up" href="chap-Defensive_Coding-Tasks-Serialization.html" title="Chapter 9. Serialization and Deserialization" /><link rel="prev" href="ch09s03.html" title="9.3. Library support for deserialization" /><link rel="next" href="sect-Defensive_Coding-Tasks-Serialization-XML-Entities.html" title="9.4.2. Entity expansion" /></head><body><p id="title"><a class="left" href="http://www.redhat.com"><img src="Common_Content/images/image_left.png" alt="Product Site" /></a><a class="right" href="http://docs.redhat.com"><img src="Common_Content/images/image_right.png" alt="Documentation Site" /></a></p><ul class="docnav"><li class="previous"><a accesskey="p" href="ch09s03.html"><strong>Prev</strong></a></li><li class="next"><a accesskey="n" href="sect-Defensive_Coding-Tasks-Serialization-XML-Entities.html"><strong>Next</strong></a></li></ul><div class="section" id="sect-Defensive_Coding-Tasks-Serialization-XML"><div class="titlepage"><div><div><h2 class="title">9.4. XML serialization</h2></div></div></div><div class="para">
+
+		</div><div class="section" id="sect-Defensive_Coding-Tasks-Serialization-XML-External"><div class="titlepage"><div><div><h3 class="title">9.4.1. External references</h3></div></div></div><div class="para">
+				XML documents can contain external references. They can occur in various places.
+			</div><div class="itemizedlist"><ul><li class="listitem"><div class="para">
+						In the DTD declaration in the header of an XML document:
+					</div><div class="informalexample"><pre class="programlisting">
+<span class="perl_DataType">&lt;!DOCTYPE </span>html PUBLIC
+  "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"<span class="perl_DataType">&gt;</span>
+</pre></div></li><li class="listitem"><div class="para">
+						In a namespace declaration:
+					</div><div class="informalexample"><pre class="programlisting">
+<span class="perl_Keyword">&lt;xsd:schema</span><span class="perl_Others"> xmlns:xsd=</span><span class="perl_String">"http://www.w3.org/2001/XMLSchema"</span><span class="perl_Keyword">&gt;</span>
+</pre></div></li><li class="listitem"><div class="para">
+						In an entity defintion:
+					</div><div class="informalexample"><pre class="programlisting">
+<span class="perl_Error">&lt;</span>!ENTITY sys SYSTEM "http://www.example.com/ent.xml"&gt;
+<span class="perl_Error">&lt;</span>!ENTITY pub PUBLIC "-//Example//Public Entity//EN"
+  "http://www.example.com/pub-ent.xml"&gt;
+</pre></div></li><li class="listitem"><div class="para">
+						In a notation:
+					</div><div class="informalexample"><pre class="programlisting">
+<span class="perl_Error">&lt;</span>!NOTATION not SYSTEM "../not.xml"&gt;
+</pre></div></li></ul></div><div class="para">
+				Originally, these external references were intended as unique identifiers, but by many XML implementations, they are used for locating the data for the referenced element. This causes unwanted network traffic, and may disclose file system contents or otherwise unreachable network resources, so this functionality should be disabled.
+			</div><div class="para">
+				Depending on the XML library, external referenced might be processed not just when parsing XML, but also when generating it.
+			</div></div></div><ul class="docnav"><li class="previous"><a accesskey="p" href="ch09s03.html"><strong>Prev</strong>9.3. Library support for deserialization</a></li><li class="up"><a accesskey="u" href="#"><strong>Up</strong></a></li><li class="home"><a accesskey="h" href="index.html"><strong>Home</strong></a></li><li class="next"><a accesskey="n" href="sect-Defensive_Coding-Tasks-Serialization-XML-Entities.html"><strong>Next</strong>9.4.2. Entity expansion</a></li></ul></body></html>

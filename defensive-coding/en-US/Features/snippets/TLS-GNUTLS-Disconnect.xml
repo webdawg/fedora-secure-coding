@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<!DOCTYPE programlisting PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+]>
+<!-- Automatically generated file.  Do not edit. -->
+<programlisting language="C">
+// Initiate an orderly connection shutdown.
+ret = gnutls_bye(session, GNUTLS_SHUT_RDWR);
+if (ret &#60; 0) {
+  fprintf(stderr, "error: gnutls_bye: %s\n", gnutls_strerror(ret));
+  exit(1);
+}
+// Free the session object.
+gnutls_deinit(session);
+</programlisting>

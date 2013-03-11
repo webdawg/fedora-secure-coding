@@ -1,0 +1,200 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<!DOCTYPE section PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+<!ENTITY % BOOK_ENTITIES SYSTEM "../Defensive_Coding.ent">
+%BOOK_ENTITIES;
+]>
+<section id="sect-Defensive_Coding-C-Libc" lang="en-US">
+	<title>The C standard library</title>
+	 <para>
+		Parts of the C standard library (and the UNIX and GNU extensions) are difficult to use, so you shoud avoid them.
+	</para>
+	 <para>
+		Please check the applicable documentation before using the recommended replacements. Many of these functions allocate buffers using <function>malloc</function> which your code must deallocate explicitly using <function>free</function>.
+	</para>
+	 <section id="sect-Defensive_Coding-C-Absolutely-Banned">
+		<title>Absolutely banned interfaces</title>
+		 <para>
+			The functions listed below must not be used because they are almost always unsafe. Use the indicated replacements instead.
+		</para>
+		 <itemizedlist>
+			<listitem>
+				<para>
+					<function>gets</function> ⟶ <function>fgets</function>
+				</para>
+			</listitem>
+			 <listitem>
+				<para>
+					<function>getwd</function> ⟶ <function>getcwd</function> or <function>get_current_dir_name</function>
+				</para>
+			</listitem>
+			 <listitem>
+				<para>
+					<function>readdir_r</function> ⟶ <function>readdir</function> <!--  It is quite complicated to allocate a properly-sized
+	       buffer for use with readdir_r, and readdir provides
+	       sufficient thread safety guarantees.  --> <!--  ??? Add File_System cross-reference  -->
+				</para>
+
+			</listitem>
+			 <listitem>
+				<para>
+					<function>realpath</function> (with a non-NULL second parameter) ⟶ <function>realpath</function> with NULL as the second parameter, or <function>canonicalize_file_name</function> <!--  It is complicated to allocate a properly-sized buffer
+	       for use with realpath.  --> <!--  ??? Add File_System cross-reference  -->
+				</para>
+
+			</listitem>
+
+		</itemizedlist>
+		 <para>
+			The constants listed below must not be used, either. Instead, code must allocate memory dynamically and use interfaces with length checking.
+		</para>
+		 <itemizedlist>
+			<listitem>
+				<para>
+					<literal>NAME_MAX</literal> (limit not actually enforced by the kernel)
+				</para>
+
+			</listitem>
+			 <listitem>
+				<para>
+					<literal>PATH_MAX</literal> (limit not actually enforced by the kernel)
+				</para>
+
+			</listitem>
+			 <listitem>
+				<para>
+					<literal>_PC_NAME_MAX</literal> (This limit, returned by the <function>pathconf</function> function, is not enforced by the kernel.)
+				</para>
+
+			</listitem>
+			 <listitem>
+				<para>
+					<literal>_PC_PATH_MAX</literal> (This limit, returned by the <function>pathconf</function> function, is not enforced by the kernel.)
+				</para>
+
+			</listitem>
+
+		</itemizedlist>
+		 <para>
+			The following structure members must not be used.
+		</para>
+		 <itemizedlist>
+			<listitem>
+				<para>
+					<literal>f_namemax</literal> in <literal>struct statvfs</literal> (limit not actually enforced by the kernel, see <literal>_PC_NAME_MAX</literal> above)
+				</para>
+
+			</listitem>
+
+		</itemizedlist>
+
+	</section>
+	
+	 <section id="sect-Defensive_Coding-C-Avoid">
+		<title>Functions to avoid</title>
+		 <para>
+			The following string manipulation functions can be used securely in principle, but their use should be avoided because they are difficult to use correctly. Calls to these functions can be replaced with <function>asprintf</function> or <function>vasprintf</function>. (For non-GNU targets, these functions are available from Gnulib.) In some cases, the <function>snprintf</function> function might be a suitable replacement, see <xref linkend="sect-Defensive_Coding-C-String-Functions-Length" />.
+		</para>
+		 <itemizedlist>
+			<listitem>
+				<para>
+					<function>sprintf</function>
+				</para>
+			</listitem>
+			 <listitem>
+				<para>
+					<function>strcat</function>
+				</para>
+			</listitem>
+			 <listitem>
+				<para>
+					<function>strcpy</function>
+				</para>
+			</listitem>
+			 <listitem>
+				<para>
+					<function>vsprintf</function>
+				</para>
+			</listitem>
+
+		</itemizedlist>
+		 <para>
+			Use the indicated replacements for the functions below.
+		</para>
+		 <itemizedlist>
+			<listitem>
+				<para>
+					<function>alloca</function> ⟶ <function>malloc</function> and <function>free</function> (see <xref linkend="sect-Defensive_Coding-C-Allocators-alloca" />)
+				</para>
+
+			</listitem>
+			 <listitem>
+				<para>
+					<function>putenv</function> ⟶ explicit <varname>envp</varname> argument in process creation (see <xref linkend="sect-Defensive_Coding-Tasks-Processes-environ" />)
+				</para>
+
+			</listitem>
+			 <listitem>
+				<para>
+					<function>setenv</function> ⟶ explicit <varname>envp</varname> argument in process creation (see <xref linkend="sect-Defensive_Coding-Tasks-Processes-environ" />)
+				</para>
+
+			</listitem>
+			 <listitem>
+				<para>
+					<function>strdupa</function> ⟶ <function>strdup</function> and <function>free</function> (see <xref linkend="sect-Defensive_Coding-C-Allocators-alloca" />)
+				</para>
+
+			</listitem>
+			 <listitem>
+				<para>
+					<function>strndupa</function> ⟶ <function>strndup</function> and <function>free</function> (see <xref linkend="sect-Defensive_Coding-C-Allocators-alloca" />)
+				</para>
+
+			</listitem>
+			 <listitem>
+				<para>
+					<function>system</function> ⟶ <function>posix_spawn</function> or <function>fork</function>/<function>execve</function>/ (see <xref linkend="sect-Defensive_Coding-Tasks-Processes-execve" />)
+				</para>
+
+			</listitem>
+			 <listitem>
+				<para>
+					<function>unsetenv</function> ⟶ explicit <varname>envp</varname> argument in process creation (see <xref linkend="sect-Defensive_Coding-Tasks-Processes-environ" />)
+				</para>
+
+			</listitem>
+
+		</itemizedlist>
+
+	</section>
+	
+	 <section id="sect-Defensive_Coding-C-String-Functions-Length">
+		<title>String Functions With Explicit Length Arguments</title>
+		 <para>
+			The <function>snprintf</function> function provides a way to construct a string in a statically-sized buffer. (If the buffer size is dynamic, use <function>asprintf</function> instead.)
+		</para>
+		 <informalexample> <xi:include href="snippets/String-Functions-snprintf.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+		 </informalexample> <para>
+			The second argument to the <function>snprintf</function> should always be the size of the buffer in the first argument (which should be a character array). Complex pointer and length arithmetic can introduce errors and nullify the security benefits of <function>snprintf</function>. If you need to construct a string iteratively, by repeatedly appending fragments, consider constructing the string on the heap, increasing the buffer with <function>realloc</function> as needed. (<function>snprintf</function> does not support overlapping the result buffer with argument strings.)
+		</para>
+		 <para>
+			If you use <function>vsnprintf</function> (or <function>snprintf</function>) with a format string which is not a constant, but a function argument, it is important to annotate the function with a <literal>format</literal> function attribute, so that GCC can warn about misuse of your function (see <xref linkend="ex-Defensive_Coding-C-String-Functions-format-Attribute" />).
+		</para>
+		 <example id="ex-Defensive_Coding-C-String-Functions-format-Attribute">
+			<title>The <literal>format</literal> function attribute</title>
+			 <xi:include href="snippets/String-Functions-format.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+		</example>
+		 <para>
+			There are other functions which operator on NUL-terminated strings and take a length argument which affects the number of bytes written to the destination: <function>strncpy</function>, <function>strncat</function>, and <function>stpncpy</function>. These functions do not ensure that the result string is NUL-terminated. For <function>strncpy</function>, NUL termination can be added this way:
+		</para>
+		 <informalexample> <xi:include href="snippets/String-Functions-strncpy.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+		 </informalexample> <para>
+			Some systems support <function>strlcpy</function> and <function>strlcat</function> functions which behave this way, but these functions are not part of GNU libc. Using <function>snprintf</function> with a suitable format string is a simple (albeit slightly slower) replacement.
+		</para>
+
+	</section>
+
+</section>
+
+

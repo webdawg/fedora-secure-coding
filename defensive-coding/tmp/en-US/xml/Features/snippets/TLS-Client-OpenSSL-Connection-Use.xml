@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<!DOCTYPE programlisting PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+<!ENTITY % BOOK_ENTITIES SYSTEM "../../Defensive_Coding.ent">
+%BOOK_ENTITIES;
+]>
+
+<programlisting lang="en-US" language="C"><!--  Automatically generated file.  Do not edit.  -->
+const char *const req = "GET / HTTP/1.0\r\n\r\n";
+if (SSL_write(ssl, req, strlen(req)) &lt; 0) {
+  ssl_print_error_and_exit(ssl, "SSL_write", ret);
+}
+char buf[4096];
+ret = SSL_read(ssl, buf, sizeof(buf));
+if (ret &lt; 0) {
+  ssl_print_error_and_exit(ssl, "SSL_read", ret);
+}
+</programlisting>
+

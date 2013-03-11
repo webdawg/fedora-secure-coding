@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>9.4.6. Using OpenJDK for XML parsing and validation</title><link rel="stylesheet" type="text/css" href="Common_Content/css/default.css" /><link rel="stylesheet" media="print" href="Common_Content/css/print.css" type="text/css" /><meta name="generator" content="publican 2.8" /><meta name="package" content="Defensive_Coding-Defensive_Coding-1-en-US-1.0-20" /><link rel="home" href="index.html" title="Defensive Coding" /><link rel="up" href="sect-Defensive_Coding-Tasks-Serialization-XML.html" title="9.4. XML serialization" /><link rel="prev" href="sect-Defensive_Coding-Tasks-Serialization-XML-Expat.html" title="9.4.5. Using Expat for XML parsing" /><link rel="next" href="sect-Defensive_Coding-Tasks-Serialization-XML-OpenJDK_Parse-SAX.html" title="9.4.6.2. XML Schema validation in OpenJDK" /></head><body><p id="title"><a class="left" href="http://www.redhat.com"><img src="Common_Content/images/image_left.png" alt="Product Site" /></a><a class="right" href="http://docs.redhat.com"><img src="Common_Content/images/image_right.png" alt="Documentation Site" /></a></p><ul class="docnav"><li class="previous"><a accesskey="p" href="sect-Defensive_Coding-Tasks-Serialization-XML-Expat.html"><strong>Prev</strong></a></li><li class="next"><a accesskey="n" href="sect-Defensive_Coding-Tasks-Serialization-XML-OpenJDK_Parse-SAX.html"><strong>Next</strong></a></li></ul><div class="section" id="sect-Defensive_Coding-Tasks-Serialization-XML-OpenJDK_Parse"><div class="titlepage"><div><div><h3 class="title">9.4.6. Using OpenJDK for XML parsing and validation</h3></div></div></div><div class="para">
+				OpenJDK contains facilities for DOM-based, SAX-based, and StAX-based document parsing. Documents can be validated against DTDs or XML schemas.
+			</div><div class="para">
+				The approach taken to deal with entity expansion differs from the general recommendation in <a class="xref" href="sect-Defensive_Coding-Tasks-Serialization-XML-Entities.html">Section 9.4.2, “Entity expansion”</a>. We enable the the feature flag <code class="literal">javax.xml.XMLConstants.FEATURE_SECURE_PROCESSING</code>, which enforces heuristic restrictions on the number of entity expansions. Note that this flag alone does not prevent resolution of external references (system IDs or public IDs), so it is slightly misnamed.
+			</div><div class="para">
+				In the following sections, we use helper classes to prevent external ID resolution.
+			</div><div class="example" id="ex-Defensive_Coding-Tasks-Serialization-XML-OpenJDK-NoEntityResolver"><h6>Example 9.3. Helper class to prevent DTD external entity resolution in OpenJDK</h6><div class="example-contents"><pre xml:lang="en-US" class="programlisting" lang="en-US">
+<span class="perl_Keyword">class</span> NoEntityResolver <span class="perl_Keyword">implements</span> EntityResolver {
+    @Override
+    <span class="perl_Keyword">public</span> InputSource <span class="perl_Function">resolveEntity</span>(String publicId, String systemId)
+            <span class="perl_Keyword">throws</span> SAXException, IOException {
+        <span class="perl_Comment">// Throwing an exception stops validation.</span><span class="perl_Comment"></span>
+<span class="perl_Comment"></span>        <span class="perl_Keyword">throw</span> <span class="perl_Keyword">new</span> IOException(String<span class="perl_Function">.format(</span><span class="perl_Function"></span>
+<span class="perl_Function"></span>                <span class="perl_String">"attempt to resolve </span><span class="perl_Char">\"</span><span class="perl_String">%s</span><span class="perl_Char">\"</span><span class="perl_String"> </span><span class="perl_Char">\"</span><span class="perl_String">%s</span><span class="perl_Char">\"</span><span class="perl_String">"</span>, publicId, systemId));
+    }
+}
+</pre></div></div><br class="example-break" /><div class="example" id="ex-Defensive_Coding-Tasks-Serialization-XML-OpenJDK-NoResourceResolver"><h6>Example 9.4. Helper class to prevent schema resolution in OpenJDK</h6><div class="example-contents"><pre xml:lang="en-US" class="programlisting" lang="en-US">
+<span class="perl_Keyword">class</span> NoResourceResolver <span class="perl_Keyword">implements</span> LSResourceResolver {
+    @Override
+    <span class="perl_Keyword">public</span> LSInput <span class="perl_Function">resolveResource</span>(String type, String namespaceURI,
+            String publicId, String systemId, String baseURI) {
+        <span class="perl_Comment">// Throwing an exception stops validation.</span><span class="perl_Comment"></span>
+<span class="perl_Comment"></span>        <span class="perl_Keyword">throw</span> <span class="perl_Keyword">new</span> RuntimeException(String<span class="perl_Function">.format(</span><span class="perl_Function"></span>
+<span class="perl_Function"></span>                <span class="perl_String">"resolution attempt: type=%s namespace=%s "</span> +
+                <span class="perl_String">"publicId=%s systemId=%s baseURI=%s"</span>,
+                type, namespaceURI, publicId, systemId, baseURI));
+    }
+}
+</pre></div></div><br class="example-break" /><div class="para">
+				<a class="xref" href="sect-Defensive_Coding-Tasks-Serialization-XML-OpenJDK_Parse.html#ex-Defensive_Coding-Tasks-Serialization-XML-OpenJDK-Imports">Example 9.5, “Java imports for OpenJDK XML parsing”</a> shows the imports used by the examples.
+			</div><div class="example" id="ex-Defensive_Coding-Tasks-Serialization-XML-OpenJDK-Imports"><h6>Example 9.5. Java imports for OpenJDK XML parsing</h6><div class="example-contents"><pre xml:lang="en-US" class="programlisting" lang="en-US">
+<span class="perl_Keyword">import</span> javax.xml.XMLConstants;
+<span class="perl_Keyword">import</span> javax.xml.parsers.DocumentBuilder;
+<span class="perl_Keyword">import</span> javax.xml.parsers.DocumentBuilderFactory;
+<span class="perl_Keyword">import</span> javax.xml.parsers.ParserConfigurationException;
+<span class="perl_Keyword">import</span> javax.xml.parsers.SAXParser;
+<span class="perl_Keyword">import</span> javax.xml.parsers.SAXParserFactory;
+<span class="perl_Keyword">import</span> javax.xml.transform.dom.DOMSource;
+<span class="perl_Keyword">import</span> javax.xml.transform.sax.SAXSource;
+<span class="perl_Keyword">import</span> javax.xml.validation.Schema;
+<span class="perl_Keyword">import</span> javax.xml.validation.SchemaFactory;
+<span class="perl_Keyword">import</span> javax.xml.validation.Validator;
+
+<span class="perl_Keyword">import</span> org.w3c.dom.Document;
+<span class="perl_Keyword">import</span> org.w3c.dom.ls.LSInput;
+<span class="perl_Keyword">import</span> org.w3c.dom.ls.LSResourceResolver;
+<span class="perl_Keyword">import</span> org.xml.sax.EntityResolver;
+<span class="perl_Keyword">import</span> org.xml.sax.ErrorHandler;
+<span class="perl_Keyword">import</span> org.xml.sax.InputSource;
+<span class="perl_Keyword">import</span> org.xml.sax.SAXException;
+<span class="perl_Keyword">import</span> org.xml.sax.SAXParseException;
+<span class="perl_Keyword">import org.xml.sax.XMLReader;</span>
+</pre></div></div><br class="example-break" /><div class="section" id="sect-Defensive_Coding-Tasks-Serialization-XML-OpenJDK_Parse-DOM"><div class="titlepage"><div><div><h4 class="title">9.4.6.1. DOM-based XML parsing and DTD validation in OpenJDK</h4></div></div></div><div class="para">
+					This approach produces a <code class="literal">org.w3c.dom.Document</code> object from an input stream. <a class="xref" href="sect-Defensive_Coding-Tasks-Serialization-XML-OpenJDK_Parse.html#ex-Defensive_Coding-Tasks-Serialization-XML-OpenJDK_Parse-DOM">Example 9.6, “DOM-based XML parsing in OpenJDK”</a> use the data from the <code class="literal">java.io.InputStream</code> instance in the <code class="literal">inputStream</code> variable.
+				</div><div class="example" id="ex-Defensive_Coding-Tasks-Serialization-XML-OpenJDK_Parse-DOM"><h6>Example 9.6. DOM-based XML parsing in OpenJDK</h6><div class="example-contents"><pre xml:lang="en-US" class="programlisting" lang="en-US">
+DocumentBuilderFactory factory = DocumentBuilderFactory.<span class="perl_Function">newInstance</span>();
+<span class="perl_Comment">// Impose restrictions on the complexity of the DTD.</span><span class="perl_Comment"></span>
+<span class="perl_Comment"></span>factory.<span class="perl_Function">setFeature</span>(XMLConstants.<span class="perl_Function">FEATURE_SECURE_PROCESSING</span>, <span class="perl_Keyword">true</span>);
+
+<span class="perl_Comment">// Turn on validation.</span><span class="perl_Comment"></span>
+<span class="perl_Comment"></span><span class="perl_Comment">// This step can be omitted if validation is not desired.</span><span class="perl_Comment"></span>
+<span class="perl_Comment"></span>factory.<span class="perl_Function">setValidating</span>(<span class="perl_Keyword">true</span>);
+
+<span class="perl_Comment">// Parse the document.</span><span class="perl_Comment"></span>
+<span class="perl_Comment"></span>DocumentBuilder builder = factory.<span class="perl_Function">newDocumentBuilder</span>();
+builder.<span class="perl_Function">setEntityResolver</span>(<span class="perl_Keyword">new</span> <span class="perl_Function">NoEntityResolver</span>());
+builder.<span class="perl_Function">setErrorHandler</span>(<span class="perl_Keyword">new</span> <span class="perl_Function">Errors</span>());
+Document document = builder.<span class="perl_Function">parse</span>(inputStream);
+</pre></div></div><br class="example-break" /><div class="para">
+					External entity references are prohibited using the <code class="literal">NoEntityResolver</code> class in <a class="xref" href="sect-Defensive_Coding-Tasks-Serialization-XML-OpenJDK_Parse.html#ex-Defensive_Coding-Tasks-Serialization-XML-OpenJDK-NoEntityResolver">Example 9.3, “Helper class to prevent DTD external entity resolution in OpenJDK”</a>. Because external DTD references are prohibited, DTD validation (if enabled) will only happen against the internal DTD subset embedded in the XML document.
+				</div><div class="para">
+					To validate the document against an external DTD, use a <code class="literal">javax.xml.transform.Transformer</code> class to add the DTD reference to the document, and an entity resolver which whitelists this external reference.
+				</div></div></div><ul class="docnav"><li class="previous"><a accesskey="p" href="sect-Defensive_Coding-Tasks-Serialization-XML-Expat.html"><strong>Prev</strong>9.4.5. Using Expat for XML parsing</a></li><li class="up"><a accesskey="u" href="#"><strong>Up</strong></a></li><li class="home"><a accesskey="h" href="index.html"><strong>Home</strong></a></li><li class="next"><a accesskey="n" href="sect-Defensive_Coding-Tasks-Serialization-XML-OpenJDK_Parse-SAX.html"><strong>Next</strong>9.4.6.2. XML Schema validation in OpenJDK</a></li></ul></body></html>

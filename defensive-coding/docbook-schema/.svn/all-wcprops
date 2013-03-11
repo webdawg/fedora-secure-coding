@@ -1,0 +1,47 @@
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/repos/product-security/!svn/ver/291/defensive-coding/trunk/docbook-schema
+END
+htmltblx.rnc
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/repos/product-security/!svn/ver/291/defensive-coding/trunk/docbook-schema/htmltblx.rnc
+END
+docbook.rnc
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/repos/product-security/!svn/ver/291/defensive-coding/trunk/docbook-schema/docbook.rnc
+END
+dbhierx.rnc
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/repos/product-security/!svn/ver/291/defensive-coding/trunk/docbook-schema/dbhierx.rnc
+END
+dbpoolx.rnc
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/repos/product-security/!svn/ver/291/defensive-coding/trunk/docbook-schema/dbpoolx.rnc
+END
+README
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/repos/product-security/!svn/ver/291/defensive-coding/trunk/docbook-schema/README
+END
+calstblx.rnc
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/repos/product-security/!svn/ver/291/defensive-coding/trunk/docbook-schema/calstblx.rnc
+END
+dbnotnx.rnc
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/repos/product-security/!svn/ver/291/defensive-coding/trunk/docbook-schema/dbnotnx.rnc
+END

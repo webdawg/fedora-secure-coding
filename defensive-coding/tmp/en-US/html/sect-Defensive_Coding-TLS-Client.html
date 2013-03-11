@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>12.2. TLS Clients</title><link rel="stylesheet" type="text/css" href="Common_Content/css/default.css" /><link rel="stylesheet" media="print" href="Common_Content/css/print.css" type="text/css" /><meta name="generator" content="publican 2.8" /><meta name="package" content="Defensive_Coding-Defensive_Coding-1-en-US-1.0-20" /><link rel="home" href="index.html" title="Defensive Coding" /><link rel="up" href="chap-Defensive_Coding-TLS.html" title="Chapter 12. Transport Layer Security" /><link rel="prev" href="chap-Defensive_Coding-TLS.html" title="Chapter 12. Transport Layer Security" /><link rel="next" href="sect-Defensive_Coding-TLS-Client-GNUTLS.html" title="12.2.2. Implementation TLS Clients With GNUTLS" /></head><body><p id="title"><a class="left" href="http://www.redhat.com"><img src="Common_Content/images/image_left.png" alt="Product Site" /></a><a class="right" href="http://docs.redhat.com"><img src="Common_Content/images/image_right.png" alt="Documentation Site" /></a></p><ul class="docnav"><li class="previous"><a accesskey="p" href="chap-Defensive_Coding-TLS.html"><strong>Prev</strong></a></li><li class="next"><a accesskey="n" href="sect-Defensive_Coding-TLS-Client-GNUTLS.html"><strong>Next</strong></a></li></ul><div class="section" id="sect-Defensive_Coding-TLS-Client"><div class="titlepage"><div><div><h2 class="title">12.2. TLS Clients</h2></div></div></div><div class="para">
+			Secure use of TLS in a client generally involves all of the following steps. (Individual instructions for specific TLS implementations follow in the next sections.)
+		</div><div class="itemizedlist"><ul><li class="listitem"><div class="para">
+					The client must configure the TLS library to use a set of trusted root certificates. These certificates are provided by the system in <code class="filename">/etc/ssl/certs</code> or files derived from it.
+				</div></li><li class="listitem"><div class="para">
+					The client selects sufficiently strong cryptographic primitives and disables insecure ones (such as no-op encryption). Compression and SSL version 2 support must be disabled (including the SSLv2-compatible handshake).
+				</div></li><li class="listitem"><div class="para">
+					The client initiates the TLS connection. The Server Name Indication extension should be used if supported by the TLS implementation. Before switching to the encrypted connection state, the contents of all input and output buffers must be discarded.
+				</div></li><li class="listitem"><div class="para">
+					The client needs to validate the peer certificate provided by the server, that is, the client must check that there is a cryptographically protected chain from a trusted root certificate to the peer certificate. (Depending on the TLS implementation, a TLS handshake can succeed even if the certificate cannot be validated.)
+				</div></li><li class="listitem"><div class="para">
+					The client must check that the configured or user-provided server name matches the peer certificate provided by the server.
+				</div></li></ul></div><div class="para">
+			It is safe to provide users detailed diagnostics on certificate validation failures. Other causes of handshake failures and, generally speaking, any details on other errors reported by the TLS implementation (particularly exception tracebacks), must not be divulged in ways that make them accessible to potential attackers. Otherwise, it is possible to create decryption oracles.
+		</div><div class="important"><div class="admonition_header"><h2>Important</h2></div><div class="admonition"><div class="para">
+				Depending on the application, revocation checking (against certificate revocations lists or via OCSP) and session resumption are important aspects of production-quality client. These aspects are not yet covered.
+			</div></div></div><div class="section" id="idp21225024"><div class="titlepage"><div><div><h3 class="title" id="idp21225024">12.2.1. Implementation TLS Clients With OpenSSL</h3></div></div></div><div class="para">
+				In the following code, the error handling is only exploratory. Proper error handling is required for production use, especially in libraries. 
+			</div><div class="para">
+				The OpenSSL library needs explicit initialization (see <a class="xref" href="sect-Defensive_Coding-TLS-Client.html#ex-Defensive_Coding-TLS-OpenSSL-Init">Example 12.3, “OpenSSL library initialization”</a>).
+			</div><div class="example" id="ex-Defensive_Coding-TLS-OpenSSL-Init"><h6>Example 12.3. OpenSSL library initialization</h6><div class="example-contents"><pre xml:lang="en-US" class="programlisting" lang="en-US">
+<span class="perl_Comment">// The following call prints an error message and calls exit() if</span><span class="perl_Comment"></span>
+<span class="perl_Comment"></span><span class="perl_Comment">// the OpenSSL configuration file is unreadable.</span><span class="perl_Comment"></span>
+<span class="perl_Comment"></span>OPENSSL_config(NULL);
+<span class="perl_Comment">// Provide human-readable error messages.</span><span class="perl_Comment"></span>
+<span class="perl_Comment"></span>SSL_load_error_strings();
+<span class="perl_Comment">// Register ciphers.</span><span class="perl_Comment"></span>
+<span class="perl_Comment"></span>SSL_library_init();
+</pre></div></div><br class="example-break" /><div class="para">
+				After that, a context object has to be created, which acts as a factory for connection objects (<a class="xref" href="sect-Defensive_Coding-TLS-Client.html#ex-Defensive_Coding-TLS-Client-OpenSSL-CTX">Example 12.4, “OpenSSL client context creation”</a>). We use an explicit cipher list so that we do not pick up any strange ciphers when OpenSSL is upgraded. The actual version requested in the client hello depends on additional restrictions in the OpenSSL library. If possible, you should follow the example code and use the default list of trusted root certificate authorities provided by the system because you would have to maintain your own set otherwise, which can be cumbersome.
+			</div><div class="example" id="ex-Defensive_Coding-TLS-Client-OpenSSL-CTX"><h6>Example 12.4. OpenSSL client context creation</h6><div class="example-contents"><pre xml:lang="en-US" class="programlisting" lang="en-US">
+<span class="perl_Comment">// Configure a client connection context.  Send a hendshake for the</span><span class="perl_Comment"></span>
+<span class="perl_Comment"></span><span class="perl_Comment">// highest supported TLS version, and disable compression.</span><span class="perl_Comment"></span>
+<span class="perl_Comment"></span><span class="perl_DataType">const</span> SSL_METHOD *<span class="perl_DataType">const</span> req_method = SSLv23_client_method();
+SSL_CTX *<span class="perl_DataType">const</span> ctx = SSL_CTX_new(req_method);
+<span class="perl_Keyword">if</span> (ctx == NULL) {
+  ERR_print_errors(bio_err);
+  exit(<span class="perl_Float">1</span>);
+}
+SSL_CTX_set_options(ctx, SSL_OP_NO_SSLv2 | SSL_OP_NO_COMPRESSION);
+
+<span class="perl_Comment">// Adjust the ciphers list based on a whitelist.  First enable all</span><span class="perl_Comment"></span>
+<span class="perl_Comment"></span><span class="perl_Comment">// ciphers of at least medium strength, to get the list which is</span><span class="perl_Comment"></span>
+<span class="perl_Comment"></span><span class="perl_Comment">// compiled into OpenSSL.</span><span class="perl_Comment"></span>
+<span class="perl_Comment"></span><span class="perl_Keyword">if</span> (SSL_CTX_set_cipher_list(ctx, <span class="perl_String">"HIGH:MEDIUM"</span>) != <span class="perl_Float">1</span>) {
+  ERR_print_errors(bio_err);
+  exit(<span class="perl_Float">1</span>);
+}
+{
+  <span class="perl_Comment">// Create a dummy SSL session to obtain the cipher list.</span><span class="perl_Comment"></span>
+<span class="perl_Comment"></span>  SSL *ssl = SSL_new(ctx);
+  <span class="perl_Keyword">if</span> (ssl == NULL) {
+    ERR_print_errors(bio_err);
+    exit(<span class="perl_Float">1</span>);
+  }
+  STACK_OF(SSL_CIPHER) *active_ciphers = SSL_get_ciphers(ssl);
+  <span class="perl_Keyword">if</span> (active_ciphers == NULL) {
+    ERR_print_errors(bio_err);
+    exit(<span class="perl_Float">1</span>);
+  }
+  <span class="perl_Comment">// Whitelist of candidate ciphers.</span><span class="perl_Comment"></span>
+<span class="perl_Comment"></span>  <span class="perl_DataType">static</span> <span class="perl_DataType">const</span> <span class="perl_DataType">char</span> *<span class="perl_DataType">const</span> candidates[] =  {
+    <span class="perl_String">"AES128-GCM-SHA256"</span>, <span class="perl_String">"AES128-SHA256"</span>, <span class="perl_String">"AES256-SHA256"</span>, <span class="perl_Comment">// strong ciphers</span><span class="perl_Comment"></span>
+<span class="perl_Comment"></span>    <span class="perl_String">"AES128-SHA"</span>, <span class="perl_String">"AES256-SHA"</span>, <span class="perl_Comment">// strong ciphers, also in older versions</span><span class="perl_Comment"></span>
+<span class="perl_Comment"></span>    <span class="perl_String">"RC4-SHA"</span>, <span class="perl_String">"RC4-MD5"</span>, <span class="perl_Comment">// backwards compatibility, supposed to be weak</span><span class="perl_Comment"></span>
+<span class="perl_Comment"></span>    <span class="perl_String">"DES-CBC3-SHA"</span>, <span class="perl_String">"DES-CBC3-MD5"</span>, <span class="perl_Comment">// more backwards compatibility</span><span class="perl_Comment"></span>
+<span class="perl_Comment"></span>    NULL
+  };
+  <span class="perl_Comment">// Actually selected ciphers.</span><span class="perl_Comment"></span>
+<span class="perl_Comment"></span>  <span class="perl_DataType">char</span> ciphers[<span class="perl_Float">300</span>];
+  ciphers[0] = '\0';
+  <span class="perl_Keyword">for</span> (<span class="perl_DataType">const</span> <span class="perl_DataType">char</span> *<span class="perl_DataType">const</span> *c = candidates; *c; ++c) {
+    <span class="perl_Keyword">for</span> (<span class="perl_DataType">int</span> i = 0; i &lt; sk_SSL_CIPHER_num(active_ciphers); ++i) {
+	<span class="perl_Keyword">if</span> (strcmp(SSL_CIPHER_get_name(sk_SSL_CIPHER_value(active_ciphers, i)),
+		   *c) == 0) {
+	  <span class="perl_Keyword">if</span> (*ciphers) {
+	    strcat(ciphers, <span class="perl_String">":"</span>);
+	  }
+	  strcat(ciphers, *c);
+	  <span class="perl_Keyword">break</span>;
+	}
+    }
+  }
+  SSL_free(ssl);
+  <span class="perl_Comment">// Apply final cipher list.</span><span class="perl_Comment"></span>
+<span class="perl_Comment"></span>  <span class="perl_Keyword">if</span> (SSL_CTX_set_cipher_list(ctx, ciphers) != <span class="perl_Float">1</span>) {
+    ERR_print_errors(bio_err);
+    exit(<span class="perl_Float">1</span>);
+  }
+}
+
+<span class="perl_Comment">// Load the set of trusted root certificates.</span><span class="perl_Comment"></span>
+<span class="perl_Comment"></span><span class="perl_Keyword">if</span> (!SSL_CTX_set_default_verify_paths(ctx)) {
+  ERR_print_errors(bio_err);
+  exit(<span class="perl_Float">1</span>);
+}
+</pre></div></div><br class="example-break" /><div class="para">
+				A single context object can be used to create multiple connection objects. It is safe to use the same <code class="literal">SSL_CTX</code> object for creating connections concurrently from multiple threads, provided that the <code class="literal">SSL_CTX</code> object is not modified (e.g., callbacks must not be changed).
+			</div><div class="para">
+				After creating the TCP socket and disabling the Nagle algorithm (per <a class="xref" href="chap-Defensive_Coding-TLS.html#ex-Defensive_Coding-TLS-Nagle">Example 12.1, “Deactivating the TCP Nagle algorithm”</a>), the actual connection object needs to be created, as show in <a class="xref" href="sect-Defensive_Coding-TLS-Client.html#ex-Defensive_Coding-TLS-Client-OpenSSL-CTX">Example 12.4, “OpenSSL client context creation”</a>. If the handshake started by <code class="function">SSL_connect</code> fails, the <code class="function">ssl_print_error_and_exit</code> function from <a class="xref" href="chap-Defensive_Coding-TLS.html#ex-Defensive_Coding-TLS-OpenSSL-Errors">Example 12.2, “Obtaining OpenSSL error codes”</a> is called.
+			</div><div class="para">
+				The <code class="function">certificate_validity_override</code> function provides an opportunity to override the validity of the certificate in case the OpenSSL check fails. If such functionality is not required, the call can be removed, otherwise, the application developer has to implement it.
+			</div><div class="para">
+				The host name passed to the functions <code class="function">SSL_set_tlsext_host_name</code> and <code class="function">X509_check_host</code> must be the name that was passed to <code class="function">getaddrinfo</code> or a similar name resolution function. No host name canonicalization must be performed. The <code class="function">X509_check_host</code> function used in the final step for host name matching is currently only implemented in OpenSSL 1.1, which is not released yet. In case host name matching fails, the function <code class="function">certificate_host_name_override</code> is called. This function should check user-specific certificate store, to allow a connection even if the host name does not match the certificate. This function has to be provided by the application developer. Note that the override must be keyed by both the certificate <span class="emphasis"><em>and</em></span> the host name.
+			</div><div class="example" id="ex-Defensive_Coding-TLS-Client-OpenSSL-Connect"><h6>Example 12.5. Creating a client connection using OpenSSL</h6><div class="example-contents"><pre xml:lang="en-US" class="programlisting" lang="en-US">
+<span class="perl_Comment">// Create the connection object.</span><span class="perl_Comment"></span>
+<span class="perl_Comment"></span>SSL *ssl = SSL_new(ctx);
+<span class="perl_Keyword">if</span> (ssl == NULL) {
+  ERR_print_errors(bio_err);
+  exit(<span class="perl_Float">1</span>);
+}
+SSL_set_fd(ssl, sockfd);
+
+<span class="perl_Comment">// Enable the ServerNameIndication extension</span><span class="perl_Comment"></span>
+<span class="perl_Comment"></span><span class="perl_Keyword">if</span> (!SSL_set_tlsext_host_name(ssl, host)) {
+  ERR_print_errors(bio_err);
+  exit(<span class="perl_Float">1</span>);
+}
+
+<span class="perl_Comment">// Perform the TLS handshake with the server.</span><span class="perl_Comment"></span>
+<span class="perl_Comment"></span>ret = SSL_connect(ssl);
+<span class="perl_Keyword">if</span> (ret != <span class="perl_Float">1</span>) {
+  <span class="perl_Comment">// Error status can be 0 or negative.</span><span class="perl_Comment"></span>
+<span class="perl_Comment"></span>  ssl_print_error_and_exit(ssl, <span class="perl_String">"SSL_connect"</span>, ret);
+}
+
+<span class="perl_Comment">// Obtain the server certificate.</span><span class="perl_Comment"></span>
+<span class="perl_Comment"></span>X509 *peercert = SSL_get_peer_certificate(ssl);
+<span class="perl_Keyword">if</span> (peercert == NULL) {
+  fprintf(stderr, <span class="perl_String">"peer certificate missing"</span>);
+  exit(<span class="perl_Float">1</span>);
+}
+
+<span class="perl_Comment">// Check the certificate verification result.  Allow an explicit</span><span class="perl_Comment"></span>
+<span class="perl_Comment"></span><span class="perl_Comment">// certificate validation override in case verification fails.</span><span class="perl_Comment"></span>
+<span class="perl_Comment"></span><span class="perl_DataType">int</span> verifystatus = SSL_get_verify_result(ssl);
+<span class="perl_Keyword">if</span> (verifystatus != X509_V_OK &amp;&amp; !certificate_validity_override(peercert)) {
+  fprintf(stderr, <span class="perl_String">"SSL_connect: verify result: %s</span><span class="perl_Char">\n</span><span class="perl_String">"</span>,
+	    X509_verify_cert_error_string(verifystatus));
+  exit(<span class="perl_Float">1</span>);
+}
+
+<span class="perl_Comment">// Check if the server certificate matches the host name used to</span><span class="perl_Comment"></span>
+<span class="perl_Comment"></span><span class="perl_Comment">// establish the connection.</span><span class="perl_Comment"></span>
+<span class="perl_Comment"></span><span class="perl_Comment">// </span><span class="perl_Alert">FIXME</span><span class="perl_Comment">: Currently needs OpenSSL 1.1.</span><span class="perl_Comment"></span>
+<span class="perl_Comment"></span><span class="perl_Keyword">if</span> (X509_check_host(peercert, (<span class="perl_DataType">const</span> <span class="perl_DataType">unsigned</span> <span class="perl_DataType">char</span> *)host, strlen(host),
+		      0) != <span class="perl_Float">1</span>
+    &amp;&amp; !certificate_host_name_override(peercert, host)) {
+  fprintf(stderr, <span class="perl_String">"SSL certificate does not match host name</span><span class="perl_Char">\n</span><span class="perl_String">"</span>);
+  exit(<span class="perl_Float">1</span>);
+}
+
+X509_free(peercert);
+
+</pre></div></div><br class="example-break" /><div class="para">
+				The connection object can be used for sending and receiving data, as in <a class="xref" href="sect-Defensive_Coding-TLS-Client.html#ex-Defensive_Coding-TLS-OpenSSL-Connection-Use">Example 12.6, “Using an OpenSSL connection to send and receive data”</a>. It is also possible to create a <code class="literal">BIO</code> object and use the <code class="literal">SSL</code> object as the underlying transport, using <code class="function">BIO_set_ssl</code>.
+			</div><div class="example" id="ex-Defensive_Coding-TLS-OpenSSL-Connection-Use"><h6>Example 12.6. Using an OpenSSL connection to send and receive data</h6><div class="example-contents"><pre xml:lang="en-US" class="programlisting" lang="en-US">
+<span class="perl_DataType">const</span> <span class="perl_DataType">char</span> *<span class="perl_DataType">const</span> req = <span class="perl_String">"GET / HTTP/1.0</span><span class="perl_Char">\r\n\r\n</span><span class="perl_String">"</span>;
+<span class="perl_Keyword">if</span> (SSL_write(ssl, req, strlen(req)) &lt; 0) {
+  ssl_print_error_and_exit(ssl, <span class="perl_String">"SSL_write"</span>, ret);
+}
+<span class="perl_DataType">char</span> buf[4096];
+ret = SSL_read(ssl, buf, <span class="perl_Keyword">sizeof</span>(buf));
+<span class="perl_Keyword">if</span> (ret &lt; 0) {
+  ssl_print_error_and_exit(ssl, <span class="perl_String">"SSL_read"</span>, ret);
+}
+</pre></div></div><br class="example-break" /><div class="para">
+				When it is time to close the connection, the <code class="function">SSL_shutdown</code> function needs to be called twice for an orderly, synchronous connection termination (<a class="xref" href="sect-Defensive_Coding-TLS-Client.html#ex-Defensive_Coding-TLS-OpenSSL-Connection-Close">Example 12.7, “Closing an OpenSSL connection in an orderly fashion”</a>). This exchanges <code class="literal">close_notify</code> alerts with the server. The additional logic is required to deal with an unexpected <code class="literal">close_notify</code> from the server. Note that is necessary to explicitly close the underlying socket after the connection object has been freed.
+			</div><div class="example" id="ex-Defensive_Coding-TLS-OpenSSL-Connection-Close"><h6>Example 12.7. Closing an OpenSSL connection in an orderly fashion</h6><div class="example-contents"><pre xml:lang="en-US" class="programlisting" lang="en-US">
+<span class="perl_Comment">// Send the close_notify alert.</span><span class="perl_Comment"></span>
+<span class="perl_Comment"></span>ret = SSL_shutdown(ssl);
+<span class="perl_Keyword">switch</span> (ret) {
+<span class="perl_Keyword">case</span> <span class="perl_Float">1</span>:
+  <span class="perl_Comment">// A close_notify alert has already been received.</span><span class="perl_Comment"></span>
+<span class="perl_Comment"></span>  <span class="perl_Keyword">break</span>;
+<span class="perl_Keyword">case</span> 0:
+  <span class="perl_Comment">// Wait for the close_notify alert from the peer.</span><span class="perl_Comment"></span>
+<span class="perl_Comment"></span>  ret = SSL_shutdown(ssl);
+  <span class="perl_Keyword">switch</span> (ret) {
+  <span class="perl_Keyword">case</span> 0:
+    fprintf(stderr, <span class="perl_String">"info: second SSL_shutdown returned zero</span><span class="perl_Char">\n</span><span class="perl_String">"</span>);
+    <span class="perl_Keyword">break</span>;
+  <span class="perl_Keyword">case</span> <span class="perl_Float">1</span>:
+    <span class="perl_Keyword">break</span>;
+  <span class="perl_Keyword">default</span>:
+    ssl_print_error_and_exit(ssl, <span class="perl_String">"SSL_shutdown 2"</span>, ret);
+  }
+  <span class="perl_Keyword">break</span>;
+<span class="perl_Keyword">default</span>:
+  ssl_print_error_and_exit(ssl, <span class="perl_String">"SSL_shutdown 1"</span>, ret);
+}
+SSL_free(ssl);
+close(sockfd);
+</pre></div></div><br class="example-break" /><div class="para">
+				<a class="xref" href="sect-Defensive_Coding-TLS-Client.html#ex-Defensive_Coding-TLS-OpenSSL-Context-Close">Example 12.8, “Closing an OpenSSL connection in an orderly fashion”</a> shows how to deallocate the context object when it is no longer needed because no further TLS connections will be established.
+			</div><div class="example" id="ex-Defensive_Coding-TLS-OpenSSL-Context-Close"><h6>Example 12.8. Closing an OpenSSL connection in an orderly fashion</h6><div class="example-contents"><pre xml:lang="en-US" class="programlisting" lang="en-US">
+SSL_CTX_free(ctx);
+</pre></div></div><br class="example-break" /></div></div><ul class="docnav"><li class="previous"><a accesskey="p" href="chap-Defensive_Coding-TLS.html"><strong>Prev</strong>Chapter 12. Transport Layer Security</a></li><li class="up"><a accesskey="u" href="#"><strong>Up</strong></a></li><li class="home"><a accesskey="h" href="index.html"><strong>Home</strong></a></li><li class="next"><a accesskey="n" href="sect-Defensive_Coding-TLS-Client-GNUTLS.html"><strong>Next</strong>12.2.2. Implementation TLS Clients With GNUTLS</a></li></ul></body></html>

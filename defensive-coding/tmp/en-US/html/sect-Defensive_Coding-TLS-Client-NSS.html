@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>12.2.4. Implementing TLS Clients With NSS</title><link rel="stylesheet" type="text/css" href="Common_Content/css/default.css" /><link rel="stylesheet" media="print" href="Common_Content/css/print.css" type="text/css" /><meta name="generator" content="publican 2.8" /><meta name="package" content="Defensive_Coding-Defensive_Coding-1-en-US-1.0-20" /><link rel="home" href="index.html" title="Defensive Coding" /><link rel="up" href="sect-Defensive_Coding-TLS-Client.html" title="12.2. TLS Clients" /><link rel="prev" href="sect-Defensive_Coding-TLS-Client-OpenJDK.html" title="12.2.3. Implementing TLS Clients With OpenJDK" /><link rel="next" href="sect-Defensive_Coding-TLS-Client-Python.html" title="12.2.5. Implementing TLS Clients With Python" /></head><body><p id="title"><a class="left" href="http://www.redhat.com"><img src="Common_Content/images/image_left.png" alt="Product Site" /></a><a class="right" href="http://docs.redhat.com"><img src="Common_Content/images/image_right.png" alt="Documentation Site" /></a></p><ul class="docnav"><li class="previous"><a accesskey="p" href="sect-Defensive_Coding-TLS-Client-OpenJDK.html"><strong>Prev</strong></a></li><li class="next"><a accesskey="n" href="sect-Defensive_Coding-TLS-Client-Python.html"><strong>Next</strong></a></li></ul><div class="section" id="sect-Defensive_Coding-TLS-Client-NSS"><div class="titlepage"><div><div><h3 class="title">12.2.4. Implementing TLS Clients With NSS</h3></div></div></div><div class="para">
+				The following code shows how to implement a simple TLS client using NSS. Note that the error handling needs replacing before production use.
+			</div><div class="para">
+				Using NSS needs several header files, as shown in <a class="xref" href="sect-Defensive_Coding-TLS-Client-NSS.html#ex-Defensive_Coding-TLS-NSS-Includes">Example 12.21, “Include files for NSS”</a>.
+			</div><div class="example" id="ex-Defensive_Coding-TLS-NSS-Includes"><h6>Example 12.21. Include files for NSS</h6><div class="example-contents"><pre xml:lang="en-US" class="programlisting" lang="en-US">
+<span class="perl_Comment">// NSPR include files</span><span class="perl_Comment"></span>
+<span class="perl_Comment"></span><span class="perl_Others">#include &lt;prerror.h&gt;</span><span class="perl_Others"></span>
+<span class="perl_Others"></span><span class="perl_Others">#include &lt;prinit.h&gt;</span><span class="perl_Others"></span>
+<span class="perl_Others"></span>
+<span class="perl_Comment">// NSS include files</span><span class="perl_Comment"></span>
+<span class="perl_Comment"></span><span class="perl_Others">#include &lt;nss.h&gt;</span><span class="perl_Others"></span>
+<span class="perl_Others"></span><span class="perl_Others">#include &lt;pk11pub.h&gt;</span><span class="perl_Others"></span>
+<span class="perl_Others"></span><span class="perl_Others">#include &lt;secmod.h&gt;</span><span class="perl_Others"></span>
+<span class="perl_Others"></span><span class="perl_Others">#include &lt;ssl.h&gt;</span><span class="perl_Others"></span>
+<span class="perl_Others"></span><span class="perl_Others">#include &lt;sslproto.h&gt;</span><span class="perl_Others"></span>
+<span class="perl_Others"></span>
+<span class="perl_Comment">// Private API, no other way to turn a POSIX file descriptor into an</span><span class="perl_Comment"></span>
+<span class="perl_Comment"></span><span class="perl_Comment">// NSPR handle.</span><span class="perl_Comment"></span>
+<span class="perl_Comment"></span>NSPR_API(PRFileDesc*) PR_ImportTCPSocket(<span class="perl_DataType">int</span>);
+</pre></div></div><br class="example-break" /><div class="para">
+				Initializing the NSS library is a complex task (<a class="xref" href="sect-Defensive_Coding-TLS-Client-NSS.html#ex-Defensive_Coding-TLS-NSS-Init">Example 12.22, “Initializing the NSS library”</a>). It is not thread-safe. By default, the library is in export mode, and all strong ciphers are disabled. Therefore, after creating the <code class="literal">NSSInitCContext</code> object, we probe all the strong ciphers we want to use, and check if at least one of them is available. If not, we call <code class="function">NSS_SetDomesticPolicy</code> to switch to unrestricted policy mode. This function replaces the existing global cipher suite policy, that is why we avoid calling it unless absolutely necessary.
+			</div><div class="para">
+				The simplest way to configured the trusted root certificates involves loading the <code class="filename">libnssckbi.so</code> NSS module with a call to the <code class="function">SECMOD_LoadUserModule</code> function. The root certificates are compiled into this module. (The PEM module for NSS, <code class="filename">libnsspem.so</code>, offers a way to load trusted CA certificates from a file.)
+			</div><div class="example" id="ex-Defensive_Coding-TLS-NSS-Init"><h6>Example 12.22. Initializing the NSS library</h6><div class="example-contents"><pre xml:lang="en-US" class="programlisting" lang="en-US">
+PR_Init(PR_USER_THREAD, PR_PRIORITY_NORMAL, 0);
+NSSInitContext *<span class="perl_DataType">const</span> ctx =
+  NSS_InitContext(<span class="perl_String">"sql:/etc/pki/nssdb"</span>, <span class="perl_String">""</span>, <span class="perl_String">""</span>, <span class="perl_String">""</span>, NULL,
+		    NSS_INIT_READONLY | NSS_INIT_PK11RELOAD);
+<span class="perl_Keyword">if</span> (ctx == NULL) {
+  <span class="perl_DataType">const</span> PRErrorCode err = PR_GetError();
+  fprintf(stderr, <span class="perl_String">"error: NSPR error code %d: %s</span><span class="perl_Char">\n</span><span class="perl_String">"</span>,
+	    err, PR_ErrorToName(err));
+  exit(<span class="perl_Float">1</span>);
+}
+
+<span class="perl_Comment">// Ciphers to enable.</span><span class="perl_Comment"></span>
+<span class="perl_Comment"></span><span class="perl_DataType">static</span> <span class="perl_DataType">const</span> PRUint16 good_ciphers[] = {
+  TLS_RSA_WITH_AES_128_CBC_SHA,
+  TLS_RSA_WITH_AES_256_CBC_SHA,
+  SSL_RSA_WITH_3DES_EDE_CBC_SHA,
+  SSL_NULL_WITH_NULL_NULL <span class="perl_Comment">// sentinel</span><span class="perl_Comment"></span>
+<span class="perl_Comment"></span>};
+
+<span class="perl_Comment">// Check if the current policy allows any strong ciphers.  If it</span><span class="perl_Comment"></span>
+<span class="perl_Comment"></span><span class="perl_Comment">// doesn't, switch to the "domestic" (unrestricted) policy.  This is</span><span class="perl_Comment"></span>
+<span class="perl_Comment"></span><span class="perl_Comment">// not thread-safe and has global impact.  Consequently, we only do</span><span class="perl_Comment"></span>
+<span class="perl_Comment"></span><span class="perl_Comment">// it if absolutely necessary.</span><span class="perl_Comment"></span>
+<span class="perl_Comment"></span><span class="perl_DataType">int</span> found_good_cipher = 0;
+<span class="perl_Keyword">for</span> (<span class="perl_DataType">const</span> PRUint16 *p = good_ciphers; *p != SSL_NULL_WITH_NULL_NULL;
+     ++p) {
+  PRInt32 policy;
+  <span class="perl_Keyword">if</span> (SSL_CipherPolicyGet(*p, &amp;policy) != SECSuccess) {
+    <span class="perl_DataType">const</span> PRErrorCode err = PR_GetError();
+    fprintf(stderr, <span class="perl_String">"error: policy for cipher %u: error %d: %s</span><span class="perl_Char">\n</span><span class="perl_String">"</span>,
+	      (<span class="perl_DataType">unsigned</span>)*p, err, PR_ErrorToName(err));
+    exit(<span class="perl_Float">1</span>);
+  }
+  <span class="perl_Keyword">if</span> (policy == SSL_ALLOWED) {
+    fprintf(stderr, <span class="perl_String">"info: found cipher %x</span><span class="perl_Char">\n</span><span class="perl_String">"</span>, (<span class="perl_DataType">unsigned</span>)*p);
+    found_good_cipher = <span class="perl_Float">1</span>;
+    <span class="perl_Keyword">break</span>;
+  }
+}
+<span class="perl_Keyword">if</span> (!found_good_cipher) {
+  <span class="perl_Keyword">if</span> (NSS_SetDomesticPolicy() != SECSuccess) {
+    <span class="perl_DataType">const</span> PRErrorCode err = PR_GetError();
+    fprintf(stderr, <span class="perl_String">"error: NSS_SetDomesticPolicy: error %d: %s</span><span class="perl_Char">\n</span><span class="perl_String">"</span>,
+	      err, PR_ErrorToName(err));
+    exit(<span class="perl_Float">1</span>);
+  }
+}
+
+<span class="perl_Comment">// Initialize the trusted certificate store.</span><span class="perl_Comment"></span>
+<span class="perl_Comment"></span><span class="perl_DataType">char</span> module_name[] = <span class="perl_String">"library=libnssckbi.so name=</span><span class="perl_Char">\"</span><span class="perl_String">Root Certs</span><span class="perl_Char">\"</span><span class="perl_String">"</span>;
+SECMODModule *module = SECMOD_LoadUserModule(module_name, NULL, PR_FALSE);
+<span class="perl_Keyword">if</span> (module == NULL || !module-&gt;loaded) {
+  <span class="perl_DataType">const</span> PRErrorCode err = PR_GetError();
+  fprintf(stderr, <span class="perl_String">"error: NSPR error code %d: %s</span><span class="perl_Char">\n</span><span class="perl_String">"</span>,
+	    err, PR_ErrorToName(err));
+  exit(<span class="perl_Float">1</span>);
+}
+</pre></div></div><br class="example-break" /><div class="para">
+				Some of the effects of the initialization can be reverted with the following function calls:
+			</div><div class="informalexample" id="ex-Defensive_Coding-TLS-NSS-Close"><pre xml:lang="en-US" class="programlisting" lang="en-US">
+SECMOD_DestroyModule(module);
+NSS_ShutdownContext(ctx);
+</pre></div><div class="para">
+				After NSS has been initialized, the TLS connection can be created (<a class="xref" href="sect-Defensive_Coding-TLS-Client-NSS.html#ex-Defensive_Coding-TLS-Client-NSS-Connect">Example 12.23, “Creating a TLS connection with NSS”</a>). The internal <code class="function">PR_ImportTCPSocket</code> function is used to turn the POSIX file descriptor <code class="literal">sockfd</code> into an NSPR file descriptor. (This function is de-facto part of the NSS public ABI, so it will not go away.) Creating the TLS-capable file descriptor requires a <span class="emphasis"><em>model</em></span> descriptor, which is configured with the desired set of protocols and ciphers. (The <code class="literal">good_ciphers</code> variable is part of <a class="xref" href="sect-Defensive_Coding-TLS-Client-NSS.html#ex-Defensive_Coding-TLS-NSS-Init">Example 12.22, “Initializing the NSS library”</a>.) We cannot resort to disabling ciphers not on a whitelist because by default, the AES cipher suites are disabled. The model descriptor is not needed anymore after TLS support has been activated for the existing connection descriptor.
+			</div><div class="para">
+				The call to <code class="function">SSL_BadCertHook</code> can be omitted if no mechanism to override certificate verification is needed. The <code class="literal">bad_certificate</code> function must check both the host name specified for the connection and the certificate before granting the override.
+			</div><div class="para">
+				Triggering the actual handshake requires three function calls, <code class="function">SSL_ResetHandshake</code>, <code class="function">SSL_SetURL</code>, and <code class="function">SSL_ForceHandshake</code>. (If <code class="function">SSL_ResetHandshake</code> is omitted, <code class="function">SSL_ForceHandshake</code> will succeed, but the data will not be encrypted.) During the handshake, the certificate is verified and matched against the host name.
+			</div><div class="example" id="ex-Defensive_Coding-TLS-Client-NSS-Connect"><h6>Example 12.23. Creating a TLS connection with NSS</h6><div class="example-contents"><pre xml:lang="en-US" class="programlisting" lang="en-US">
+<span class="perl_Comment">// Wrap the POSIX file descriptor.  This is an internal NSPR</span><span class="perl_Comment"></span>
+<span class="perl_Comment"></span><span class="perl_Comment">// function, but it is very unlikely to change.</span><span class="perl_Comment"></span>
+<span class="perl_Comment"></span>PRFileDesc* nspr = PR_ImportTCPSocket(sockfd);
+sockfd = <span class="perl_DecVal">-1</span>; <span class="perl_Comment">// Has been taken over by NSPR.</span><span class="perl_Comment"></span>
+<span class="perl_Comment"></span>
+<span class="perl_Comment">// Add the SSL layer.</span><span class="perl_Comment"></span>
+<span class="perl_Comment"></span>{
+  PRFileDesc *model = PR_NewTCPSocket();
+  PRFileDesc *newfd = SSL_ImportFD(NULL, model);
+  <span class="perl_Keyword">if</span> (newfd == NULL) {
+    <span class="perl_DataType">const</span> PRErrorCode err = PR_GetError();
+    fprintf(stderr, <span class="perl_String">"error: NSPR error code %d: %s</span><span class="perl_Char">\n</span><span class="perl_String">"</span>,
+	      err, PR_ErrorToName(err));
+    exit(<span class="perl_Float">1</span>);
+  }
+  model = newfd;
+  newfd = NULL;
+  <span class="perl_Keyword">if</span> (SSL_OptionSet(model, SSL_ENABLE_SSL2, PR_FALSE) != SECSuccess) {
+    <span class="perl_DataType">const</span> PRErrorCode err = PR_GetError();
+    fprintf(stderr, <span class="perl_String">"error: set SSL_ENABLE_SSL2 error %d: %s</span><span class="perl_Char">\n</span><span class="perl_String">"</span>,
+	      err, PR_ErrorToName(err));
+    exit(<span class="perl_Float">1</span>);
+  }
+  <span class="perl_Keyword">if</span> (SSL_OptionSet(model, SSL_V2_COMPATIBLE_HELLO, PR_FALSE) != SECSuccess) {
+    <span class="perl_DataType">const</span> PRErrorCode err = PR_GetError();
+    fprintf(stderr, <span class="perl_String">"error: set SSL_V2_COMPATIBLE_HELLO error %d: %s</span><span class="perl_Char">\n</span><span class="perl_String">"</span>,
+	      err, PR_ErrorToName(err));
+    exit(<span class="perl_Float">1</span>);
+  }
+  <span class="perl_Keyword">if</span> (SSL_OptionSet(model, SSL_ENABLE_DEFLATE, PR_FALSE) != SECSuccess) {
+    <span class="perl_DataType">const</span> PRErrorCode err = PR_GetError();
+    fprintf(stderr, <span class="perl_String">"error: set SSL_ENABLE_DEFLATE error %d: %s</span><span class="perl_Char">\n</span><span class="perl_String">"</span>,
+	      err, PR_ErrorToName(err));
+    exit(<span class="perl_Float">1</span>);
+  }
+
+  <span class="perl_Comment">// Disable all ciphers (except RC4-based ciphers, for backwards</span><span class="perl_Comment"></span>
+<span class="perl_Comment"></span>  <span class="perl_Comment">// compatibility).</span><span class="perl_Comment"></span>
+<span class="perl_Comment"></span>  <span class="perl_DataType">const</span> PRUint16 *<span class="perl_DataType">const</span> ciphers = SSL_GetImplementedCiphers();
+  <span class="perl_Keyword">for</span> (<span class="perl_DataType">unsigned</span> i = 0; i &lt; SSL_GetNumImplementedCiphers(); i++) {
+    <span class="perl_Keyword">if</span> (ciphers[i] != SSL_RSA_WITH_RC4_128_SHA
+	  &amp;&amp; ciphers[i] != SSL_RSA_WITH_RC4_128_MD5) {
+	<span class="perl_Keyword">if</span> (SSL_CipherPrefSet(model, ciphers[i], PR_FALSE) != SECSuccess) {
+	  <span class="perl_DataType">const</span> PRErrorCode err = PR_GetError();
+	  fprintf(stderr, <span class="perl_String">"error: disable cipher %u: error %d: %s</span><span class="perl_Char">\n</span><span class="perl_String">"</span>,
+		  (<span class="perl_DataType">unsigned</span>)ciphers[i], err, PR_ErrorToName(err));
+	  exit(<span class="perl_Float">1</span>);
+	}
+    }
+  }
+
+  <span class="perl_Comment">// Enable the strong ciphers.</span><span class="perl_Comment"></span>
+<span class="perl_Comment"></span>  <span class="perl_Keyword">for</span> (<span class="perl_DataType">const</span> PRUint16 *p = good_ciphers; *p != SSL_NULL_WITH_NULL_NULL;
+	 ++p) {
+    <span class="perl_Keyword">if</span> (SSL_CipherPrefSet(model, *p, PR_TRUE) != SECSuccess) {
+	<span class="perl_DataType">const</span> PRErrorCode err = PR_GetError();
+	fprintf(stderr, <span class="perl_String">"error: enable cipher %u: error %d: %s</span><span class="perl_Char">\n</span><span class="perl_String">"</span>,
+		(<span class="perl_DataType">unsigned</span>)*p, err, PR_ErrorToName(err));
+	exit(<span class="perl_Float">1</span>);
+    }
+  }
+
+  <span class="perl_Comment">// Allow overriding invalid certificate.</span><span class="perl_Comment"></span>
+<span class="perl_Comment"></span>  <span class="perl_Keyword">if</span> (SSL_BadCertHook(model, bad_certificate, (<span class="perl_DataType">char</span> *)host) != SECSuccess) {
+    <span class="perl_DataType">const</span> PRErrorCode err = PR_GetError();
+    fprintf(stderr, <span class="perl_String">"error: SSL_BadCertHook error %d: %s</span><span class="perl_Char">\n</span><span class="perl_String">"</span>,
+	      err, PR_ErrorToName(err));
+    exit(<span class="perl_Float">1</span>);
+  }
+
+  newfd = SSL_ImportFD(model, nspr);
+  <span class="perl_Keyword">if</span> (newfd == NULL) {
+    <span class="perl_DataType">const</span> PRErrorCode err = PR_GetError();
+    fprintf(stderr, <span class="perl_String">"error: SSL_ImportFD error %d: %s</span><span class="perl_Char">\n</span><span class="perl_String">"</span>,
+	      err, PR_ErrorToName(err));
+    exit(<span class="perl_Float">1</span>);
+  }
+  nspr = newfd;
+  PR_Close(model);
+}
+
+<span class="perl_Comment">// Perform the handshake.</span><span class="perl_Comment"></span>
+<span class="perl_Comment"></span><span class="perl_Keyword">if</span> (SSL_ResetHandshake(nspr, PR_FALSE) != SECSuccess) {
+  <span class="perl_DataType">const</span> PRErrorCode err = PR_GetError();
+  fprintf(stderr, <span class="perl_String">"error: SSL_ResetHandshake error %d: %s</span><span class="perl_Char">\n</span><span class="perl_String">"</span>,
+	    err, PR_ErrorToName(err));
+  exit(<span class="perl_Float">1</span>);
+}
+<span class="perl_Keyword">if</span> (SSL_SetURL(nspr, host) != SECSuccess) {
+  <span class="perl_DataType">const</span> PRErrorCode err = PR_GetError();
+  fprintf(stderr, <span class="perl_String">"error: SSL_SetURL error %d: %s</span><span class="perl_Char">\n</span><span class="perl_String">"</span>,
+	    err, PR_ErrorToName(err));
+  exit(<span class="perl_Float">1</span>);
+}
+<span class="perl_Keyword">if</span> (SSL_ForceHandshake(nspr) != SECSuccess) {
+  <span class="perl_DataType">const</span> PRErrorCode err = PR_GetError();
+  fprintf(stderr, <span class="perl_String">"error: SSL_ForceHandshake error %d: %s</span><span class="perl_Char">\n</span><span class="perl_String">"</span>,
+	    err, PR_ErrorToName(err));
+  exit(<span class="perl_Float">1</span>);
+}
+</pre></div></div><br class="example-break" /><div class="para">
+				After the connection has been established, <a class="xref" href="sect-Defensive_Coding-TLS-Client-NSS.html#ex-Defensive_Coding-TLS-NSS-Use">Example 12.24, “Using NSS for sending and receiving data”</a> shows how to use the NSPR descriptor to communicate with the server.
+			</div><div class="example" id="ex-Defensive_Coding-TLS-NSS-Use"><h6>Example 12.24. Using NSS for sending and receiving data</h6><div class="example-contents"><pre xml:lang="en-US" class="programlisting" lang="en-US">
+<span class="perl_DataType">char</span> buf[4096];
+snprintf(buf, <span class="perl_Keyword">sizeof</span>(buf), <span class="perl_String">"GET / HTTP/1.0</span><span class="perl_Char">\r\n</span><span class="perl_String">Host: %s</span><span class="perl_Char">\r\n\r\n</span><span class="perl_String">"</span>, host);
+PRInt32 ret = PR_Write(nspr, buf, strlen(buf));
+<span class="perl_Keyword">if</span> (ret &lt; 0) {
+  <span class="perl_DataType">const</span> PRErrorCode err = PR_GetError();
+  fprintf(stderr, <span class="perl_String">"error: PR_Write error %d: %s</span><span class="perl_Char">\n</span><span class="perl_String">"</span>,
+	    err, PR_ErrorToName(err));
+  exit(<span class="perl_Float">1</span>);
+}
+ret = PR_Read(nspr, buf, <span class="perl_Keyword">sizeof</span>(buf));
+<span class="perl_Keyword">if</span> (ret &lt; 0) {
+  <span class="perl_DataType">const</span> PRErrorCode err = PR_GetError();
+  fprintf(stderr, <span class="perl_String">"error: PR_Read error %d: %s</span><span class="perl_Char">\n</span><span class="perl_String">"</span>,
+	    err, PR_ErrorToName(err));
+  exit(<span class="perl_Float">1</span>);
+}
+</pre></div></div><br class="example-break" /><div class="para">
+				<a class="xref" href="sect-Defensive_Coding-TLS-Client-NSS.html#ex-Defensive_Coding-TLS-Client-NSS-Close">Example 12.25, “Closing NSS client connections”</a> shows how to close the connection.
+			</div><div class="example" id="ex-Defensive_Coding-TLS-Client-NSS-Close"><h6>Example 12.25. Closing NSS client connections</h6><div class="example-contents"><pre xml:lang="en-US" class="programlisting" lang="en-US">
+<span class="perl_Comment">// Send close_notify alert.</span><span class="perl_Comment"></span>
+<span class="perl_Comment"></span><span class="perl_Keyword">if</span> (PR_Shutdown(nspr, PR_SHUTDOWN_BOTH) != PR_SUCCESS) {
+  <span class="perl_DataType">const</span> PRErrorCode err = PR_GetError();
+  fprintf(stderr, <span class="perl_String">"error: PR_Read error %d: %s</span><span class="perl_Char">\n</span><span class="perl_String">"</span>,
+	    err, PR_ErrorToName(err));
+  exit(<span class="perl_Float">1</span>);
+}
+<span class="perl_Comment">// Closes the underlying POSIX file descriptor, too.</span><span class="perl_Comment"></span>
+<span class="perl_Comment"></span>PR_Close(nspr);
+</pre></div></div><br class="example-break" /></div><ul class="docnav"><li class="previous"><a accesskey="p" href="sect-Defensive_Coding-TLS-Client-OpenJDK.html"><strong>Prev</strong>12.2.3. Implementing TLS Clients With OpenJDK</a></li><li class="up"><a accesskey="u" href="#"><strong>Up</strong></a></li><li class="home"><a accesskey="h" href="index.html"><strong>Home</strong></a></li><li class="next"><a accesskey="n" href="sect-Defensive_Coding-TLS-Client-Python.html"><strong>Next</strong>12.2.5. Implementing TLS Clients With Python</a></li></ul></body></html>

@@ -1,0 +1,32 @@
+TODO items
+----------
+
+Suggested items for inclusion are listed here:
+
+https://engineering.redhat.com/trac/product-security/wiki/DefensiveCodingTODO
+
+Building HTML documentation
+---------------------------
+
+Just type "make".
+
+When you type "make", the code examples in src/ are compiled (mainly
+to check for obvious syntax errors, but also for manual testing).  If
+you lack the necessary libraries, you can type "make build-manual"
+instead, which will skip this step.  The code examples are still
+included in the manual.
+
+Dependencies
+------------
+
+Building the manual needs the "publican" package and the
+"publican-redhat-engservices" package available here:
+
+http://download.lab.bos.redhat.com/brewroot/packages/publican-redhat-engservices/
+
+Version 0.4 of the publican-redhat-engservices package needs publican
+3.0.  This version of the package:
+
+http://download.lab.bos.redhat.com/brewroot/packages/publican-redhat-engservices/0.3/2.el6eng/noarch/publican-redhat-engservices-0.3-2.el6eng.noarch.rpm
+
+is known to work with publican 2.8 available in Fedora 17.

@@ -1,0 +1,59 @@
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/repos/product-security/!svn/ver/294/defensive-coding/trunk/en-US/Tasks
+END
+Descriptors.xml
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/repos/product-security/!svn/ver/281/defensive-coding/trunk/en-US/Tasks/Descriptors.xml
+END
+File_System.xml
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/repos/product-security/!svn/ver/281/defensive-coding/trunk/en-US/Tasks/File_System.xml
+END
+schemas.xml
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/repos/product-security/!svn/ver/292/defensive-coding/trunk/en-US/Tasks/schemas.xml
+END
+Temporary_Files.xml
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/repos/product-security/!svn/ver/281/defensive-coding/trunk/en-US/Tasks/Temporary_Files.xml
+END
+Locking.xml
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/repos/product-security/!svn/ver/292/defensive-coding/trunk/en-US/Tasks/Locking.xml
+END
+Processes.xml
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/repos/product-security/!svn/ver/281/defensive-coding/trunk/en-US/Tasks/Processes.xml
+END
+Cryptography.xml
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/repos/product-security/!svn/ver/281/defensive-coding/trunk/en-US/Tasks/Cryptography.xml
+END
+Library_Design.xml
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/repos/product-security/!svn/ver/281/defensive-coding/trunk/en-US/Tasks/Library_Design.xml
+END
+Serialization.xml
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/repos/product-security/!svn/ver/294/defensive-coding/trunk/en-US/Tasks/Serialization.xml
+END

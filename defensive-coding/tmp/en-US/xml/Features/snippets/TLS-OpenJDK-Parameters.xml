@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<!DOCTYPE programlisting PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+<!ENTITY % BOOK_ENTITIES SYSTEM "../../Defensive_Coding.ent">
+%BOOK_ENTITIES;
+]>
+
+<programlisting lang="en-US" language="Java"><!--  Automatically generated file.  Do not edit.  -->
+// Prepare TLS parameters.  These have to applied to every TLS
+// socket before the handshake is triggered.
+SSLParameters params = ctx.getDefaultSSLParameters();
+// Do not send an SSL-2.0-compatible Client Hello.
+ArrayList&lt;String&gt; protocols = new ArrayList&lt;String&gt;(
+    Arrays.asList(params.getProtocols()));
+protocols.remove("SSLv2Hello");
+params.setProtocols(protocols.toArray(new String[protocols.size()]));
+// Adjust the supported ciphers.
+ArrayList&lt;String&gt; ciphers = new ArrayList&lt;String&gt;(
+    Arrays.asList(params.getCipherSuites()));
+ciphers.retainAll(Arrays.asList(
+    "TLS_RSA_WITH_AES_128_CBC_SHA256",
+    "TLS_RSA_WITH_AES_256_CBC_SHA256",
+    "TLS_RSA_WITH_AES_256_CBC_SHA",
+    "TLS_RSA_WITH_AES_128_CBC_SHA",
+    "SSL_RSA_WITH_3DES_EDE_CBC_SHA",
+    "SSL_RSA_WITH_RC4_128_SHA1",
+    "SSL_RSA_WITH_RC4_128_MD5",
+    "TLS_EMPTY_RENEGOTIATION_INFO_SCSV"));
+params.setCipherSuites(ciphers.toArray(new String[ciphers.size()]));
+</programlisting>
+

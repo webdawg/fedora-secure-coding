@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>4.4. Process attributes</title><link rel="stylesheet" type="text/css" href="Common_Content/css/default.css" /><link rel="stylesheet" media="print" href="Common_Content/css/print.css" type="text/css" /><meta name="generator" content="publican 2.8" /><meta name="package" content="Defensive_Coding-Defensive_Coding-1-en-US-1.0-20" /><link rel="home" href="index.html" title="Defensive Coding" /><link rel="up" href="chap-Defensive_Coding-Tasks-Library_Design.html" title="Chapter 4. Library Design" /><link rel="prev" href="sect-Defensive_Coding-Tasks-Library_Design-Callbacks.html" title="4.3. Callbacks" /><link rel="next" href="sect-Defensive_Coding-Tasks-Descriptors.html" title="Chapter 5. File Descriptor Management" /></head><body><p id="title"><a class="left" href="http://www.redhat.com"><img src="Common_Content/images/image_left.png" alt="Product Site" /></a><a class="right" href="http://docs.redhat.com"><img src="Common_Content/images/image_right.png" alt="Documentation Site" /></a></p><ul class="docnav"><li class="previous"><a accesskey="p" href="sect-Defensive_Coding-Tasks-Library_Design-Callbacks.html"><strong>Prev</strong></a></li><li class="next"><a accesskey="n" href="sect-Defensive_Coding-Tasks-Descriptors.html"><strong>Next</strong></a></li></ul><div class="section" id="idp25193664"><div class="titlepage"><div><div><h2 class="title" id="idp25193664">4.4. Process attributes</h2></div></div></div><div class="para">
+			Several attributes are global and affect all code in the process, not just the library that manipulates them.
+		</div><div class="itemizedlist"><ul><li class="listitem"><div class="para">
+					environment variables (see <a class="xref" href="ch08s03.html#sect-Defensive_Coding-Tasks-secure_getenv">Section 8.3.1, “Accessing environment variables”</a>)
+				</div></li><li class="listitem"><div class="para">
+					umask
+				</div></li><li class="listitem"><div class="para">
+					user IDs, group IDs and capabilities
+				</div></li><li class="listitem"><div class="para">
+					current working directory
+				</div></li><li class="listitem"><div class="para">
+					signal handlers, signal masks and signal delivery
+				</div></li><li class="listitem"><div class="para">
+					file locks (especially <code class="function">fcntl</code> locks behave in surprising ways, not just in a multi-threaded environment)
+				</div></li></ul></div><div class="para">
+			Library code should avoid manipulating these global process attributes. It should not rely on environment variables, umask, the current working directory and signal masks because these attributes can be inherted from an untrusted source.
+		</div><div class="para">
+			In addition, there are obvious process-wide aspects such as the virtual memory layout, the set of open files and dynamic shared objects, but with the exception of shared objects, these can be manipulated in a relatively isolated way.
+		</div></div><ul class="docnav"><li class="previous"><a accesskey="p" href="sect-Defensive_Coding-Tasks-Library_Design-Callbacks.html"><strong>Prev</strong>4.3. Callbacks</a></li><li class="up"><a accesskey="u" href="#"><strong>Up</strong></a></li><li class="home"><a accesskey="h" href="index.html"><strong>Home</strong></a></li><li class="next"><a accesskey="n" href="sect-Defensive_Coding-Tasks-Descriptors.html"><strong>Next</strong>Chapter 5. File Descriptor Management</a></li></ul></body></html>

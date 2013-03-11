@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>9.4.6.2. XML Schema validation in OpenJDK</title><link rel="stylesheet" type="text/css" href="Common_Content/css/default.css" /><link rel="stylesheet" media="print" href="Common_Content/css/print.css" type="text/css" /><meta name="generator" content="publican 2.8" /><meta name="package" content="Defensive_Coding-Defensive_Coding-1-en-US-1.0-20" /><link rel="home" href="index.html" title="Defensive Coding" /><link rel="up" href="sect-Defensive_Coding-Tasks-Serialization-XML-OpenJDK_Parse.html" title="9.4.6. Using OpenJDK for XML parsing and validation" /><link rel="prev" href="sect-Defensive_Coding-Tasks-Serialization-XML-OpenJDK_Parse.html" title="9.4.6. Using OpenJDK for XML parsing and validation" /><link rel="next" href="ch09s05.html" title="9.5. Protocol Encoders" /></head><body><p id="title"><a class="left" href="http://www.redhat.com"><img src="Common_Content/images/image_left.png" alt="Product Site" /></a><a class="right" href="http://docs.redhat.com"><img src="Common_Content/images/image_right.png" alt="Documentation Site" /></a></p><ul class="docnav"><li class="previous"><a accesskey="p" href="sect-Defensive_Coding-Tasks-Serialization-XML-OpenJDK_Parse.html"><strong>Prev</strong></a></li><li class="next"><a accesskey="n" href="ch09s05.html"><strong>Next</strong></a></li></ul><div class="section" id="sect-Defensive_Coding-Tasks-Serialization-XML-OpenJDK_Parse-SAX"><div class="titlepage"><div><div><h4 class="title">9.4.6.2. XML Schema validation in OpenJDK</h4></div></div></div><div class="para">
+					<a class="xref" href="sect-Defensive_Coding-Tasks-Serialization-XML-OpenJDK_Parse-SAX.html#ex-Defensive_Coding-Tasks-Serialization-XML-OpenJDK_Parse-XMLSchema_SAX">Example 9.7, “SAX-based validation against an XML schema in OpenJDK”</a> shows how to validate a document against an XML Schema, using a SAX-based approach. The XML data is read from an <code class="literal">java.io.InputStream</code> in the <code class="literal">inputStream</code> variable.
+				</div><div class="example" id="ex-Defensive_Coding-Tasks-Serialization-XML-OpenJDK_Parse-XMLSchema_SAX"><h6>Example 9.7. SAX-based validation against an XML schema in OpenJDK</h6><div class="example-contents"><pre xml:lang="en-US" class="programlisting" lang="en-US">
+SchemaFactory factory = SchemaFactory.<span class="perl_Function">newInstance</span>(
+        XMLConstants.<span class="perl_Function">W3C_XML_SCHEMA_NS_URI</span>);
+
+<span class="perl_Comment">// This enables restrictions on the schema and document</span><span class="perl_Comment"></span>
+<span class="perl_Comment"></span><span class="perl_Comment">// complexity.</span><span class="perl_Comment"></span>
+<span class="perl_Comment"></span>factory.<span class="perl_Function">setFeature</span>(XMLConstants.<span class="perl_Function">FEATURE_SECURE_PROCESSING</span>, <span class="perl_Keyword">true</span>);
+
+<span class="perl_Comment">// This prevents resource resolution by the schema itself.</span><span class="perl_Comment"></span>
+<span class="perl_Comment"></span><span class="perl_Comment">// If the schema is trusted and references additional files,</span><span class="perl_Comment"></span>
+<span class="perl_Comment"></span><span class="perl_Comment">// this line must be omitted, otherwise loading these files</span><span class="perl_Comment"></span>
+<span class="perl_Comment"></span><span class="perl_Comment">// will fail.</span><span class="perl_Comment"></span>
+<span class="perl_Comment"></span>factory.<span class="perl_Function">setResourceResolver</span>(<span class="perl_Keyword">new</span> <span class="perl_Function">NoResourceResolver</span>());
+
+Schema schema = factory.<span class="perl_Function">newSchema</span>(schemaFile);
+Validator validator = schema.<span class="perl_Function">newValidator</span>();
+
+<span class="perl_Comment">// This prevents external resource resolution.</span><span class="perl_Comment"></span>
+<span class="perl_Comment"></span>validator.<span class="perl_Function">setResourceResolver</span>(<span class="perl_Keyword">new</span> <span class="perl_Function">NoResourceResolver</span>());
+
+validator.<span class="perl_Function">validate</span>(<span class="perl_Keyword">new</span> SAXSource(<span class="perl_Keyword">new</span> InputSource(inputStream)));
+</pre></div></div><br class="example-break" /><div class="para">
+					The <code class="literal">NoResourceResolver</code> class is defined in <a class="xref" href="sect-Defensive_Coding-Tasks-Serialization-XML-OpenJDK_Parse.html#ex-Defensive_Coding-Tasks-Serialization-XML-OpenJDK-NoResourceResolver">Example 9.4, “Helper class to prevent schema resolution in OpenJDK”</a>.
+				</div><div class="para">
+					If you need to validate a document against an XML schema, use the code in <a class="xref" href="sect-Defensive_Coding-Tasks-Serialization-XML-OpenJDK_Parse.html#ex-Defensive_Coding-Tasks-Serialization-XML-OpenJDK_Parse-DOM">Example 9.6, “DOM-based XML parsing in OpenJDK”</a> to create the document, but do not enable validation at this point. Then use <a class="xref" href="sect-Defensive_Coding-Tasks-Serialization-XML-OpenJDK_Parse-SAX.html#ex-Defensive_Coding-Tasks-Serialization-XML-OpenJDK_Parse-XMLSchema_DOM">Example 9.8, “Validation of a DOM document against an XML schema in OpenJDK”</a> to perform the schema-based validation on the <code class="literal">org.w3c.dom.Document</code> instance <code class="literal">document</code>.
+				</div><div class="example" id="ex-Defensive_Coding-Tasks-Serialization-XML-OpenJDK_Parse-XMLSchema_DOM"><h6>Example 9.8. Validation of a DOM document against an XML schema in OpenJDK</h6><div class="example-contents"><pre xml:lang="en-US" class="programlisting" lang="en-US">
+SchemaFactory factory = SchemaFactory.<span class="perl_Function">newInstance</span>(
+        XMLConstants.<span class="perl_Function">W3C_XML_SCHEMA_NS_URI</span>);
+
+<span class="perl_Comment">// This enables restrictions on schema complexity.</span><span class="perl_Comment"></span>
+<span class="perl_Comment"></span>factory.<span class="perl_Function">setFeature</span>(XMLConstants.<span class="perl_Function">FEATURE_SECURE_PROCESSING</span>, <span class="perl_Keyword">true</span>);
+
+<span class="perl_Comment">// The following line prevents resource resolution</span><span class="perl_Comment"></span>
+<span class="perl_Comment"></span><span class="perl_Comment">// by the schema itself.</span><span class="perl_Comment"></span>
+<span class="perl_Comment"></span>factory.<span class="perl_Function">setResourceResolver</span>(<span class="perl_Keyword">new</span> <span class="perl_Function">NoResourceResolver</span>());
+
+Schema schema = factory.<span class="perl_Function">newSchema</span>(schemaFile);
+
+Validator validator = schema.<span class="perl_Function">newValidator</span>();
+
+<span class="perl_Comment">// This prevents external resource resolution.</span><span class="perl_Comment"></span>
+<span class="perl_Comment"></span>validator.<span class="perl_Function">setResourceResolver</span>(<span class="perl_Keyword">new</span> <span class="perl_Function">NoResourceResolver</span>());
+validator.<span class="perl_Function">validate</span>(<span class="perl_Keyword">new</span> DOMSource(document));
+</pre></div></div><br class="example-break" /></div><ul class="docnav"><li class="previous"><a accesskey="p" href="sect-Defensive_Coding-Tasks-Serialization-XML-OpenJDK_Parse.html"><strong>Prev</strong>9.4.6. Using OpenJDK for XML parsing and validati...</a></li><li class="up"><a accesskey="u" href="#"><strong>Up</strong></a></li><li class="home"><a accesskey="h" href="index.html"><strong>Home</strong></a></li><li class="next"><a accesskey="n" href="ch09s05.html"><strong>Next</strong>9.5. Protocol Encoders</a></li></ul></body></html>

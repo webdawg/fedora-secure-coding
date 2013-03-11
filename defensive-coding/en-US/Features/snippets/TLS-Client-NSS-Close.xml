@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<!DOCTYPE programlisting PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+]>
+<!-- Automatically generated file.  Do not edit. -->
+<programlisting language="C">
+// Send close_notify alert.
+if (PR_Shutdown(nspr, PR_SHUTDOWN_BOTH) != PR_SUCCESS) {
+  const PRErrorCode err = PR_GetError();
+  fprintf(stderr, "error: PR_Read error %d: %s\n",
+	    err, PR_ErrorToName(err));
+  exit(1);
+}
+// Closes the underlying POSIX file descriptor, too.
+PR_Close(nspr);
+</programlisting>

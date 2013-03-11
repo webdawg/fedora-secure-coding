@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<!DOCTYPE programlisting PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+]>
+<!-- Automatically generated file.  Do not edit. -->
+<programlisting language="Java">
+class NoEntityResolver implements EntityResolver {
+    @Override
+    public InputSource resolveEntity(String publicId, String systemId)
+            throws SAXException, IOException {
+        // Throwing an exception stops validation.
+        throw new IOException(String.format(
+                "attempt to resolve \"%s\" \"%s\"", publicId, systemId));
+    }
+}
+</programlisting>

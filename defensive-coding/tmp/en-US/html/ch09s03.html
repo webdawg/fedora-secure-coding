@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>9.3. Library support for deserialization</title><link rel="stylesheet" type="text/css" href="Common_Content/css/default.css" /><link rel="stylesheet" media="print" href="Common_Content/css/print.css" type="text/css" /><meta name="generator" content="publican 2.8" /><meta name="package" content="Defensive_Coding-Defensive_Coding-1-en-US-1.0-20" /><link rel="home" href="index.html" title="Defensive Coding" /><link rel="up" href="chap-Defensive_Coding-Tasks-Serialization.html" title="Chapter 9. Serialization and Deserialization" /><link rel="prev" href="ch09s02.html" title="9.2. Protocol design" /><link rel="next" href="sect-Defensive_Coding-Tasks-Serialization-XML.html" title="9.4. XML serialization" /></head><body><p id="title"><a class="left" href="http://www.redhat.com"><img src="Common_Content/images/image_left.png" alt="Product Site" /></a><a class="right" href="http://docs.redhat.com"><img src="Common_Content/images/image_right.png" alt="Documentation Site" /></a></p><ul class="docnav"><li class="previous"><a accesskey="p" href="ch09s02.html"><strong>Prev</strong></a></li><li class="next"><a accesskey="n" href="sect-Defensive_Coding-Tasks-Serialization-XML.html"><strong>Next</strong></a></li></ul><div class="section" id="idp22982976"><div class="titlepage"><div><div><h2 class="title" id="idp22982976">9.3. Library support for deserialization</h2></div></div></div><div class="para">
+			For some languages, generic libraries are available which allow to serialize and deserialize user-defined objects. The deserialization part comes in one of two flavors, depending on the library. The first kind uses type information in the data stream to control which objects are instantiated. The second kind uses type definitions supplied by the programmer. The first one allows arbitrary object instantiation, the second one generally does not.
+		</div><div class="para">
+			The following serialization frameworks are in the first category, are known to be unsafe, and must not be used for untrusted data:
+		</div><div class="itemizedlist"><ul><li class="listitem"><div class="para">
+					Python's <span class="package">pickle</span> and <span class="package">cPickle</span> modules
+				</div></li><li class="listitem"><div class="para">
+					Perl's <span class="package">Storable</span> package
+				</div></li><li class="listitem"><div class="para">
+					Java serialization (<span class="type">java.io.ObjectInputStream</span>)
+				</div></li><li class="listitem"><div class="para">
+					PHP serialization (<code class="function">unserialize</code>)
+				</div></li><li class="listitem"><div class="para">
+					Most implementations of YAML
+				</div></li></ul></div><div class="para">
+			When using a type-directed deserialization format where the types of the deserialized objects are specified by the programmer, make sure that the objects which can be instantiated cannot perform any destructive actions in their destructors, even when the data members have been manipulated.
+		</div><div class="para">
+			JSON decoders do not suffer from this problem. But you must not use the <code class="function">eval</code> function to parse JSON objects in Javascript; even with the regular expression filter from RFC 4627, there are still information leaks remaining.
+		</div></div><ul class="docnav"><li class="previous"><a accesskey="p" href="ch09s02.html"><strong>Prev</strong>9.2. Protocol design</a></li><li class="up"><a accesskey="u" href="#"><strong>Up</strong></a></li><li class="home"><a accesskey="h" href="index.html"><strong>Home</strong></a></li><li class="next"><a accesskey="n" href="sect-Defensive_Coding-Tasks-Serialization-XML.html"><strong>Next</strong>9.4. XML serialization</a></li></ul></body></html>

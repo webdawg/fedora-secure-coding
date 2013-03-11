@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd">
+<book>
+  <xi:include href="Book_Info.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+  <part>
+    <title>Programming Languages</title>
+    <xi:include href="C/C.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+    <xi:include href="CXX/CXX.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+    <xi:include href="Python/Language.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+  </part>
+  <part>
+    <title>Specific Programming Tasks</title>
+    <xi:include href="Tasks/Library_Design.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+    <xi:include href="Tasks/Descriptors.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+    <xi:include href="Tasks/File_System.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+    <xi:include href="Tasks/Temporary_Files.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+    <xi:include href="Tasks/Processes.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+    <xi:include href="Tasks/Serialization.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+    <xi:include href="Tasks/Cryptography.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+  </part>
+  <part>
+    <title>Implementing Security Features</title>
+    <xi:include href="Features/Authentication.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+    <xi:include href="Features/TLS.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+  </part>
+    <xi:include href="Revision_History.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+</book>

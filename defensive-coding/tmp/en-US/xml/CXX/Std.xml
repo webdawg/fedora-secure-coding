@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<!DOCTYPE section PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+<!ENTITY % BOOK_ENTITIES SYSTEM "../Defensive_Coding.ent">
+%BOOK_ENTITIES;
+]>
+<section id="sect-Defensive_Coding-CXX-Std" lang="en-US">
+	<title>The C++ standard library</title>
+	 <para>
+		The C++ standard library includes most of its C counterpart by reference, see <xref linkend="sect-Defensive_Coding-C-Libc" />.
+	</para>
+	 <section>
+		<title>Containers and <literal>operator[]</literal></title>
+		 <para>
+			Many containers similar to <literal>std::vector</literal> provide both <literal>operator[](size_type)</literal> and a member function <literal>at(size_type)</literal>. This applies to <literal>std::vector</literal> itself, <literal>std::array</literal>, <literal>std::string</literal> and other instances of <literal>std::basic_string</literal>.
+		</para>
+		 <para>
+			<literal>operator[](size_type)</literal> is not required by the standard to perform bounds checking (and the implementation in GCC does not). In contrast, <literal>at(size_type)</literal> must perform such a check. Therefore, in code which is not performance-critical, you should prefer <literal>at(size_type)</literal> over <literal>operator[](size_type)</literal>, even though it is slightly more verbose.
+		</para>
+
+	</section>
+
+</section>
+
+
