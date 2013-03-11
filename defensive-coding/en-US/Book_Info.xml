@@ -4,10 +4,10 @@
 <bookinfo id="book-Defensive_Coding">
 	<title>Defensive Coding</title>
 	<subtitle>A Guide to Improving Software Security</subtitle>
-	<edition>1.0</edition>
-	<issuenum>1.0</issuenum>
+	<edition>1</edition>
+<!--	<issuenum>1.0</issuenum> -->
 	<pubsnumber></pubsnumber>
-	<productname></productname>
+	<productname>Fedora Security Team</productname>
 	<productnumber></productnumber>
 	<abstract>
 	  <para>
