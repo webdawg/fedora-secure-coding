@@ -1,0 +1,27 @@
+# 
+# AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: 0\n"
+"POT-Creation-Date: 2013-03-12T03:19:44\n"
+"PO-Revision-Date: 2013-03-12T03:19:44\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: None\n"
+"MIME-Version: 1.0\n"
+"Content-Type: application/x-publican; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. Tag: programlisting
+#, no-c-format
+msgid "\n"
+"// The following call prints an error message and calls exit() if\n"
+"// the OpenSSL configuration file is unreadable.\n"
+"OPENSSL_config(NULL);\n"
+"// Provide human-readable error messages.\n"
+"SSL_load_error_strings();\n"
+"// Register ciphers.\n"
+"SSL_library_init();\n"
+""
+msgstr ""
+

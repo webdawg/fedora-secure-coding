@@ -1,0 +1,40 @@
+# 
+# AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: 0\n"
+"POT-Creation-Date: 2013-03-12T03:19:44\n"
+"PO-Revision-Date: 2013-03-12T03:19:44\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: None\n"
+"MIME-Version: 1.0\n"
+"Content-Type: application/x-publican; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. Tag: programlisting
+#, no-c-format
+msgid "\n"
+"// Create the context.  Specify the SunJSSE provider to avoid\n"
+"// picking up third-party providers.  Try the TLS 1.2 provider\n"
+"// first, then fall back to TLS 1.0.\n"
+"SSLContext ctx;\n"
+"try {\n"
+"    ctx = SSLContext.getInstance(\"TLSv1.2\", \"SunJSSE\");\n"
+"} catch (NoSuchAlgorithmException e) {\n"
+"    try {\n"
+"        ctx = SSLContext.getInstance(\"TLSv1\", \"SunJSSE\");\n"
+"    } catch (NoSuchAlgorithmException e1) {\n"
+"        // The TLS 1.0 provider should always be available.\n"
+"        throw new AssertionError(e1);\n"
+"    } catch (NoSuchProviderException e1) {\n"
+"        throw new AssertionError(e1);\n"
+"    } \n"
+"} catch (NoSuchProviderException e) {\n"
+"    // The SunJSSE provider should always be available.\n"
+"    throw new AssertionError(e);\n"
+"}\n"
+"ctx.init(null, null, null);\n"
+""
+msgstr ""
+

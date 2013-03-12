@@ -1,0 +1,104 @@
+# 
+# AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: 0\n"
+"POT-Creation-Date: 2013-03-12T03:19:44\n"
+"PO-Revision-Date: 2013-03-12T03:19:44\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: None\n"
+"MIME-Version: 1.0\n"
+"Content-Type: application/x-publican; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. Tag: title
+#, no-c-format
+msgid "The Python Programming Language"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Python provides memory safety by default, so low-level security vulnerabilities are rare and typically needs fixing the Python interpreter or standard library itself."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Other sections with Python-specific advice include:"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "<xref linkend=\"chap-Defensive_Coding-Tasks-Temporary_Files\" />"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "<xref linkend=\"sect-Defensive_Coding-Tasks-Processes-Creation\" />"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "<xref linkend=\"chap-Defensive_Coding-Tasks-Serialization\" />, in particular <xref linkend=\"sect-Defensive_Coding-Tasks-Serialization-Library\" />"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "<xref linkend=\"sect-Defensive_Coding-Tasks-Cryptography-Randomness\" />"
+msgstr ""
+
+#. Tag: title
+#, no-c-format
+msgid "Dangerous standard library features"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Some areas of the standard library, notably the <literal>ctypes</literal> module, do not provide memory safety guarantees comparable to the rest of Python. If such functionality is used, the advice in <xref linkend=\"sect-Defensive_Coding-C-Language\" /> should be followed."
+msgstr ""
+
+#. Tag: title
+#, no-c-format
+msgid "Run-time compilation and code generation"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "The following Python functions and statements related to code execution should be avoided:"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "<function>compile</function>"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "<function>eval</function>"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "<literal>exec</literal>"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "<function>execfile</function>"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "If you need to parse integers or floating point values, use the <function>int</function> and <function>float</function> functions instead of <function>eval</function>. Sandboxing untrusted Python code does not work reliably."
+msgstr ""
+
+#. Tag: title
+#, no-c-format
+msgid "Sandboxing"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "The <literal>rexec</literal> Python module cannot safely sandbox untrusted code and should not be used. The standard CPython implementation is not suitable for sandboxing."
+msgstr ""
+
