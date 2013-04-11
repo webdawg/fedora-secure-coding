@@ -2,6 +2,7 @@
 #include <stdarg.h>
 #include <stdio.h>
 #include <string.h>
+#include <stdbool.h>
 
 static void
 log_string(const char *s)
@@ -27,6 +28,28 @@ log_format(const char *format, ...)
 int
 main(void)
 {
+  {
+    struct item {
+      const char *key;
+      int value;
+    } data[] = {
+      {"key1", 17},
+      {"key2", 29},
+      {NULL, 0}
+    };
+
+    //+ C String-Functions-snprintf-incremental
+    char buf[512];
+    char *current = buf;
+    const char *const end = buf + sizeof(buf);
+    for (struct item *it = data; it->key; ++it) {
+      snprintf(current, end - current, "%s%s=%d",
+	       current == buf ? "" : ", ", it->key, it->value);
+      current += strlen(current);
+    }
+    //-
+    puts(buf);
+  }
   {
     int numerator = 3, denominator = 4;
     //+ C String-Functions-snprintf

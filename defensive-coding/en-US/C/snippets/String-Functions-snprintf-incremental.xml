@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<!DOCTYPE programlisting PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+]>
+<!-- Automatically generated file.  Do not edit. -->
+<programlisting language="C">
+char buf[512];
+char *current = buf;
+const char *const end = buf + sizeof(buf);
+for (struct item *it = data; it-&#62;key; ++it) {
+  snprintf(current, end - current, "%s%s=%d",
+	       current == buf ? "" : ", ", it-&#62;key, it-&#62;value);
+  current += strlen(current);
+}
+</programlisting>
