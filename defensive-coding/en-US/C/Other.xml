@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<!DOCTYPE section PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+]>
+<section id="sect-Defensive_Coding-C-Other">
+  <title>Other C-related topics</title>
+  <section id="sect-Defensive_Coding-C-Wrapper-Functions">
+    <title>Wrapper functions</title>
+    <para>
+      Some libraries provide wrappers for standard library functions.
+      Common cases include allocation functions such as
+      <function>xmalloc</function> which abort the process on
+      allocation failure (instead of returning a
+      <literal>NULL</literal> pointer), or alternatives to relatively
+      recent library additions such as <function>snprintf</function>
+      (along with implementations for systems which lack them).
+    </para>
+    <para>
+      In general, such wrappers are a bad idea, particularly if they
+      are not implemented as inline functions or preprocessor macros.
+      The compiler lacks knowledge of such wrappers outside the
+      translation unit which defines them, which means that some
+      optimizations and security checks are not performed.  Adding
+      <literal>__attribute__</literal> annotations to function
+      declarations can remedy this to some extent, but these
+      annotations have to be maintained carefully for feature parity
+      with the standard implementation.
+    </para>
+    <para>
+      At the minimum, you should apply these attributes:
+    </para>
+    <itemizedlist>
+      <listitem>
+	<para>
+	  If you wrap function which accepts are GCC-recognized format
+	  string (for example, a <function>printf</function>-style
+	  function used for logging), you should add a suitable
+	  <literal>format</literal> attribute, as in <xref
+	  linkend="ex-Defensive_Coding-C-String-Functions-format-Attribute"/>.
+	</para>
+      </listitem>
+      <listitem>
+	<para>
+	  If you wrap a function which carries a
+	  <literal>warn_unused_result</literal> attribute and you
+	  propagate its return value, your wrapper should be declared
+	  with <literal>warn_unused_result</literal> as well.
+	</para>
+      </listitem>
+      <listitem>
+	<para>
+	  Duplicating the buffer length checks based on the
+	  <function>__builtin_object_size</function> GCC builtin is
+	  desirable if the wrapper processes arrays.  (This
+	  functionality is used by the
+	  <literal>-D_FORTIFY_SOURCE=2</literal> checks to guard
+	  against static buffer overflows.)  However, designing
+	  appropriate interfaces and implementing the checks may not
+	  be entirely straightforward.
+	</para>
+      </listitem>
+    </itemizedlist>
+    <para>
+      For other attributes (such as <literal>malloc</literal>),
+      careful analysis and comparison with the compiler documentation
+      is required to check if propagating the attribute is
+      appropriate.  Incorrectly applied attributes can result in
+      undesired behavioral changes in the compiled code.
+    </para>
+  </section>
+</section>
