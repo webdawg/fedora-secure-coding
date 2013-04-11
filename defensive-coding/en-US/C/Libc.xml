@@ -249,26 +249,103 @@
       </example>
     </section>
     <section id="sect-Defensive_Coding-C-Libc-strncpy">
-      <title><function>strncpy</function> and related functions</title>
+      <title><function>strncpy</function></title>
       <para>
-	There are other functions which operator on NUL-terminated
-	strings and take a length argument which affects the number of
-	bytes written to the destination: <function>strncpy</function>,
-	<function>strncat</function>, and <function>stpncpy</function>.
-	These functions do not ensure that the result string is
-	NUL-terminated.  For <function>strncpy</function>,
-	NUL termination can be added this way:
+	The <function>strncpy</function> function does not ensure that
+	the target buffer is NUL-terminated.  A common idiom for
+	ensuring NUL termination is:
       </para>
       <informalexample>
 	<xi:include href="snippets/String-Functions-strncpy.xml"
 		    xmlns:xi="http://www.w3.org/2001/XInclude" />
       </informalexample>
       <para>
+	Another approach uses the <function>strncat</function>
+	function for this purpose:
+      </para>
+      <informalexample>
+	<xi:include href="snippets/String-Functions-strncat-as-strncpy.xml"
+		    xmlns:xi="http://www.w3.org/2001/XInclude" />
+      </informalexample>
+    </section>
+    <section id="sect-Defensive_Coding-C-Libc-strncat">
+      <title><function>strncat</function></title>
+      <para>
+	The length argument of the <function>strncat</function>
+	function specifies the maximum number of characters copied
+	from the source buffer, excluding the terminating NUL
+	character.  This means that the required number of bytes in
+	the destination buffer is the length of the original string,
+	plus the length argument in the <function>strncat</function>
+	call, plus one.  Consequently, this function is rarely
+	appropriate for performing a length-checked string operation,
+	with the notable exception of the <function>strcpy</function>
+	emulation described in <xref
+	linkend="sect-Defensive_Coding-C-Libc-strncpy"/>.
+      </para>
+      <para>
+	To implement a length-checked string append, you can use an
+	approach similar to <xref
+	linkend="ex-Defensive_Coding-C-String-Functions-snprintf-incremental"/>:
+      </para>
+      <informalexample>
+	<xi:include href="snippets/String-Functions-strncat-emulation.xml"
+		    xmlns:xi="http://www.w3.org/2001/XInclude" />
+      </informalexample>
+      <para>
+	In many cases, including this one, the string concatenation
+	can be avoided by combining everything into a single format
+	string:
+      </para>
+      <informalexample>
+	<xi:include href="snippets/String-Functions-strncat-merged.xml"
+		    xmlns:xi="http://www.w3.org/2001/XInclude" />
+      </informalexample>
+      <para>
+	But you should must not dynamically construct format strings
+	to avoid concatenation because this would prevent GCC from
+	type-checking the argument lists.
+      </para>
+      <para>
+	It is not possible to use format strings like
+	<literal>"%s%s"</literal> to implement concatenation, unless
+	you use separate buffers.  <function>snprintf</function> does
+	not support overlapping source and target strings.
+      </para>
+    </section>
+    <section>
+      <title><function>strlcpy</function> and
+      <function>strlcat</function></title>
+      <para>
 	Some systems support <function>strlcpy</function> and
 	<function>strlcat</function> functions which behave this way,
-	but these functions are not part of GNU libc.  Using
-	<function>snprintf</function> with a suitable format string is a
-	simple (albeit slightly slower) replacement.
+	but these functions are not part of GNU libc.
+	<function>strlcpy</function> is often replaced with
+	<function>snprintf</function> with a <literal>"%s"</literal>
+	format string.  See <xref
+	linkend="sect-Defensive_Coding-C-Libc-strncpy"/> for a caveat
+	related to the <function>snprintf</function> return value.
+      </para>
+      <para>
+	To emulate <function>strlcat</function>, use the approach
+	described in <xref
+	linkend="sect-Defensive_Coding-C-Libc-strncat"/>.
+      </para>
+    </section>
+    <section>
+      <title>ISO C11 Annex K *<function>_s</function> functions</title>
+      <para>
+	ISO C11 adds another set of length-checking functions, but GNU
+	libc currently does not implement them.
+      </para>
+    </section>
+    <section>
+      <title>Other <function>strn</function>* and
+      <function>stpn</function>* functions</title>
+      <para>
+	GNU libc contains additional functions with different variants
+	of length checking.  Consult the documentation before using
+	them to find out what the length actually means.
       </para>
     </section>
   </section>

@@ -68,5 +68,24 @@ main(void)
     //-
     assert(strlen(buf) == 9);
     assert(strncmp(buf, data, 9) == 0);
+    //+ C String-Functions-strncat-as-strncpy
+    buf[0] = '\0';
+    strncpy(buf, data, sizeof(buf) - 1);
+    //-
+  }
+  {
+    const char *const prefix = "prefix";
+    const char *const data = " suffix";
+
+    //+ C String-Functions-strncat-emulation
+    char buf[10];
+    snprintf(buf, sizeof(buf), "%s", prefix);
+    snprintf(buf + strlen(buf), sizeof(buf) - strlen(buf), "%s", data);
+    //-
+    puts(buf);
+    //+ C String-Functions-strncat-merged
+    snprintf(buf, sizeof(buf), "%s%s", prefix, data);
+    //-
+    puts(buf);
   }
 }
