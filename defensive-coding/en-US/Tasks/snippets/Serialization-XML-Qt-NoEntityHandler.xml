@@ -1,0 +1,42 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<!DOCTYPE programlisting PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+]>
+<!-- Automatically generated file.  Do not edit. -->
+<programlisting language="C">
+class NoEntityHandler : public QXmlDeclHandler {
+public:
+  bool attributeDecl(const QString&#38;, const QString&#38;, const QString&#38;,
+		       const QString&#38;, const QString&#38;);
+  bool internalEntityDecl(const QString&#38;, const QString&#38;);
+  bool externalEntityDecl(const QString&#38;, const QString&#38;,
+			    const QString&#38;);
+  QString errorString() const;
+};
+
+ bool
+NoEntityHandler::attributeDecl
+  (const QString&#38;, const QString&#38;, const QString&#38;, const QString&#38;,
+   const QString&#38;)
+{
+  return false;
+}
+
+bool
+NoEntityHandler::internalEntityDecl(const QString&#38;, const QString&#38;)
+{
+  return false;
+}
+
+bool
+NoEntityHandler::externalEntityDecl(const QString&#38;, const QString&#38;, const
+				      QString&#38;)
+{
+  return false;
+}
+
+QString
+NoEntityHandler::errorString() const
+{
+  return "XML declaration not permitted";
+}
+</programlisting>

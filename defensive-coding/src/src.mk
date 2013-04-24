@@ -28,6 +28,8 @@ CFLAGS_TLS-Client-NSS = -I/usr/include/nspr4 -I/usr/include/nss3
 LIBS_TLS-Client-NSS = -lnss3 -lnspr4 -lssl3
 compile_and_link += XML-Parser-Expat
 LIBS_XML-Parser-Expat = -lexpat
+compile_and_link += XML-Parser-Qt
+LIBS_XML-Parser-Qt = -lQtCore -lQtXml
 
 # Define preprocessor symbols if certain functions exist.
 CHECK_FUNCTION = crypto/X509_check_host/-DHAVE_X509_CHECK_HOST \

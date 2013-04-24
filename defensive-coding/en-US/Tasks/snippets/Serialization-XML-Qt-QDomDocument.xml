@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<!DOCTYPE programlisting PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+]>
+<!-- Automatically generated file.  Do not edit. -->
+<programlisting language="C">
+NoEntityReader reader;
+QBuffer buffer(&#38;data);
+buffer.open(QIODevice::ReadOnly);
+QXmlInputSource source(&#38;buffer);
+QDomDocument doc;
+QString errorMsg;
+int errorLine;
+int errorColumn;
+bool okay = doc.setContent
+  (&#38;source, &#38;reader, &#38;errorMsg, &#38;errorLine, &#38;errorColumn);
+</programlisting>

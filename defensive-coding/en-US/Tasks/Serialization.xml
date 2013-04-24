@@ -255,6 +255,62 @@
       </para>
     </section>
 
+    <section id="sect-Defensive_Coding-Tasks-Serialization-Qt">
+      <title>Using Qt for XML parsing</title>
+      <para>
+	The XML component of Qt, QtXml, does not resolve external IDs
+	by default, so it is not requred to prevent such resolution.
+	Internal entities are processed, though.  To change that, a
+	custom <literal>QXmlDeclHandler</literal> and
+	<literal>QXmlSimpleReader</literal> subclasses are needed.  It
+	is not possible to use the
+	<function>QDomDocument::setContent(const QByteArray
+	&amp;)</function> convenience methods.
+      </para>
+      <para>
+	<xref linkend="ex-Defensive_Coding-Tasks-Serialization-XML-Qt-NoEntityHandler"/>
+	shows an entity handler which always returns errors, causing
+	parsing to stop when encountering entity declarations.
+      </para>
+      <example id="ex-Defensive_Coding-Tasks-Serialization-XML-Qt-NoEntityHandler">
+	<title>A QtXml entity handler which blocks entity processing</title>
+	<xi:include href="snippets/Serialization-XML-Qt-NoEntityHandler.xml"
+		    xmlns:xi="http://www.w3.org/2001/XInclude" />
+      </example>
+      <para>
+	This handler is used in the custom
+	<literal>QXmlReader</literal> subclass in <xref
+	linkend="ex-Defensive_Coding-Tasks-Serialization-XML-Qt-NoEntityReader"/>.
+	Some parts of QtXml will call the
+	<function>setDeclHandler(QXmlDeclHandler *)</function> method.
+	Consequently, we prevent overriding our custom handler by
+	providing a definition of this method which does nothing.  In
+	the constructor, we activate namespace processing; this part
+	may need adjusting.
+      </para>
+      <example id="ex-Defensive_Coding-Tasks-Serialization-XML-Qt-NoEntityReader">
+	<title>A QtXml XML reader which blocks entity processing</title>
+	<xi:include href="snippets/Serialization-XML-Qt-NoEntityReader.xml"
+		    xmlns:xi="http://www.w3.org/2001/XInclude" />
+      </example>
+      <para>
+	Our <literal>NoEntityReader</literal> class can be used with
+	one of the overloaded
+	<function>QDomDocument::setContent</function> methods.
+	<xref linkend="ex-Defensive_Coding-Tasks-Serialization-XML-Qt-QDomDocument"/>
+	shows how the <literal>buffer</literal> object (of type
+	<literal>QByteArray</literal>) is wrapped as a
+	<literal>QXmlInputSource</literal>.  After calling the
+	<function>setContent</function> method, you should check the
+	return value and report any error.
+      </para>
+      <example id="ex-Defensive_Coding-Tasks-Serialization-XML-Qt-QDomDocument">
+	<title>Parsing an XML document with QDomDocument, without entity expansion</title>
+	<xi:include href="snippets/Serialization-XML-Qt-QDomDocument.xml"
+		    xmlns:xi="http://www.w3.org/2001/XInclude" />
+      </example>
+    </section>
+
     <section id="sect-Defensive_Coding-Tasks-Serialization-XML-OpenJDK_Parse">
       <title>Using OpenJDK for XML parsing and validation</title>
       <para>

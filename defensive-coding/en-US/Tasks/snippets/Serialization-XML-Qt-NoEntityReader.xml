@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<!DOCTYPE programlisting PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+]>
+<!-- Automatically generated file.  Do not edit. -->
+<programlisting language="C">
+class NoEntityReader : public QXmlSimpleReader {
+  NoEntityHandler handler;
+public:
+  NoEntityReader();
+  void setDeclHandler(QXmlDeclHandler *);
+};
+
+ NoEntityReader::NoEntityReader()
+{
+  QXmlSimpleReader::setDeclHandler(&#38;handler);
+  setFeature("http://xml.org/sax/features/namespaces", true);
+  setFeature("http://xml.org/sax/features/namespace-prefixes", false);
+ }
+
+void
+NoEntityReader::setDeclHandler(QXmlDeclHandler *)
+{
+  // Ignore the handler which was passed in.
+}
+</programlisting>

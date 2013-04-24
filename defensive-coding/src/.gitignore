@@ -3,5 +3,6 @@
 /TLS-Client-NSS
 /TLS-Client-OpenSSL
 /XML-Parser-Expat
+/XML-Parser-Qt
 *.class
 *.o
