@@ -1,8 +1,12 @@
 .PHONY: build-sources
 
 CC = gcc
+CXX = g++
 CWARNFLAGS = -Wall -W -Wno-unused-parameter -Werror=implicit-function-declaration
+CXXWARNFLAGS = -Wall -W
 CFLAGS = -std=gnu99 -O2 $(CWARNFLAGS) -g
+CXXFLAGS = -std=c++03 -O2 $(CXXWARNFLAGS) -g
+LDFLAGS = -g
 
 # List files which should only be compiled for syntax checking.
 compile_only += C-Pointers-remaining
@@ -42,11 +46,14 @@ clean-src:
 src/%.o: src/%.c
 	$(CC) $(CFLAGS) $(DEFINES) $(CFLAGS_$(basename $(notdir $@))) -c $< -o $@
 
+src/%.o: src/%.cpp
+	$(CXX) $(CXXFLAGS) $(DEFINES) $(CFLAGS_$(basename $(notdir $@))) -c $< -o $@
+
 src/%.class: src/%.java
 	javac -source 1.6 -target 1.6 -Xlint:all $^
 
 src/%: src/%.o
-	$(CC) $^ -o $@ $(LIBS_$(notdir $@))
+	$(CXX) $(LDFLAGS) $^ -o $@ $(LIBS_$(notdir $@))
 
 src/TLS-Client-GNUTLS: src/tcp_connect.o
 src/TLS-Client-OpenSSL: src/tcp_connect.o src/x509_check_host.o
