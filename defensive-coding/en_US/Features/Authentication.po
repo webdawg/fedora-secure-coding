@@ -1,0 +1,231 @@
+# AUTHOR <EMAIL@ADDRESS>, YEAR.
+# 
+# Translators:
+msgid ""
+msgstr ""
+"Project-Id-Version: Defensive Coding Guide\n"
+"POT-Creation-Date: 2013-03-12T03:19:44\n"
+"PO-Revision-Date: 2013-03-19 15:31+0000\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: None\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: en_US\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#. Tag: title
+#, no-c-format
+msgid "Authentication and Authorization"
+msgstr "Authentication and Authorization"
+
+#. Tag: title
+#, no-c-format
+msgid "Authenticating servers"
+msgstr "Authenticating servers"
+
+#. Tag: para
+#, no-c-format
+msgid ""
+"When connecting to a server, a client has to make sure that it is actually "
+"talking to the server it expects. There are two different aspects, securing "
+"the network path, and making sure that the expected user runs the process on"
+" the target host. There are several ways to ensure that:"
+msgstr "When connecting to a server, a client has to make sure that it is actually talking to the server it expects. There are two different aspects, securing the network path, and making sure that the expected user runs the process on the target host. There are several ways to ensure that:"
+
+#. Tag: para
+#, no-c-format
+msgid ""
+"The server uses a TLS certificate which is valid according to the web "
+"browser public key infrastructure, and the client verifies the certificate "
+"and the host name."
+msgstr "The server uses a TLS certificate which is valid according to the web browser public key infrastructure, and the client verifies the certificate and the host name."
+
+#. Tag: para
+#, no-c-format
+msgid ""
+"The server uses a TLS certificate which is expectedby the client (perhaps it"
+" is stored in a configuration file read by the client). In this case, no "
+"host name checking is required."
+msgstr "The server uses a TLS certificate which is expectedby the client (perhaps it is stored in a configuration file read by the client). In this case, no host name checking is required."
+
+#. Tag: para
+#, no-c-format
+msgid ""
+"On Linux, UNIX domain sockets (of the <literal>PF_UNIX</literal> protocol "
+"family, sometimes called <literal>PF_LOCAL</literal>) are restricted by file"
+" system permissions. If the server socket path is not world-writable, the "
+"server identity cannot be spoofed by local users."
+msgstr "On Linux, UNIX domain sockets (of the <literal>PF_UNIX</literal> protocol family, sometimes called <literal>PF_LOCAL</literal>) are restricted by file system permissions. If the server socket path is not world-writable, the server identity cannot be spoofed by local users."
+
+#. Tag: para
+#, no-c-format
+msgid ""
+"Port numbers less than 1024 (<emphasis>trusted ports</emphasis>) can only be"
+" used by <literal>root</literal>, so if a UDP or TCP server is running on "
+"the local host and it uses a trusted port, its identity is assured. (Not all"
+" operating systems enforce the trusted ports concept, and the network might "
+"not be trusted, so it is only useful on the local system.)"
+msgstr "Port numbers less than 1024 (<emphasis>trusted ports</emphasis>) can only be used by <literal>root</literal>, so if a UDP or TCP server is running on the local host and it uses a trusted port, its identity is assured. (Not all operating systems enforce the trusted ports concept, and the network might not be trusted, so it is only useful on the local system.)"
+
+#. Tag: para
+#, no-c-format
+msgid ""
+"TLS (<xref linkend=\"chap-Defensive_Coding-TLS\" />) is the recommended way "
+"for securing connections over untrusted networks."
+msgstr "TLS (<xref linkend=\"chap-Defensive_Coding-TLS\" />) is the recommended way for securing connections over untrusted networks."
+
+#. Tag: para
+#, no-c-format
+msgid ""
+"If the server port number is 1024 is higher, a local user can impersonate "
+"the process by binding to this socket, perhaps after crashing the real "
+"server by exploiting a denial-of-service vulnerability."
+msgstr "If the server port number is 1024 is higher, a local user can impersonate the process by binding to this socket, perhaps after crashing the real server by exploiting a denial-of-service vulnerability."
+
+#. Tag: title
+#, no-c-format
+msgid "Host-based authentication"
+msgstr "Host-based authentication"
+
+#. Tag: para
+#, no-c-format
+msgid ""
+"Host-based authentication uses access control lists (ACLs) to accept or deny"
+" requests from clients. Thsis authentication method comes in two flavors: "
+"IP-based (or, more generally, address-based) and name-based (with the name "
+"coming from DNS or <filename>/etc/hosts</filename>). IP-based ACLs often use"
+" prefix notation to extend access to entire subnets. Name-based ACLs "
+"sometimes use wildcards for adding groups of hosts (from entire DNS "
+"subtrees). (In the SSH context, host-based authentication means something "
+"completely different and is not covered in this section.)"
+msgstr "Host-based authentication uses access control lists (ACLs) to accept or deny requests from clients. Thsis authentication method comes in two flavors: IP-based (or, more generally, address-based) and name-based (with the name coming from DNS or <filename>/etc/hosts</filename>). IP-based ACLs often use prefix notation to extend access to entire subnets. Name-based ACLs sometimes use wildcards for adding groups of hosts (from entire DNS subtrees). (In the SSH context, host-based authentication means something completely different and is not covered in this section.)"
+
+#. Tag: para
+#, no-c-format
+msgid ""
+"Host-based authentication trust the network and may not offer sufficient "
+"granularity, so it has to be considered a weak form of authentication. On "
+"the other hand, IP-based authentication can be made extremely robust and can"
+" be applied very early in input processing, so it offers an opportunity for "
+"significantly reducing the number of potential attackers for many services."
+msgstr "Host-based authentication trust the network and may not offer sufficient granularity, so it has to be considered a weak form of authentication. On the other hand, IP-based authentication can be made extremely robust and can be applied very early in input processing, so it offers an opportunity for significantly reducing the number of potential attackers for many services."
+
+#. Tag: para
+#, no-c-format
+msgid ""
+"The names returned by <function>gethostbyaddr</function> and "
+"<function>getnameinfo</function> functions cannot be trusted. (DNS PTR "
+"records can be set to arbitrary values, not just names belong to the address"
+" owner.) If these names are used for ACL matching, a forward lookup using "
+"<function>gethostbyaddr</function> or <function>getaddrinfo</function> has "
+"to be performed. The name is only valid if the original address is found "
+"among the results of the forward lookup (<emphasis>double-reverse "
+"lookup</emphasis>)."
+msgstr "The names returned by <function>gethostbyaddr</function> and <function>getnameinfo</function> functions cannot be trusted. (DNS PTR records can be set to arbitrary values, not just names belong to the address owner.) If these names are used for ACL matching, a forward lookup using <function>gethostbyaddr</function> or <function>getaddrinfo</function> has to be performed. The name is only valid if the original address is found among the results of the forward lookup (<emphasis>double-reverse lookup</emphasis>)."
+
+#. Tag: para
+#, no-c-format
+msgid ""
+"An empty ACL should deny all access (deny-by-default). If empty ACLs permits"
+" all access, configuring any access list must switch to deny-by-default for "
+"all unconfigured protocols, in both name-based and address-based variants."
+msgstr "An empty ACL should deny all access (deny-by-default). If empty ACLs permits all access, configuring any access list must switch to deny-by-default for all unconfigured protocols, in both name-based and address-based variants."
+
+#. Tag: para
+#, no-c-format
+msgid ""
+"Similarly, if an address or name is not matched by the list, it should be "
+"denied. However, many implementations behave differently, so the actual "
+"behavior must be documented properly."
+msgstr "Similarly, if an address or name is not matched by the list, it should be denied. However, many implementations behave differently, so the actual behavior must be documented properly."
+
+#. Tag: para
+#, no-c-format
+msgid ""
+"IPv6 addresses can embed IPv4 addresses. There is no universally correct way"
+" to deal with this ambiguity. The behavior of the ACL implementation should "
+"be documented."
+msgstr "IPv6 addresses can embed IPv4 addresses. There is no universally correct way to deal with this ambiguity. The behavior of the ACL implementation should be documented."
+
+#. Tag: title
+#, no-c-format
+msgid "UNIX domain socket authentication"
+msgstr "UNIX domain socket authentication"
+
+#. Tag: para
+#, no-c-format
+msgid ""
+"UNIX domain sockets (with address family <literal>AF_UNIX</literal> or "
+"<literal>AF_LOCAL</literal>) are restricted to the local host and offer a "
+"special authentication mechanism: credentials passing."
+msgstr "UNIX domain sockets (with address family <literal>AF_UNIX</literal> or <literal>AF_LOCAL</literal>) are restricted to the local host and offer a special authentication mechanism: credentials passing."
+
+#. Tag: para
+#, no-c-format
+msgid ""
+"Nowadays, most systems support the <literal>SO_PEERCRED</literal> (Linux) or"
+" <literal>LOCAL_PEERCRED</literal> (FreeBSD) socket options, or the "
+"<function>getpeereid</function> (other BSDs, MacOS X). These interfaces "
+"provide direct access to the (effective) user ID on the other end of a "
+"domain socket connect, without cooperation from the other end."
+msgstr "Nowadays, most systems support the <literal>SO_PEERCRED</literal> (Linux) or <literal>LOCAL_PEERCRED</literal> (FreeBSD) socket options, or the <function>getpeereid</function> (other BSDs, MacOS X). These interfaces provide direct access to the (effective) user ID on the other end of a domain socket connect, without cooperation from the other end."
+
+#. Tag: para
+#, no-c-format
+msgid ""
+"Historically, credentials passing was implemented using ancillary data in "
+"the <function>sendmsg</function> and <function>recvmsg</function> functions."
+" On some systems, only credentials data that the peer has explicitly sent "
+"can be received, and the kernel checks the data for correctness on the "
+"sending side. This means that both peers need to deal with ancillary data. "
+"Compared to that, the modern interfaces are easier to use. Both sets of "
+"interfaces vary considerably among UNIX-like systems, unfortunately."
+msgstr "Historically, credentials passing was implemented using ancillary data in the <function>sendmsg</function> and <function>recvmsg</function> functions. On some systems, only credentials data that the peer has explicitly sent can be received, and the kernel checks the data for correctness on the sending side. This means that both peers need to deal with ancillary data. Compared to that, the modern interfaces are easier to use. Both sets of interfaces vary considerably among UNIX-like systems, unfortunately."
+
+#. Tag: para
+#, no-c-format
+msgid ""
+"If you want to authenticate based on supplementary groups, you should obtain"
+" the user ID using one of these methods, and look up the list of "
+"supplementary groups using <function>getpwuid</function> (or "
+"<function>getpwuid_r</function>) and <function>getgrouplist</function>. "
+"Using the PID and information from <filename>/proc/PID/status</filename> is "
+"prone to race conditions and insecure."
+msgstr "If you want to authenticate based on supplementary groups, you should obtain the user ID using one of these methods, and look up the list of supplementary groups using <function>getpwuid</function> (or <function>getpwuid_r</function>) and <function>getgrouplist</function>. Using the PID and information from <filename>/proc/PID/status</filename> is prone to race conditions and insecure."
+
+#. Tag: title
+#, no-c-format
+msgid "<literal>AF_NETLINK</literal> authentication of origin"
+msgstr "<literal>AF_NETLINK</literal> authentication of origin"
+
+#. Tag: para
+#, no-c-format
+msgid ""
+"Netlink messages are used as a high-performance data transfer mechanism "
+"between the kernel and the userspace. Traditionally, they are used to "
+"exchange information related to the network statck, such as routing table "
+"entries."
+msgstr "Netlink messages are used as a high-performance data transfer mechanism between the kernel and the userspace. Traditionally, they are used to exchange information related to the network statck, such as routing table entries."
+
+#. Tag: para
+#, no-c-format
+msgid ""
+"When processing Netlink messages from the kernel, it is important to check "
+"that these messages actually originate from the kernel, by checking that the"
+" port ID (or PID) field <literal>nl_pid</literal> in the "
+"<literal>sockaddr_nl</literal> structure is <literal>0</literal>. (This "
+"structure can be obtained using <function>recvfrom</function> or "
+"<function>recvmsg</function>, it is different from the "
+"<literal>nlmsghdr</literal> structure.) The kernel does not prevent other "
+"processes from sending unicast Netlink messages, but the "
+"<literal>nl_pid</literal> field in the sender's socket address will be non-"
+"zero in such cases."
+msgstr "When processing Netlink messages from the kernel, it is important to check that these messages actually originate from the kernel, by checking that the port ID (or PID) field <literal>nl_pid</literal> in the <literal>sockaddr_nl</literal> structure is <literal>0</literal>. (This structure can be obtained using <function>recvfrom</function> or <function>recvmsg</function>, it is different from the <literal>nlmsghdr</literal> structure.) The kernel does not prevent other processes from sending unicast Netlink messages, but the <literal>nl_pid</literal> field in the sender's socket address will be non-zero in such cases."
+
+#. Tag: para
+#, no-c-format
+msgid ""
+"Applications should not use <literal>AF_NETLINK</literal> sockets as an IPC "
+"mechanism among processes, but prefer UNIX domain sockets for this tasks."
+msgstr "Applications should not use <literal>AF_NETLINK</literal> sockets as an IPC mechanism among processes, but prefer UNIX domain sockets for this tasks."

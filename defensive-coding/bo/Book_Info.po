@@ -1,0 +1,38 @@
+# AUTHOR <EMAIL@ADDRESS>, YEAR.
+# 
+# Translators:
+msgid ""
+msgstr ""
+"Project-Id-Version: Defensive Coding Guide\n"
+"POT-Creation-Date: 2013-03-12T03:19:44\n"
+"PO-Revision-Date: 2013-03-12 04:19+0000\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: Tibetan <trans-bo@lists.fedoraproject.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: bo\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#. Tag: title
+#, no-c-format
+msgid "Defensive Coding"
+msgstr ""
+
+#. Tag: subtitle
+#, no-c-format
+msgid "A Guide to Improving Software Security"
+msgstr ""
+
+#. Tag: productname
+#, no-c-format
+msgid "Fedora Security Team"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid ""
+"This document provides guidelines for improving software security through "
+"secure coding. It covers common programming languages and libraries, and "
+"focuses on concrete recommendations."
+msgstr ""

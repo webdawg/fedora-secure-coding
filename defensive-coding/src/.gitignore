@@ -1,0 +1,8 @@
+/C-String-Functions
+/TLS-Client-GNUTLS
+/TLS-Client-NSS
+/TLS-Client-OpenSSL
+/XML-Parser-Expat
+/XML-Parser-Qt
+*.class
+*.o

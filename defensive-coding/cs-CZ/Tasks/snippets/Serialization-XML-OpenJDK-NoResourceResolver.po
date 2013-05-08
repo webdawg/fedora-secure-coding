@@ -1,0 +1,32 @@
+# AUTHOR <EMAIL@ADDRESS>, YEAR.
+# 
+# Translators:
+msgid ""
+msgstr ""
+"Project-Id-Version: Defensive Coding Guide\n"
+"POT-Creation-Date: 2013-03-12T03:19:45\n"
+"PO-Revision-Date: 2013-03-19 15:29+0000\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: Czech (http://www.transifex.com/projects/p/fedora/language/cs/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: cs\n"
+"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+
+#. Tag: programlisting
+#, no-c-format
+msgid ""
+"\n"
+"class NoResourceResolver implements LSResourceResolver {\n"
+"    @Override\n"
+"    public LSInput resolveResource(String type, String namespaceURI,\n"
+"            String publicId, String systemId, String baseURI) {\n"
+"        // Throwing an exception stops validation.\n"
+"        throw new RuntimeException(String.format(\n"
+"                \"resolution attempt: type=%s namespace=%s \" +\n"
+"                \"publicId=%s systemId=%s baseURI=%s\",\n"
+"                type, namespaceURI, publicId, systemId, baseURI));\n"
+"    }\n"
+"}\n"
+msgstr ""

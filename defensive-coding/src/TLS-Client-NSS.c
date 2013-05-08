@@ -114,9 +114,9 @@ main(int argc, char **argv)
   };
 
   // Check if the current policy allows any strong ciphers.  If it
-  // doesn't, switch to the "domestic" (unrestricted) policy.  This is
-  // not thread-safe and has global impact.  Consequently, we only do
-  // it if absolutely necessary.
+  // doesn't, set the cipher suite policy.  This is not thread-safe
+  // and has global impact.  Consequently, we only do it if absolutely
+  // necessary.
   int found_good_cipher = 0;
   for (const PRUint16 *p = good_ciphers; *p != SSL_NULL_WITH_NULL_NULL;
        ++p) {
@@ -188,32 +188,6 @@ main(int argc, char **argv)
       fprintf(stderr, "error: set SSL_ENABLE_DEFLATE error %d: %s\n",
 	      err, PR_ErrorToName(err));
       exit(1);
-    }
-
-    // Disable all ciphers (except RC4-based ciphers, for backwards
-    // compatibility).
-    const PRUint16 *const ciphers = SSL_GetImplementedCiphers();
-    for (unsigned i = 0; i < SSL_GetNumImplementedCiphers(); i++) {
-      if (ciphers[i] != SSL_RSA_WITH_RC4_128_SHA
-	  && ciphers[i] != SSL_RSA_WITH_RC4_128_MD5) {
-	if (SSL_CipherPrefSet(model, ciphers[i], PR_FALSE) != SECSuccess) {
-	  const PRErrorCode err = PR_GetError();
-	  fprintf(stderr, "error: disable cipher %u: error %d: %s\n",
-		  (unsigned)ciphers[i], err, PR_ErrorToName(err));
-	  exit(1);
-	}
-      }
-    }
-
-    // Enable the strong ciphers.
-    for (const PRUint16 *p = good_ciphers; *p != SSL_NULL_WITH_NULL_NULL;
-	 ++p) {
-      if (SSL_CipherPrefSet(model, *p, PR_TRUE) != SECSuccess) {
-	const PRErrorCode err = PR_GetError();
-	fprintf(stderr, "error: enable cipher %u: error %d: %s\n",
-		(unsigned)*p, err, PR_ErrorToName(err));
-	exit(1);
-      }
     }
 
     // Allow overriding invalid certificate.

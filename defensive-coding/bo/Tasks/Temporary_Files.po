@@ -1,0 +1,309 @@
+# AUTHOR <EMAIL@ADDRESS>, YEAR.
+# 
+# Translators:
+msgid ""
+msgstr ""
+"Project-Id-Version: Defensive Coding Guide\n"
+"POT-Creation-Date: 2013-03-12T03:19:45\n"
+"PO-Revision-Date: 2013-03-19 15:29+0000\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: Tibetan <trans-bo@lists.fedoraproject.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: bo\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#. Tag: title
+#, no-c-format
+msgid "Temporary files"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid ""
+"In this chapter, we describe how to create temporary files and directories, "
+"how to remove them, and how to work with programs which do not create files "
+"in ways that a safe with a shared directory for temporary files. General "
+"file system manipulation is treated in a separate chapter, <xref linkend"
+"=\"chap-Defensive_Coding-Tasks-File_System\" />."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Secure creation of temporary files has four different aspects."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid ""
+"The location of the directory for temporary files must be obtained in a "
+"secure manner (that is, untrusted environment variables must be ignored, see"
+" <xref linkend=\"sect-Defensive_Coding-Tasks-secure_getenv\" />)."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid ""
+"A new file must be created. Reusing an existing file must be avoided (the "
+"<filename class=\"directory\">/tmp</filename> race condition). This is "
+"tricky because traditionally, system-wide temporary directories shared by "
+"all users are used."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid ""
+"The file must be created in a way that makes it impossible for other users "
+"to open it."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "The descriptor for the temporary file should not leak to subprocesses."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "All functions mentioned below will take care of these aspects."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid ""
+"Traditionally, temporary files are often used to reduce memory usage of "
+"programs. More and more systems use RAM-based file systems such as "
+"<literal>tmpfs</literal> for storing temporary files, to increase "
+"performance and decrease wear on Flash storage. As a result, spooling data "
+"to temporary files does not result in any memory savings, and the related "
+"complexity can be avoided if the data is kept in process memory."
+msgstr ""
+
+#. Tag: title
+#, no-c-format
+msgid "Obtaining the location of temporary directory"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid ""
+"Some functions below need the location of a directory which stores temporary"
+" files. For C/C++ programs, use the following steps to obtain that "
+"directory:"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid ""
+"Use <function>secure_getenv</function> to obtain the value of the "
+"<literal>TMPDIR</literal> environment variable. If it is set, convert the "
+"path to a fully-resolved absolute path, using <literal>realpath(path, "
+"NULL)</literal>. Check if the new path refers to a directory and is "
+"writeable. In this case, use it as the temporary directory."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Fall back to <filename class=\"directory\">/tmp</filename>."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid ""
+"In Python, you can use the <varname>tempfile.tempdir</varname> variable."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid ""
+"Java does not support SUID/SGID programs, so you can use the "
+"<function>java.lang.System.getenv(String)</function> method to obtain the "
+"value of the <literal>TMPDIR</literal> environment variable, and follow the "
+"two steps described above. (Java's default directory selection does not "
+"honor <literal>TMPDIR</literal>.)"
+msgstr ""
+
+#. Tag: title
+#, no-c-format
+msgid "Named temporary files"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid ""
+"The <function>mkostemp</function> function creates a named temporary file. "
+"You should specify the <literal>O_CLOEXEC</literal> flag to avoid file "
+"descriptor leaks to subprocesses. (Applications which do not use multiple "
+"threads can also use <function>mkstemp</function>, but libraries should use "
+"<function>mkostemp</function>.) For determining the directory part of the "
+"file name pattern, see <xref linkend=\"chap-Defensive_Coding-Tasks-"
+"Temporary_Files-Location\" />."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid ""
+"The file is not removed automatically. It is not safe to rename or delete "
+"the file before processing, or transform the name in any way (for example, "
+"by adding a file extension). If you need multiple temporary files, call "
+"<function>mkostemp</function> multiple times. Do not create additional file "
+"names derived from the name provided by a previous "
+"<function>mkostemp</function> call. However, it is safe to close the "
+"descriptor returned by <function>mkostemp</function> and reopen the file "
+"using the generated name."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid ""
+"The Python class <literal>tempfile.NamedTemporaryFile</literal> provides "
+"similar functionality, except that the file is deleted automatically by "
+"default. Note that you may have to use the <literal>file</literal> attribute"
+" to obtain the actual file object because some programming interfaces cannot"
+" deal with file-like objects. The C function <function>mkostemp</function> "
+"is also available as <function>tempfile.mkstemp</function>."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid ""
+"In Java, you can use the <function>java.io.File.createTempFile(String, "
+"String, File)</function> function, using the temporary file location "
+"determined according to <xref linkend=\"chap-Defensive_Coding-Tasks-"
+"Temporary_Files-Location\" />. Do not use "
+"<function>java.io.File.deleteOnExit()</function> to delete temporary files, "
+"and do not register a shutdown hook for each temporary file you create. In "
+"both cases, the deletion hint cannot be removed from the system if you "
+"delete the temporary file prior to termination of the VM, causing a memory "
+"leak."
+msgstr ""
+
+#. Tag: title
+#, no-c-format
+msgid "Temporary files without names"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid ""
+"The <function>tmpfile</function> function creates a temporary file and "
+"immediately deletes it, while keeping the file open. As a result, the file "
+"lacks a name and its space is deallocated as soon as the file descriptor is "
+"closed (including the implicit close when the process terminates). This "
+"avoids cluttering the temporary directory with orphaned files."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid ""
+"Alternatively, if the maximum size of the temporary file is known "
+"beforehand, the <function>fmemopen</function> function can be used to create"
+" a <literal>FILE *</literal> object which is backed by memory."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid ""
+"In Python, unnamed temporary files are provided by the "
+"<literal>tempfile.TemporaryFile</literal> class, and the "
+"<literal>tempfile.SpooledTemporaryFile</literal> class provides a way to "
+"avoid creation of small temporary files."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Java does not support unnamed temporary files."
+msgstr ""
+
+#. Tag: title
+#, no-c-format
+msgid "Temporary directories"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid ""
+"The <function>mkdtemp</function> function can be used to create a temporary "
+"directory. (For determining the directory part of the file name pattern, see"
+" <xref linkend=\"chap-Defensive_Coding-Tasks-Temporary_Files-Location\" />.)"
+" The directory is not automatically removed. In Python, this function is "
+"available as <function>tempfile.mkdtemp</function>. In Java 7, temporary "
+"directories can be created using the "
+"<function>java.nio.file.Files.createTempDirectory(Path, String, "
+"FileAttribute...)</function> function."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid ""
+"When creating files in the temporary directory, use automatically generated "
+"names, e.g., derived from a sequential counter. Files with externally "
+"provided names could be picked up in unexpected contexts, and crafted names "
+"could actually point outside of the tempoary directory (due to "
+"<emphasis>directory traversal</emphasis>)."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid ""
+"Removing a directory tree in a completely safe manner is complicated. Unless"
+" there are overriding performance concerns, the "
+"<application>rm</application> program should be used, with the "
+"<option>-rf</option> and <option>--</option> options."
+msgstr ""
+
+#. Tag: title
+#, no-c-format
+msgid "Compensating for unsafe file creation"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid ""
+"There are two ways to make a function or program which excepts a file name "
+"safe for use with temporary files. See <xref linkend=\"sect-"
+"Defensive_Coding-Tasks-Processes-Creation\" />, for details on subprocess "
+"creation."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid ""
+"Create a temporary directory and place the file there. If possible, run the "
+"program in a subprocess which uses the temporary directory as its current "
+"directory, with a restricted environment. Use generated names for all files "
+"in that temporary directory. (See <xref linkend=\"chap-Defensive_Coding-"
+"Tasks-Temporary_Directory\" />.)"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid ""
+"Create the temporary file and pass the generated file name to the function "
+"or program. This only works if the function or program can cope with a zero-"
+"length existing file. It is safe only under additional assumptions:"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid ""
+"The function or program must not create additional files whose name is "
+"derived from the specified file name or are otherwise predictable."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "The function or program must not delete the file before processing it."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "It must not access any existing files in the same directory."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid ""
+"It is often difficult to check whether these additional assumptions are "
+"matched, therefore this approach is not recommended."
+msgstr ""

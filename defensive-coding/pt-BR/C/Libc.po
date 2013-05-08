@@ -1,0 +1,278 @@
+# AUTHOR <EMAIL@ADDRESS>, YEAR.
+# 
+# Translators:
+msgid ""
+msgstr ""
+"Project-Id-Version: Defensive Coding Guide\n"
+"POT-Creation-Date: 2013-03-12T03:19:44\n"
+"PO-Revision-Date: 2013-03-19 15:30+0000\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: Portuguese (Brazil) <trans-pt_br@lists.fedoraproject.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: pt_BR\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#. Tag: title
+#, no-c-format
+msgid "The C standard library"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid ""
+"Parts of the C standard library (and the UNIX and GNU extensions) are "
+"difficult to use, so you shoud avoid them."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid ""
+"Please check the applicable documentation before using the recommended "
+"replacements. Many of these functions allocate buffers using "
+"<function>malloc</function> which your code must deallocate explicitly using"
+" <function>free</function>."
+msgstr ""
+
+#. Tag: title
+#, no-c-format
+msgid "Absolutely banned interfaces"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid ""
+"The functions listed below must not be used because they are almost always "
+"unsafe. Use the indicated replacements instead."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "<function>gets</function> ⟶ <function>fgets</function>"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid ""
+"<function>getwd</function> ⟶ <function>getcwd</function> or "
+"<function>get_current_dir_name</function>"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "<function>readdir_r</function> ⟶ <function>readdir</function>"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid ""
+"<function>realpath</function> (with a non-NULL second parameter) ⟶ "
+"<function>realpath</function> with NULL as the second parameter, or "
+"<function>canonicalize_file_name</function>"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid ""
+"The constants listed below must not be used, either. Instead, code must "
+"allocate memory dynamically and use interfaces with length checking."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid ""
+"<literal>NAME_MAX</literal> (limit not actually enforced by the kernel)"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid ""
+"<literal>PATH_MAX</literal> (limit not actually enforced by the kernel)"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid ""
+"<literal>_PC_NAME_MAX</literal> (This limit, returned by the "
+"<function>pathconf</function> function, is not enforced by the kernel.)"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid ""
+"<literal>_PC_PATH_MAX</literal> (This limit, returned by the "
+"<function>pathconf</function> function, is not enforced by the kernel.)"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "The following structure members must not be used."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid ""
+"<literal>f_namemax</literal> in <literal>struct statvfs</literal> (limit not"
+" actually enforced by the kernel, see <literal>_PC_NAME_MAX</literal> above)"
+msgstr ""
+
+#. Tag: title
+#, no-c-format
+msgid "Functions to avoid"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid ""
+"The following string manipulation functions can be used securely in "
+"principle, but their use should be avoided because they are difficult to use"
+" correctly. Calls to these functions can be replaced with "
+"<function>asprintf</function> or <function>vasprintf</function>. (For non-"
+"GNU targets, these functions are available from Gnulib.) In some cases, the "
+"<function>snprintf</function> function might be a suitable replacement, see "
+"<xref linkend=\"sect-Defensive_Coding-C-String-Functions-Length\" />."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "<function>sprintf</function>"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "<function>strcat</function>"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "<function>strcpy</function>"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "<function>vsprintf</function>"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Use the indicated replacements for the functions below."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid ""
+"<function>alloca</function> ⟶ <function>malloc</function> and "
+"<function>free</function> (see <xref linkend=\"sect-Defensive_Coding-C"
+"-Allocators-alloca\" />)"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid ""
+"<function>putenv</function> ⟶ explicit <varname>envp</varname> argument in "
+"process creation (see <xref linkend=\"sect-Defensive_Coding-Tasks-Processes-"
+"environ\" />)"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid ""
+"<function>setenv</function> ⟶ explicit <varname>envp</varname> argument in "
+"process creation (see <xref linkend=\"sect-Defensive_Coding-Tasks-Processes-"
+"environ\" />)"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid ""
+"<function>strdupa</function> ⟶ <function>strdup</function> and "
+"<function>free</function> (see <xref linkend=\"sect-Defensive_Coding-C"
+"-Allocators-alloca\" />)"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid ""
+"<function>strndupa</function> ⟶ <function>strndup</function> and "
+"<function>free</function> (see <xref linkend=\"sect-Defensive_Coding-C"
+"-Allocators-alloca\" />)"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid ""
+"<function>system</function> ⟶ <function>posix_spawn</function> or "
+"<function>fork</function>/<function>execve</function>/ (see <xref linkend"
+"=\"sect-Defensive_Coding-Tasks-Processes-execve\" />)"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid ""
+"<function>unsetenv</function> ⟶ explicit <varname>envp</varname> argument in"
+" process creation (see <xref linkend=\"sect-Defensive_Coding-Tasks-"
+"Processes-environ\" />)"
+msgstr ""
+
+#. Tag: title
+#, no-c-format
+msgid "String Functions With Explicit Length Arguments"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid ""
+"The <function>snprintf</function> function provides a way to construct a "
+"string in a statically-sized buffer. (If the buffer size is dynamic, use "
+"<function>asprintf</function> instead.)"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid ""
+"The second argument to the <function>snprintf</function> should always be "
+"the size of the buffer in the first argument (which should be a character "
+"array). Complex pointer and length arithmetic can introduce errors and "
+"nullify the security benefits of <function>snprintf</function>. If you need "
+"to construct a string iteratively, by repeatedly appending fragments, "
+"consider constructing the string on the heap, increasing the buffer with "
+"<function>realloc</function> as needed. (<function>snprintf</function> does "
+"not support overlapping the result buffer with argument strings.)"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid ""
+"If you use <function>vsnprintf</function> (or <function>snprintf</function>)"
+" with a format string which is not a constant, but a function argument, it "
+"is important to annotate the function with a <literal>format</literal> "
+"function attribute, so that GCC can warn about misuse of your function (see "
+"<xref linkend=\"ex-Defensive_Coding-C-String-Functions-format-Attribute\" "
+"/>)."
+msgstr ""
+
+#. Tag: title
+#, no-c-format
+msgid "The <literal>format</literal> function attribute"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid ""
+"There are other functions which operator on NUL-terminated strings and take "
+"a length argument which affects the number of bytes written to the "
+"destination: <function>strncpy</function>, <function>strncat</function>, and"
+" <function>stpncpy</function>. These functions do not ensure that the result"
+" string is NUL-terminated. For <function>strncpy</function>, NUL termination"
+" can be added this way:"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid ""
+"Some systems support <function>strlcpy</function> and "
+"<function>strlcat</function> functions which behave this way, but these "
+"functions are not part of GNU libc. Using <function>snprintf</function> with"
+" a suitable format string is a simple (albeit slightly slower) replacement."
+msgstr ""

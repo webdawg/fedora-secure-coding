@@ -1,0 +1,39 @@
+# AUTHOR <EMAIL@ADDRESS>, YEAR.
+# 
+# Translators:
+# Jérôme Fenal <jfenal@gmail.com>, 2013
+msgid ""
+msgstr ""
+"Project-Id-Version: Defensive Coding Guide\n"
+"POT-Creation-Date: 2013-03-12T03:19:44\n"
+"PO-Revision-Date: 2013-03-16 14:20+0000\n"
+"Last-Translator: Jérôme Fenal <jfenal@gmail.com>\n"
+"Language-Team: French <trans-fr@lists.fedoraproject.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: fr\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#. Tag: title
+#, no-c-format
+msgid "Defensive Coding"
+msgstr "Développement défensif"
+
+#. Tag: subtitle
+#, no-c-format
+msgid "A Guide to Improving Software Security"
+msgstr "Un guide visant à améliorer la sécurité des logiciels"
+
+#. Tag: productname
+#, no-c-format
+msgid "Fedora Security Team"
+msgstr "Équipe Sécurité Fedora"
+
+#. Tag: para
+#, no-c-format
+msgid ""
+"This document provides guidelines for improving software security through "
+"secure coding. It covers common programming languages and libraries, and "
+"focuses on concrete recommendations."
+msgstr "Ce document fournit des conseils visant à améliorer la sécurité des logiciels par un développement prenant en compte la sécurité. Cela couvre les langages et bibliothèques les plus courants, et se concentre sur des recommandations concrètes."

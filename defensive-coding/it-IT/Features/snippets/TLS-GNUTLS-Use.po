@@ -1,0 +1,38 @@
+# AUTHOR <EMAIL@ADDRESS>, YEAR.
+# 
+# Translators:
+msgid ""
+msgstr ""
+"Project-Id-Version: Defensive Coding Guide\n"
+"POT-Creation-Date: 2013-03-12T03:19:44\n"
+"PO-Revision-Date: 2013-03-19 15:33+0000\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: Italian <trans-it@lists.fedoraproject.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: it\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#. Tag: programlisting
+#, no-c-format
+msgid ""
+"\n"
+"char buf[4096];\n"
+"snprintf(buf, sizeof(buf), \"GET / HTTP/1.0\\r\n"
+"Host: %s\\r\n"
+"\\r\n"
+"\", host);\n"
+"ret = gnutls_record_send(session, buf, strlen(buf));\n"
+"if (ret &lt; 0) {\n"
+"  fprintf(stderr, \"error: gnutls_record_send: %s\n"
+"\", gnutls_strerror(ret));\n"
+"  exit(1);\n"
+"}\n"
+"ret = gnutls_record_recv(session, buf, sizeof(buf));\n"
+"if (ret &lt; 0) {\n"
+"  fprintf(stderr, \"error: gnutls_record_recv: %s\n"
+"\", gnutls_strerror(ret));\n"
+"  exit(1);\n"
+"}\n"
+msgstr ""

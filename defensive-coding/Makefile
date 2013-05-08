@@ -8,7 +8,8 @@ build: build-src build-manual
 
 build-snippets:
 	for p in en-US/* ; do test -d $$p && mkdir -p $$p/snippets; done
-	python scripts/split-snippets.py . src/*.c src/*.java src/*.py
+	python scripts/split-snippets.py . \
+	  src/*.c src/*.cpp src/*.java src/*.py
 
 build-manual: build-snippets
 	publican build --format=html,epub,pdf --lang=en-US

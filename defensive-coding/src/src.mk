@@ -1,8 +1,12 @@
 .PHONY: build-sources
 
 CC = gcc
+CXX = g++
 CWARNFLAGS = -Wall -W -Wno-unused-parameter -Werror=implicit-function-declaration
+CXXWARNFLAGS = -Wall -W
 CFLAGS = -std=gnu99 -O2 $(CWARNFLAGS) -g
+CXXFLAGS = -std=c++03 -O2 $(CXXWARNFLAGS) -g
+LDFLAGS = -g
 
 # List files which should only be compiled for syntax checking.
 compile_only += C-Pointers-remaining
@@ -24,6 +28,8 @@ CFLAGS_TLS-Client-NSS = -I/usr/include/nspr4 -I/usr/include/nss3
 LIBS_TLS-Client-NSS = -lnss3 -lnspr4 -lssl3
 compile_and_link += XML-Parser-Expat
 LIBS_XML-Parser-Expat = -lexpat
+compile_and_link += XML-Parser-Qt
+LIBS_XML-Parser-Qt = -lQtCore -lQtXml
 
 # Define preprocessor symbols if certain functions exist.
 CHECK_FUNCTION = crypto/X509_check_host/-DHAVE_X509_CHECK_HOST \
@@ -42,11 +48,14 @@ clean-src:
 src/%.o: src/%.c
 	$(CC) $(CFLAGS) $(DEFINES) $(CFLAGS_$(basename $(notdir $@))) -c $< -o $@
 
+src/%.o: src/%.cpp
+	$(CXX) $(CXXFLAGS) $(DEFINES) $(CFLAGS_$(basename $(notdir $@))) -c $< -o $@
+
 src/%.class: src/%.java
 	javac -source 1.6 -target 1.6 -Xlint:all $^
 
 src/%: src/%.o
-	$(CC) $^ -o $@ $(LIBS_$(notdir $@))
+	$(CXX) $(LDFLAGS) $^ -o $@ $(LIBS_$(notdir $@))
 
 src/TLS-Client-GNUTLS: src/tcp_connect.o
 src/TLS-Client-OpenSSL: src/tcp_connect.o src/x509_check_host.o

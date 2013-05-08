@@ -1,0 +1,35 @@
+# AUTHOR <EMAIL@ADDRESS>, YEAR.
+# 
+# Translators:
+# Jérôme Fenal <jfenal@gmail.com>, 2013
+msgid ""
+msgstr ""
+"Project-Id-Version: Defensive Coding Guide\n"
+"POT-Creation-Date: 2013-03-12T03:19:45\n"
+"PO-Revision-Date: 2013-03-24 17:20+0000\n"
+"Last-Translator: Jérôme Fenal <jfenal@gmail.com>\n"
+"Language-Team: French <trans-fr@lists.fedoraproject.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: fr\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#. Tag: programlisting
+#, no-c-format
+msgid ""
+"\n"
+"DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();\n"
+"// Impose restrictions on the complexity of the DTD.\n"
+"factory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);\n"
+"\n"
+"// Turn on validation.\n"
+"// This step can be omitted if validation is not desired.\n"
+"factory.setValidating(true);\n"
+"\n"
+"// Parse the document.\n"
+"DocumentBuilder builder = factory.newDocumentBuilder();\n"
+"builder.setEntityResolver(new NoEntityResolver());\n"
+"builder.setErrorHandler(new Errors());\n"
+"Document document = builder.parse(inputStream);\n"
+msgstr "\nDocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();\n// Impose restrictions on the complexity of the DTD.\nfactory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);\n\n// Active la validation.\n// Cette étape peut être omise si la validation n'est pas désirée.\nfactory.setValidating(true);\n\n// Parse the document.\nDocumentBuilder builder = factory.newDocumentBuilder();\nbuilder.setEntityResolver(new NoEntityResolver());\nbuilder.setErrorHandler(new Errors());\nDocument document = builder.parse(inputStream);\n"
