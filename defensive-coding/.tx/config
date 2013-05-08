@@ -1,17 +1,459 @@
 [main]
 host = https://www.transifex.net
 lang_map = aln:aln-AL, ar:ar-SA, ast:ast-ES, as:as-IN, bal:bal-PK, bg:bg-BG, bn:bn-BD, bn_IN:bn-IN, bs:bs-BA, ca:ca-ES, cs:cs-CZ, da:da-DK, de_CH:de-CH, de:de-DE, el:el-GR, en_GB:en-GB, es:es-ES, et:et-EE, eu:eu-ES, fa:fa-IR, fi:fi-FI, fr:fr-FR, gl:gl-ES, gu:gu-IN, he:he-IL, hi:hi-IN, hr:hr-HR, hu:hu-HU, id:id-ID, is:is-IS, it:it-IT, ja:ja-JP, kn:kn-IN, ko:ko-KR, lt:lt-LT, lv:lv-LV, mai:mai-IN, ml:ml-IN, mr:mr-IN, ms:ms-MY, nb:nb-NO, nds:nds-DE, nl:nl-NL, nn:nn-NO, or:or-IN, pa:pa-IN, pl:pl-PL, pt_BR:pt-BR, pt:pt-PT, ro:ro-RO, ru:ru-RU, si:si-LK, sk:sk-SK, sl:sl-SI, sq:sq-AL, sr:sr-RS, sr@latin:sr-Latn-RS, sv:sv-SE, ta:ta-IN, te:te-IN, tg:tg-TJ, tr:tr-TR, uk:uk-UA, ur:ur-PK, vi:vi-VN, zh_CN:zh-CN, zh_HK:zh-HK, zh_TW:zh-TW
+
+[defensive-coding-guide.Book_Info]
+file_filter = <lang>/Book_Info.po
+source_file = pot/Book_Info.pot
+source_lang = en
 type = PO
 
 [defensive-coding-guide.Author_Group]
+file_filter = <lang>/Author_Group.po
 source_file = pot/Author_Group.pot
-source_lang = en-US
+source_lang = en
+type = PO
 
-[defensive-coding-guide.Book_Info]
-source_file = pot/Book_Info.pot
-source_lang = en-US
+[defensive-coding-guide.Revision_History]
+file_filter = <lang>/Revision_History.po
+source_file = pot/Revision_History.pot
+source_lang = en
+type = PO
+
+[defensive-coding-guide.Defensive_Coding]
+file_filter = <lang>/Defensive_Coding.po
+source_file = pot/Defensive_Coding.pot
+source_lang = en
+type = PO
+
+[defensive-coding-guide.Allocators]
+file_filter = <lang>/C/Allocators.po
+source_file = pot/C/Allocators.pot
+source_lang = en
+type = PO
+
+[defensive-coding-guide.Libc]
+file_filter = <lang>/C/Libc.po
+source_file = pot/C/Libc.pot
+source_lang = en
+type = PO
+
+[defensive-coding-guide.C]
+file_filter = <lang>/C/C.po
+source_file = pot/C/C.pot
+source_lang = en
+type = PO
+
+[defensive-coding-guide.Language]
+file_filter = <lang>/C/Language.po
+source_file = pot/C/Language.pot
+source_lang = en
+type = PO
+
+[defensive-coding-guide.schemas]
+file_filter = <lang>/C/schemas.po
+source_file = pot/C/schemas.pot
+source_lang = en
+type = PO
 
 [defensive-coding-guide.String-Functions-snprintf]
+file_filter = <lang>/C/snippets/String-Functions-snprintf.po
 source_file = pot/C/snippets/String-Functions-snprintf.pot
-source_lang = en-US
+source_lang = en
+type = PO
 
+[defensive-coding-guide.Arithmetic-add]
+file_filter = <lang>/C/snippets/Arithmetic-add.po
+source_file = pot/C/snippets/Arithmetic-add.pot
+source_lang = en
+type = PO
+
+[defensive-coding-guide.String-Functions-strncpy]
+file_filter = <lang>/C/snippets/String-Functions-strncpy.po
+source_file = pot/C/snippets/String-Functions-strncpy.pot
+source_lang = en
+type = PO
+
+[defensive-coding-guide.String-Functions-format]
+file_filter = <lang>/C/snippets/String-Functions-format.po
+source_file = pot/C/snippets/String-Functions-format.pot
+source_lang = en
+type = PO
+
+[defensive-coding-guide.Pointers-remaining]
+file_filter = <lang>/C/snippets/Pointers-remaining.po
+source_file = pot/C/snippets/Pointers-remaining.pot
+source_lang = en
+type = PO
+
+[defensive-coding-guide.Arithmetic-mult]
+file_filter = <lang>/C/snippets/Arithmetic-mult.po
+source_file = pot/C/snippets/Arithmetic-mult.pot
+source_lang = en
+type = PO
+
+[defensive-coding-guide.Language]
+file_filter = <lang>/Python/Language.po
+source_file = pot/Python/Language.pot
+source_lang = en
+type = PO
+
+[defensive-coding-guide.schemas]
+file_filter = <lang>/Python/schemas.po
+source_file = pot/Python/schemas.pot
+source_lang = en
+type = PO
+
+[defensive-coding-guide.CXX]
+file_filter = <lang>/CXX/CXX.po
+source_file = pot/CXX/CXX.pot
+source_lang = en
+type = PO
+
+[defensive-coding-guide.Language]
+file_filter = <lang>/CXX/Language.po
+source_file = pot/CXX/Language.pot
+source_lang = en
+type = PO
+
+[defensive-coding-guide.Std]
+file_filter = <lang>/CXX/Std.po
+source_file = pot/CXX/Std.pot
+source_lang = en
+type = PO
+
+[defensive-coding-guide.schemas]
+file_filter = <lang>/CXX/schemas.po
+source_file = pot/CXX/schemas.pot
+source_lang = en
+type = PO
+
+[defensive-coding-guide.File_System]
+file_filter = <lang>/Tasks/File_System.po
+source_file = pot/Tasks/File_System.pot
+source_lang = en
+type = PO
+
+[defensive-coding-guide.Descriptors]
+file_filter = <lang>/Tasks/Descriptors.po
+source_file = pot/Tasks/Descriptors.pot
+source_lang = en
+type = PO
+
+[defensive-coding-guide.Serialization]
+file_filter = <lang>/Tasks/Serialization.po
+source_file = pot/Tasks/Serialization.pot
+source_lang = en
+type = PO
+
+[defensive-coding-guide.Library_Design]
+file_filter = <lang>/Tasks/Library_Design.po
+source_file = pot/Tasks/Library_Design.pot
+source_lang = en
+type = PO
+
+[defensive-coding-guide.Processes]
+file_filter = <lang>/Tasks/Processes.po
+source_file = pot/Tasks/Processes.pot
+source_lang = en
+type = PO
+
+[defensive-coding-guide.Locking]
+file_filter = <lang>/Tasks/Locking.po
+source_file = pot/Tasks/Locking.pot
+source_lang = en
+type = PO
+
+[defensive-coding-guide.schemas]
+file_filter = <lang>/Tasks/schemas.po
+source_file = pot/Tasks/schemas.pot
+source_lang = en
+type = PO
+
+[defensive-coding-guide.Temporary_Files]
+file_filter = <lang>/Tasks/Temporary_Files.po
+source_file = pot/Tasks/Temporary_Files.pot
+source_lang = en
+type = PO
+
+[defensive-coding-guide.Cryptography]
+file_filter = <lang>/Tasks/Cryptography.po
+source_file = pot/Tasks/Cryptography.pot
+source_lang = en
+type = PO
+
+[defensive-coding-guide.Serialization-XML-OpenJDK_Parse-XMLSchema_SAX]
+file_filter = <lang>/Tasks/snippets/Serialization-XML-OpenJDK_Parse-XMLSchema_SAX.po
+source_file = pot/Tasks/snippets/Serialization-XML-OpenJDK_Parse-XMLSchema_SAX.pot
+source_lang = en
+type = PO
+
+[defensive-coding-guide.Serialization-XML-Expat-EntityDeclHandler]
+file_filter = <lang>/Tasks/snippets/Serialization-XML-Expat-EntityDeclHandler.po
+source_file = pot/Tasks/snippets/Serialization-XML-Expat-EntityDeclHandler.pot
+source_lang = en
+type = PO
+
+[defensive-coding-guide.Serialization-XML-OpenJDK_Parse-DOM]
+file_filter = <lang>/Tasks/snippets/Serialization-XML-OpenJDK_Parse-DOM.po
+source_file = pot/Tasks/snippets/Serialization-XML-OpenJDK_Parse-DOM.pot
+source_lang = en
+type = PO
+
+[defensive-coding-guide.Serialization-XML-OpenJDK-Imports]
+file_filter = <lang>/Tasks/snippets/Serialization-XML-OpenJDK-Imports.po
+source_file = pot/Tasks/snippets/Serialization-XML-OpenJDK-Imports.pot
+source_lang = en
+type = PO
+
+[defensive-coding-guide.Serialization-XML-OpenJDK-NoEntityResolver]
+file_filter = <lang>/Tasks/snippets/Serialization-XML-OpenJDK-NoEntityResolver.po
+source_file = pot/Tasks/snippets/Serialization-XML-OpenJDK-NoEntityResolver.pot
+source_lang = en
+type = PO
+
+[defensive-coding-guide.Serialization-XML-OpenJDK-Errors]
+file_filter = <lang>/Tasks/snippets/Serialization-XML-OpenJDK-Errors.po
+source_file = pot/Tasks/snippets/Serialization-XML-OpenJDK-Errors.pot
+source_lang = en
+type = PO
+
+[defensive-coding-guide.Serialization-XML-OpenJDK-NoResourceResolver]
+file_filter = <lang>/Tasks/snippets/Serialization-XML-OpenJDK-NoResourceResolver.po
+source_file = pot/Tasks/snippets/Serialization-XML-OpenJDK-NoResourceResolver.pot
+source_lang = en
+type = PO
+
+[defensive-coding-guide.Serialization-XML-OpenJDK_Parse-XMLSchema_DOM]
+file_filter = <lang>/Tasks/snippets/Serialization-XML-OpenJDK_Parse-XMLSchema_DOM.po
+source_file = pot/Tasks/snippets/Serialization-XML-OpenJDK_Parse-XMLSchema_DOM.pot
+source_lang = en
+type = PO
+
+[defensive-coding-guide.Serialization-XML-Expat-Create]
+file_filter = <lang>/Tasks/snippets/Serialization-XML-Expat-Create.po
+source_file = pot/Tasks/snippets/Serialization-XML-Expat-Create.pot
+source_lang = en
+type = PO
+
+[defensive-coding-guide.Authentication]
+file_filter = <lang>/Features/Authentication.po
+source_file = pot/Features/Authentication.pot
+source_lang = en
+type = PO
+
+[defensive-coding-guide.TLS]
+file_filter = <lang>/Features/TLS.po
+source_file = pot/Features/TLS.pot
+source_lang = en
+type = PO
+
+[defensive-coding-guide.schemas]
+file_filter = <lang>/Features/schemas.po
+source_file = pot/Features/schemas.pot
+source_lang = en
+type = PO
+
+[defensive-coding-guide.TLS-NSS-Includes]
+file_filter = <lang>/Features/snippets/TLS-NSS-Includes.po
+source_file = pot/Features/snippets/TLS-NSS-Includes.pot
+source_lang = en
+type = PO
+
+[defensive-coding-guide.TLS-Client-Python-check_host_name]
+file_filter = <lang>/Features/snippets/TLS-Client-Python-check_host_name.po
+source_file = pot/Features/snippets/TLS-Client-Python-check_host_name.pot
+source_lang = en
+type = PO
+
+[defensive-coding-guide.TLS-Client-OpenSSL-Connection-Use]
+file_filter = <lang>/Features/snippets/TLS-Client-OpenSSL-Connection-Use.po
+source_file = pot/Features/snippets/TLS-Client-OpenSSL-Connection-Use.pot
+source_lang = en
+type = PO
+
+[defensive-coding-guide.TLS-NSS-Use]
+file_filter = <lang>/Features/snippets/TLS-NSS-Use.po
+source_file = pot/Features/snippets/TLS-NSS-Use.pot
+source_lang = en
+type = PO
+
+[defensive-coding-guide.TLS-OpenSSL-Context-Close]
+file_filter = <lang>/Features/snippets/TLS-OpenSSL-Context-Close.po
+source_file = pot/Features/snippets/TLS-OpenSSL-Context-Close.pot
+source_lang = en
+type = PO
+
+[defensive-coding-guide.TLS-Client-Python-Connect]
+file_filter = <lang>/Features/snippets/TLS-Client-Python-Connect.po
+source_file = pot/Features/snippets/TLS-Client-Python-Connect.pot
+source_lang = en
+type = PO
+
+[defensive-coding-guide.TLS-Client-NSS-Close]
+file_filter = <lang>/Features/snippets/TLS-Client-NSS-Close.po
+source_file = pot/Features/snippets/TLS-Client-NSS-Close.pot
+source_lang = en
+type = PO
+
+[defensive-coding-guide.TLS-Client-OpenSSL-CTX]
+file_filter = <lang>/Features/snippets/TLS-Client-OpenSSL-CTX.po
+source_file = pot/Features/snippets/TLS-Client-OpenSSL-CTX.pot
+source_lang = en
+type = PO
+
+[defensive-coding-guide.TLS-NSS-Close]
+file_filter = <lang>/Features/snippets/TLS-NSS-Close.po
+source_file = pot/Features/snippets/TLS-NSS-Close.pot
+source_lang = en
+type = PO
+
+[defensive-coding-guide.TLS-Client-GNUTLS-Verify]
+file_filter = <lang>/Features/snippets/TLS-Client-GNUTLS-Verify.po
+source_file = pot/Features/snippets/TLS-Client-GNUTLS-Verify.pot
+source_lang = en
+type = PO
+
+[defensive-coding-guide.TLS-OpenSSL-Errors]
+file_filter = <lang>/Features/snippets/TLS-OpenSSL-Errors.po
+source_file = pot/Features/snippets/TLS-OpenSSL-Errors.pot
+source_lang = en
+type = PO
+
+[defensive-coding-guide.TLS-Nagle]
+file_filter = <lang>/Features/snippets/TLS-Nagle.po
+source_file = pot/Features/snippets/TLS-Nagle.pot
+source_lang = en
+type = PO
+
+[defensive-coding-guide.TLS-Python-Use]
+file_filter = <lang>/Features/snippets/TLS-Python-Use.po
+source_file = pot/Features/snippets/TLS-Python-Use.pot
+source_lang = en
+type = PO
+
+[defensive-coding-guide.TLS-GNUTLS-Init]
+file_filter = <lang>/Features/snippets/TLS-GNUTLS-Init.po
+source_file = pot/Features/snippets/TLS-GNUTLS-Init.pot
+source_lang = en
+type = PO
+
+[defensive-coding-guide.TLS-Client-OpenJDK-Import]
+file_filter = <lang>/Features/snippets/TLS-Client-OpenJDK-Import.po
+source_file = pot/Features/snippets/TLS-Client-OpenJDK-Import.pot
+source_lang = en
+type = PO
+
+[defensive-coding-guide.TLS-Client-OpenJDK-Context_For_Cert]
+file_filter = <lang>/Features/snippets/TLS-Client-OpenJDK-Context_For_Cert.po
+source_file = pot/Features/snippets/TLS-Client-OpenJDK-Context_For_Cert.pot
+source_lang = en
+type = PO
+
+[defensive-coding-guide.TLS-GNUTLS-Use]
+file_filter = <lang>/Features/snippets/TLS-GNUTLS-Use.po
+source_file = pot/Features/snippets/TLS-GNUTLS-Use.pot
+source_lang = en
+type = PO
+
+[defensive-coding-guide.TLS-Python-Close]
+file_filter = <lang>/Features/snippets/TLS-Python-Close.po
+source_file = pot/Features/snippets/TLS-Python-Close.pot
+source_lang = en
+type = PO
+
+[defensive-coding-guide.TLS-Client-GNUTLS-Connect]
+file_filter = <lang>/Features/snippets/TLS-Client-GNUTLS-Connect.po
+source_file = pot/Features/snippets/TLS-Client-GNUTLS-Connect.pot
+source_lang = en
+type = PO
+
+[defensive-coding-guide.TLS-GNUTLS-Disconnect]
+file_filter = <lang>/Features/snippets/TLS-GNUTLS-Disconnect.po
+source_file = pot/Features/snippets/TLS-GNUTLS-Disconnect.pot
+source_lang = en
+type = PO
+
+[defensive-coding-guide.TLS-Client-GNUTLS-Match]
+file_filter = <lang>/Features/snippets/TLS-Client-GNUTLS-Match.po
+source_file = pot/Features/snippets/TLS-Client-GNUTLS-Match.pot
+source_lang = en
+type = PO
+
+[defensive-coding-guide.TLS-Client-OpenJDK-Context]
+file_filter = <lang>/Features/snippets/TLS-Client-OpenJDK-Context.po
+source_file = pot/Features/snippets/TLS-Client-OpenJDK-Context.pot
+source_lang = en
+type = PO
+
+[defensive-coding-guide.TLS-Client-OpenJDK-Hostname]
+file_filter = <lang>/Features/snippets/TLS-Client-OpenJDK-Hostname.po
+source_file = pot/Features/snippets/TLS-Client-OpenJDK-Hostname.pot
+source_lang = en
+type = PO
+
+[defensive-coding-guide.TLS-GNUTLS-Credentials-Close]
+file_filter = <lang>/Features/snippets/TLS-GNUTLS-Credentials-Close.po
+source_file = pot/Features/snippets/TLS-GNUTLS-Credentials-Close.pot
+source_lang = en
+type = PO
+
+[defensive-coding-guide.TLS-Client-OpenSSL-Init]
+file_filter = <lang>/Features/snippets/TLS-Client-OpenSSL-Init.po
+source_file = pot/Features/snippets/TLS-Client-OpenSSL-Init.pot
+source_lang = en
+type = PO
+
+[defensive-coding-guide.TLS-Client-NSS-Connect]
+file_filter = <lang>/Features/snippets/TLS-Client-NSS-Connect.po
+source_file = pot/Features/snippets/TLS-Client-NSS-Connect.pot
+source_lang = en
+type = PO
+
+[defensive-coding-guide.TLS-NSS-Init]
+file_filter = <lang>/Features/snippets/TLS-NSS-Init.po
+source_file = pot/Features/snippets/TLS-NSS-Init.pot
+source_lang = en
+type = PO
+
+[defensive-coding-guide.TLS-OpenJDK-Parameters]
+file_filter = <lang>/Features/snippets/TLS-OpenJDK-Parameters.po
+source_file = pot/Features/snippets/TLS-OpenJDK-Parameters.pot
+source_lang = en
+type = PO
+
+[defensive-coding-guide.TLS-OpenSSL-Connection-Close]
+file_filter = <lang>/Features/snippets/TLS-OpenSSL-Connection-Close.po
+source_file = pot/Features/snippets/TLS-OpenSSL-Connection-Close.pot
+source_lang = en
+type = PO
+
+[defensive-coding-guide.TLS-Client-GNUTLS-Credentials]
+file_filter = <lang>/Features/snippets/TLS-Client-GNUTLS-Credentials.po
+source_file = pot/Features/snippets/TLS-Client-GNUTLS-Credentials.pot
+source_lang = en
+type = PO
+
+[defensive-coding-guide.TLS-Client-OpenJDK-MyTrustManager]
+file_filter = <lang>/Features/snippets/TLS-Client-OpenJDK-MyTrustManager.po
+source_file = pot/Features/snippets/TLS-Client-OpenJDK-MyTrustManager.pot
+source_lang = en
+type = PO
+
+[defensive-coding-guide.TLS-Client-OpenJDK-Use]
+file_filter = <lang>/Features/snippets/TLS-Client-OpenJDK-Use.po
+source_file = pot/Features/snippets/TLS-Client-OpenJDK-Use.pot
+source_lang = en
+type = PO
+
+[defensive-coding-guide.TLS-Client-OpenSSL-Connect]
+file_filter = <lang>/Features/snippets/TLS-Client-OpenSSL-Connect.po
+source_file = pot/Features/snippets/TLS-Client-OpenSSL-Connect.pot
+source_lang = en
+type = PO
+
+[defensive-coding-guide.TLS-Client-OpenJDK-Connect]
+file_filter = <lang>/Features/snippets/TLS-Client-OpenJDK-Connect.po
+source_file = pot/Features/snippets/TLS-Client-OpenJDK-Connect.pot
+source_lang = en
+type = PO
