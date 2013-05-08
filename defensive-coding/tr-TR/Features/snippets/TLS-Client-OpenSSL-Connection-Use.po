@@ -1,0 +1,32 @@
+# AUTHOR <EMAIL@ADDRESS>, YEAR.
+# 
+# Translators:
+msgid ""
+msgstr ""
+"Project-Id-Version: Defensive Coding Guide\n"
+"POT-Creation-Date: 2013-03-12T03:19:44\n"
+"PO-Revision-Date: 2013-03-19 15:32+0000\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: Turkish (http://www.transifex.com/projects/p/fedora/language/tr/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: tr\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#. Tag: programlisting
+#, no-c-format
+msgid ""
+"\n"
+"const char *const req = \"GET / HTTP/1.0\\r\n"
+"\\r\n"
+"\";\n"
+"if (SSL_write(ssl, req, strlen(req)) &lt; 0) {\n"
+"  ssl_print_error_and_exit(ssl, \"SSL_write\", ret);\n"
+"}\n"
+"char buf[4096];\n"
+"ret = SSL_read(ssl, buf, sizeof(buf));\n"
+"if (ret &lt; 0) {\n"
+"  ssl_print_error_and_exit(ssl, \"SSL_read\", ret);\n"
+"}\n"
+msgstr ""

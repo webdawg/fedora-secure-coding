@@ -1,0 +1,234 @@
+# AUTHOR <EMAIL@ADDRESS>, YEAR.
+# 
+# Translators:
+msgid ""
+msgstr ""
+"Project-Id-Version: Defensive Coding Guide\n"
+"POT-Creation-Date: 2013-03-12T03:19:44\n"
+"PO-Revision-Date: 2013-03-19 15:18+0000\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: Vietnamese (http://www.transifex.com/projects/p/fedora/language/vi/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: vi\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#. Tag: title
+#, no-c-format
+msgid "The core language"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid ""
+"C++ includes a large subset of the C language. As far as the C subset is "
+"used, the recommendations in <xref linkend=\"chap-Defensive_Coding-C\" /> "
+"apply."
+msgstr ""
+
+#. Tag: title
+#, no-c-format
+msgid "Array allocation with <literal>operator new[]</literal>"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid ""
+"For very large values of <literal>n</literal>, an expression like "
+"<literal>new T[n]</literal> can return a pointer to a heap region which is "
+"too small. In other words, not all array elements are actually backed with "
+"heap memory reserved to the array. Current GCC versions generate code that "
+"performs a computation of the form <literal>sizeof(T) * size_t(n) + "
+"cookie_size</literal>, where <literal>cookie_size</literal> is currently at "
+"most 8. This computation can overflow, and GCC-generated code does not "
+"detect this."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid ""
+"The <literal>std::vector</literal> template can be used instead an explicit "
+"array allocation. (The GCC implementation detects overflow internally.)"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid ""
+"If there is no alternative to <literal>operator new[]</literal>, code which "
+"allocates arrays with a variable length must check for overflow manually. "
+"For the <literal>new T[n]</literal> example, the size check could be "
+"<literal>n || (n &gt; 0 &amp;&amp; n &gt; (size_t(-1) - 8) / "
+"sizeof(T))</literal>. (See <xref linkend=\"sect-"
+"Defensive_Coding-C-Arithmetic\" />.) If there are additional dimensions "
+"(which must be constants according to the C++ standard), these should be "
+"included as factors in the divisor."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid ""
+"These countermeasures prevent out-of-bounds writes and potential code "
+"execution. Very large memory allocations can still lead to a denial of "
+"service. <xref linkend=\"sect-Defensive_Coding-Tasks-Serialization-"
+"Decoders\" /> contains suggestions for mitigating this problem when "
+"processing untrusted data."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid ""
+"See <xref linkend=\"sect-Defensive_Coding-C-Allocators-Arrays\" /> for array"
+" allocation advice for C-style memory allocation."
+msgstr ""
+
+#. Tag: title
+#, no-c-format
+msgid "Overloading"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid ""
+"Do not overload functions with versions that have different security "
+"characteristics. For instance, do not implement a function "
+"<function>strcat</function> which works on <type>std::string</type> "
+"arguments. Similarly, do not name methods after such functions."
+msgstr ""
+
+#. Tag: title
+#, no-c-format
+msgid "ABI compatibility and preparing for security updates"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid ""
+"A stable binary interface (ABI) is vastly preferred for security updates. "
+"Without a stable ABI, all reverse dependencies need recompiling, which can "
+"be a lot of work and could even be impossible in some cases. Ideally, a "
+"security update only updates a single dynamic shared object, and is picked "
+"up automatically after restarting affected processes."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid ""
+"Outside of extremely performance-critical code, you should ensure that a "
+"wide range of changes is possible without breaking ABI. Some very basic "
+"guidelines are:"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Avoid inline functions."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Use the pointer-to-implementation idiom."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid ""
+"Try to avoid templates. Use them if the increased type safety provides a "
+"benefit to the programmer."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid ""
+"Move security-critical code out of templated code, so that it can be patched"
+" in a central place if necessary."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid ""
+"The KDE project publishes a document with more extensive guidelines on ABI-"
+"preserving changes to C++ code, <ulink "
+"url=\"http://techbase.kde.org/Policies/Binary_Compatibility_Issues_With_C++\">Policies/Binary"
+" Compatibility Issues With C++</ulink> (<emphasis>d-pointer</emphasis> "
+"refers to the pointer-to-implementation idiom)."
+msgstr ""
+
+#. Tag: title
+#, no-c-format
+msgid "C++0X and C++11 support"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "GCC offers different language compatibility modes:"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "<option>-std=c++98</option> for the original 1998 C++ standard"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid ""
+"<option>-std=c++03</option> for the 1998 standard with the changes from the "
+"TR1 technical report"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid ""
+"<option>-std=c++11</option> for the 2011 C++ standard. This option should "
+"not be used."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid ""
+"<option>-std=c++0x</option> for several different versions of C++11 support "
+"in development, depending on the GCC version. This option should not be "
+"used."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid ""
+"For each of these flags, there are variants which also enable GNU extensions"
+" (mostly language features also found in C99 or C11): "
+"<option>-std=gnu++98</option>, <option>-std=gnu++03</option>, "
+"<option>-std=gnu++11</option>. Again, <option>-std=gnu++11</option> should "
+"not be used."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid ""
+"If you enable C++11 support, the ABI of the standard C++ library "
+"<literal>libstdc++</literal> will change in subtle ways. Currently, no C++ "
+"libraries are compiled in C++11 mode, so if you compile your code in C++11 "
+"mode, it will be incompatible with the rest of the system. Unfortunately, "
+"this is also the case if you do not use any C++11 features. Currently, there"
+" is no safe way to enable C++11 mode (except for freestanding applications)."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid ""
+"The meaning of C++0X mode changed from GCC release to GCC release. Earlier "
+"versions were still ABI-compatible with C++98 mode, but in the most recent "
+"versions, switching to C++0X mode activates C++11 support, with its "
+"compatibility problems."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid ""
+"Some C++11 features (or approximations thereof) are available with TR1 "
+"support, that is, with <option>-std=c++03</option> or "
+"<option>-std=gnu++03</option> and in the <literal>&lt;tr1/*&gt;</literal> "
+"header files. This includes <literal>std::tr1::shared_ptr</literal> (from "
+"<literal>&lt;tr1/memory&gt;</literal>) and "
+"<literal>std::tr1::function</literal> (from "
+"<literal>&lt;tr1/functional&gt;</literal>). For other C++11 features, the "
+"Boost C++ library contains replacements."
+msgstr ""
