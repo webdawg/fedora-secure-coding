@@ -50,12 +50,6 @@ source_file = pot/C/Language.pot
 source_lang = en
 type = PO
 
-[defensive-coding-guide.schemas]
-file_filter = <lang>/C/schemas.po
-source_file = pot/C/schemas.pot
-source_lang = en
-type = PO
-
 [defensive-coding-guide.String-Functions-snprintf]
 file_filter = <lang>/C/snippets/String-Functions-snprintf.po
 source_file = pot/C/snippets/String-Functions-snprintf.pot
@@ -98,11 +92,6 @@ source_file = pot/Python/Language.pot
 source_lang = en
 type = PO
 
-[defensive-coding-guide.schemas]
-file_filter = <lang>/Python/schemas.po
-source_file = pot/Python/schemas.pot
-source_lang = en
-type = PO
 
 [defensive-coding-guide.CXX]
 file_filter = <lang>/CXX/CXX.po
@@ -122,11 +111,6 @@ source_file = pot/CXX/Std.pot
 source_lang = en
 type = PO
 
-[defensive-coding-guide.schemas]
-file_filter = <lang>/CXX/schemas.po
-source_file = pot/CXX/schemas.pot
-source_lang = en
-type = PO
 
 [defensive-coding-guide.File_System]
 file_filter = <lang>/Tasks/File_System.po
@@ -155,18 +139,6 @@ type = PO
 [defensive-coding-guide.Processes]
 file_filter = <lang>/Tasks/Processes.po
 source_file = pot/Tasks/Processes.pot
-source_lang = en
-type = PO
-
-[defensive-coding-guide.Locking]
-file_filter = <lang>/Tasks/Locking.po
-source_file = pot/Tasks/Locking.pot
-source_lang = en
-type = PO
-
-[defensive-coding-guide.schemas]
-file_filter = <lang>/Tasks/schemas.po
-source_file = pot/Tasks/schemas.pot
 source_lang = en
 type = PO
 
@@ -245,12 +217,6 @@ type = PO
 [defensive-coding-guide.TLS]
 file_filter = <lang>/Features/TLS.po
 source_file = pot/Features/TLS.pot
-source_lang = en
-type = PO
-
-[defensive-coding-guide.schemas]
-file_filter = <lang>/Features/schemas.po
-source_file = pot/Features/schemas.pot
 source_lang = en
 type = PO
 

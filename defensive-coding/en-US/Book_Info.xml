@@ -5,8 +5,7 @@
 	<title>Defensive Coding</title>
 	<subtitle>A Guide to Improving Software Security</subtitle>
 	<edition>1</edition>
-<!--	<issuenum>1.0</issuenum> -->
-	<pubsnumber></pubsnumber>
+	<pubsnumber>1</pubsnumber>
 	<productname>Fedora Security Team</productname>
 	<productnumber></productnumber>
 	<abstract>
@@ -20,7 +19,7 @@
 	<corpauthor>
 		<inlinemediaobject>
 			<imageobject>
-				<imagedata fileref="Common_Content/images/redhat-logo.svg" format="SVG" />
+				<imagedata fileref="Common_Content/images/logo.svg" format="SVG" />
 			</imageobject>
 		</inlinemediaobject>
 	</corpauthor>
