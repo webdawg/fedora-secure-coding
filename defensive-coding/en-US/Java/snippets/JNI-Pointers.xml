@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<!DOCTYPE programlisting PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+]>
+<!-- Automatically generated file.  Do not edit. -->
+<programlisting language="C">
+JNIEXPORT jint JNICALL Java_sum
+  (JNIEnv *jEnv, jclass clazz, jbyteArray buffer, jint offset, jint length)
+{
+  assert(sizeof(jint) == sizeof(unsigned));
+  if (offset &#60; 0 || length &#60; 0) {
+    (*jEnv)-&#62;ThrowNew(jEnv, arrayIndexOutOfBoundsExceptionClass,
+		      "negative offset/length");
+    return 0;
+  }
+  unsigned uoffset = offset;
+  unsigned ulength = length;
+  // This cannot overflow because of the check above.
+  unsigned totallength = uoffset + ulength;
+  unsigned actuallength = (*jEnv)-&#62;GetArrayLength(jEnv, buffer);
+  if (totallength &#62; actuallength) {
+    (*jEnv)-&#62;ThrowNew(jEnv, arrayIndexOutOfBoundsExceptionClass,
+		      "offset + length too large");
+    return 0;
+  }
+  unsigned char *ptr = (*jEnv)-&#62;GetPrimitiveArrayCritical(jEnv, buffer, 0);
+  if (ptr == NULL) {
+    return 0;
+  }
+  unsigned long long sum = 0;
+  for (unsigned char *p = ptr + uoffset, *end = p + ulength; p != end; ++p) {
+    sum += *p;
+  }
+  (*jEnv)-&#62;ReleasePrimitiveArrayCritical(jEnv, buffer, ptr, 0);
+  return sum;
+}
+</programlisting>

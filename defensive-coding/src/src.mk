@@ -13,8 +13,15 @@ compile_only += C-Pointers-remaining
 compile_only += C-Arithmetic-add
 compile_only += C-Arithmetic-mult
 
+compile_only += Java-JNI-Pointers
+CFLAGS_Java-JNI-Pointers = \
+  -I/usr/lib/jvm/java/include -I/usr/lib/jvm/java/include/linux
+
 # List Java files which sould be compiled
+compile_java += JavaFinally
+
 compile_java += TLSClientOpenJDK
+JCFLAGS_TLSClientOpenJDK = -source 1.6 -target 1.6
 
 # List fiels which will be compiled and linked, together with
 # additional dependencies.
@@ -52,7 +59,7 @@ src/%.o: src/%.cpp
 	$(CXX) $(CXXFLAGS) $(DEFINES) $(CFLAGS_$(basename $(notdir $@))) -c $< -o $@
 
 src/%.class: src/%.java
-	javac -source 1.6 -target 1.6 -Xlint:all $^
+	javac $(JCFLAGS_$(basename $(notdir $@))) -Xlint:all $^
 
 src/%: src/%.o
 	$(CXX) $(LDFLAGS) $^ -o $@ $(LIBS_$(notdir $@))

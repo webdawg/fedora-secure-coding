@@ -1,0 +1,157 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<!DOCTYPE section PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+]>
+<section id="sect-Defensive_Coding-Java-LowLevel">
+  <title>Low-level features of the virtual machine</title>
+
+  <section id="sect-Defensive_Coding-Java-Reflection">
+    <title><literal>Reflection and private parts</literal></title>
+    <para>
+      The <function>setAccessible(boolean)</function> method of the
+      <literal>java.lang.reflect.AccessibleObject</literal> class
+      allows a program to disable language-defined access rules for
+      specific constructors, methods, or fields.  Once the access
+      checks are disabled, any code can use the
+      <literal>java.lang.reflect.Constructor</literal>,
+      <literal>java.lang.reflect.Method</literal>, or
+      <literal>java.lang.reflect.Field</literal> object to access the
+      underlying Java entity, without further permission checks.  This
+      breaks encapsulation and can undermine the stability of the
+      virtual machine.  (In contrast, without using the
+      <function>setAccessible(boolean)</function> method, this should
+      not happen because all the language-defined checks still apply.)
+    </para>
+    <para>
+      This feature should be avoided if possible.
+    </para>
+  </section>
+
+  <section id="sect-Defensive_Coding-Java-JNI">
+    <title>Java Native Interface (JNI)</title>
+    <para>
+      The Java Native Interface allows calling from Java code
+      functions specifically written for this purpose, usually in C or
+      C++.
+    </para>
+    <para>
+      The transition between the Java world and the C world is not
+      fully type-checked, and the C code can easily break the Java
+      virtual machine semantics.  Therefore, extra care is needed when
+      using this functionality.
+    </para>
+    <para>
+      To provide a moderate amount of type safety, it is recommended
+      to recreate the class-specific header file using
+      <application>javah</application> during the build process,
+      include it in the implementation, and use the
+      <option>-Wmissing-declarations</option> option.
+    </para>
+    <para>
+      Ideally, the required data is directly passed to static JNI
+      methods and returned from them, and the code and the C side does
+      not have to deal with accessing Java fields (or even methods).
+    </para>
+    <para>
+      When using <function>GetPrimitiveArrayCritical</function> or
+      <function>GetStringCritical</function>, make sure that you only
+      perform very little processing between the get and release
+      operations.  Do not access the file system or the network, and
+      not perform locking, because that might introduce blocking.
+      When processing large strings or arrays, consider splitting the
+      computation into multiple sub-chunks, so that you do not prevent
+      the JVM from reaching a safepoint for extended periods of time.
+    </para>
+    <para>
+      If necessary, you can use the Java <literal>long</literal> type
+      to store a C pointer in a field of a Java class.  On the C side,
+      when casting between the <literal>jlong</literal> value and the
+      pointer on the C side, 
+    </para>
+    <para>
+      You should not try to perform pointer arithmetic on the Java
+      side (that is, you should treat pointer-carrying
+      <literal>long</literal> values as opaque).  When passing a slice
+      of an array to the native code, follow the Java convention and
+      pass it as the base array, the integer offset of the start of
+      the slice, and the integer length of the slice.  On the native
+      side, check the offset/length combination against the actual
+      array length, and use the offset to compute the pointer to the
+      beginning of the array.
+    </para>
+    <example id="ex-Defensive_Coding-Java-JNI-Pointers">
+      <title>Array length checking in JNI code</title>
+      <xi:include href="snippets/JNI-Pointers.xml"
+		  xmlns:xi="http://www.w3.org/2001/XInclude" />
+    </example>
+    <para>
+      In any case, classes referring to native resources must be
+      declared <literal>final</literal>, and must not be serializeable
+      or cloneable.  Initialization and mutation of the state used by
+      the native side must be controlled carefully.  Otherwise, it
+      might be possible to create an object with inconsistent native
+      state which results in a crash (or worse) when used (or perhaps
+      only finalized) later.  If you need both Java inheritance and
+      native resources, you should consider moving the native state to
+      a separate class, and only keep a reference to objects of that
+      class.  This way, cloning and serialization issues can be
+      avoided in most cases.
+    </para>
+    <para>
+      If there are native resources associated with an object, the
+      class should have an explicit resource deallocation method
+      (<xref
+      linkend="sect-Defensive_Coding-Java-Language-Resources"/>) and a
+      finalizer (<xref
+      linkend="sect-Defensive_Coding-Java-Language-Finalizers"/>) as a
+      last resort.  The need for finalization means that a minimum
+      amount of synchronization is needed.  Code on the native side
+      should check that the object is not in a closed/freed state.
+    </para>
+    <para>
+      Many JNI functions create local references.  By default, these
+      persist until the JNI-implemented method returns.  If you create
+      many such references (e.g., in a loop), you may have to free
+      them using <function>DeleteLocalRef</function>, or start using
+      <function>PushLocalFrame</function> and
+      <function>PopLocalFrame</function>.  Global references must be
+      deallocated with <function>DeleteGlobalRef</function>, otherwise
+      there will be a memory leak, just as with
+      <function>malloc</function> and <function>free</function>.
+    </para>
+    <para>
+      When throwing exceptions using <function>Throw</function> or
+      <function>ThrowNew</function>, be aware that these functions
+      return regularly.  You have to return control manually to the
+      JVM.
+    </para>
+    <para>
+      Technically, the <literal>JNIEnv</literal> pointer is not
+      necessarily constant during the lifetime of your JNI module.
+      Storing it in a global variable is therefore incorrect.
+      Particularly if you are dealing with callbacks, you may have to
+      store the pointer in a thread-local variable (defined with
+      <literal>__thread</literal>).  It is, however, best to avoid the
+      complexity of calling back into Java code.
+    </para>
+    <para>
+      Keep in mind that C/C++ and Java are different languages,
+      despite very similar syntax for expressions.  The Java memory
+      model is much more strict than the C or C++ memory models, and
+      native code needs more synchronization, usually using JVM
+      facilities or POSIX threads mutexes.  Integer overflow in Java
+      is defined, but in C/C++ it is not (for the
+      <literal>jint</literal> and <literal>jlong</literal> types).
+    </para>
+  </section>
+
+  <section id="sect-Defensive_Coding-Java-MiscUnsafe">
+    <title><literal>sun.misc.Unsafe</literal></title>
+    <para>
+      The <literal>sun.misc.Unsafe</literal> class is unportable and
+      contains many functions explicitly designed to break Java memory
+      safety (for performance and debugging).  If possible, avoid
+      using this class.
+    </para>
+  </section>
+
+</section>

@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<locatingRules xmlns="http://thaiopensource.com/ns/locating-rules/1.0">
+  <uri resource="Language.xml" uri="../../docbook-schema/docbook.rnc"/>
+  <uri resource="LowLevel.xml" uri="../../docbook-schema/docbook.rnc"/>
+</locatingRules>

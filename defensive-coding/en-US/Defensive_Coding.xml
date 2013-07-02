@@ -6,6 +6,7 @@
     <title>Programming Languages</title>
     <xi:include href="C/C.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
     <xi:include href="CXX/CXX.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+    <xi:include href="Java/Java.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
     <xi:include href="Python/Language.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
   </part>
   <part>
