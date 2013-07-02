@@ -12,16 +12,16 @@ build-snippets:
 	  src/*.c src/*.cpp src/*.java src/*.py
 
 build-manual: build-snippets
-	publican build --format=html,epub,pdf --lang=en-US
+	publican build --formats=html,epub,pdf --langs=en-US
 
 build-manual-html: build-snippets
-	publican build --format=html --lang=en-US
+	publican build --formats=html --langs=en-US
 
 build-manual-epub: build-snippets
-	publican build --format=epub --lang=en-US
+	publican build --formats=epub --langs=en-US
 
 build-manual-pdf: build-snippets
-	publican build --format=pdf --lang=en-US
+	publican build --formats=pdf --langs=en-US
 
 clean: clean-src
 	-rm -rf tmp
