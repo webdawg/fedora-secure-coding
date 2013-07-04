@@ -19,6 +19,8 @@ CFLAGS_Java-JNI-Pointers = \
 
 # List Java files which sould be compiled
 compile_java += JavaFinally
+compile_java += JavaSecurityManagerUnprivileged
+compile_java += JavaSecurityManagerPrivileged
 
 compile_java += TLSClientOpenJDK
 JCFLAGS_TLSClientOpenJDK = -source 1.6 -target 1.6

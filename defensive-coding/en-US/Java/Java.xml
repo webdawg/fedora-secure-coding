@@ -6,5 +6,6 @@
 
   <xi:include href="Language.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
   <xi:include href="LowLevel.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+  <xi:include href="SecurityManager.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
 </chapter>
 

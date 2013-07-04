@@ -1,0 +1,40 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<!DOCTYPE programlisting PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+]>
+<!-- Automatically generated file.  Do not edit. -->
+<programlisting language="Java">
+interface Callback&#60;T&#62; {
+	T call(boolean flag);
+}
+
+class CallbackInvoker&#60;T&#62; {
+	private final AccessControlContext context;
+	Callback&#60;T&#62; callback;
+
+	CallbackInvoker(Callback&#60;T&#62; callback) {
+	    context = AccessController.getContext();
+	    this.callback = callback;
+	}
+
+	public T invoke() {
+	    // Obtain increased privileges.
+	    return AccessController.doPrivileged(new PrivilegedAction&#60;T&#62;() {
+		    @Override
+		    public T run() {
+			// This operation would fail without
+			// additional privileges.
+			final boolean flag = Boolean.getBoolean("some.property");
+
+			// Restore the original privileges.
+			return AccessController.doPrivileged(
+                        new PrivilegedAction&#60;T&#62;() {
+				@Override
+				public T run() {
+				    return callback.call(flag);
+				}
+			    }, context);
+		    }
+		});
+	}
+}
+</programlisting>

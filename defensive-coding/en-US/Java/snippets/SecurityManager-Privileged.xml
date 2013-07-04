@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<!DOCTYPE programlisting PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+]>
+<!-- Automatically generated file.  Do not edit. -->
+<programlisting language="Java">
+// This is expected to fail.
+try {
+    System.out.println(System.getProperty("user.home"));
+} catch (SecurityException e) {
+    e.printStackTrace(System.err);
+}
+AccessController.doPrivileged(new PrivilegedAction&#60;Void&#62;() {
+        public Void run() {
+            // This should work.
+            System.out.println(System.getProperty("user.home"));
+            return null;
+        }
+    });
+</programlisting>
