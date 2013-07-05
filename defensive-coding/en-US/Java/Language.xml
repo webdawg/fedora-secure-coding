@@ -11,6 +11,34 @@
     <xref linkend="sect-Defensive_Coding-Java-LowLevel"/>.
   </para>
 
+  <section id="sect-Defensive_Coding-Java-Language-ReadArray">
+    <title>Inceasing robustness when reading arrays</title>
+    <para>
+      External data formats often include arrays, and the data is
+      stored as an integer indicating the number of array elements,
+      followed by this number of elements in the file or protocol data
+      unit.  This length specified can be much larger than what is
+      actually available in the data source.
+    </para>
+    <para>
+      To avoid allocating extremely large amounts of data, you can
+      allocate a small array initially and grow it as you read more
+      data, implementing an exponential growth policy.  See the
+      <function>readBytes(InputStream, int)</function> function in
+      <xref linkend="ex-Defensive_Coding-Java-Language-ReadArray"/>.
+    </para>
+    <example id="ex-Defensive_Coding-Java-Language-ReadArray">
+      <title>Incrementally reading a byte array</title>
+      <xi:include href="snippets/Language-ReadArray.xml"
+		  xmlns:xi="http://www.w3.org/2001/XInclude" />
+    </example>
+    <para>
+      When reading data into arrays, hash maps or hash sets, use the
+      default constructor and do not specify a size hint.  You can
+      simply add the elements to the collection as you read them.
+    </para>
+  </section>
+
   <section id="sect-Defensive_Coding-Java-Language-Resources">
     <title>Resource management</title>
     <para>
@@ -232,6 +260,11 @@
 	unexpected consequences.  However, there are legitimate
 	reasons for catching errors because not doing so leads to even
 	greater problems.
+      </para>
+      <para>
+	Code should be written in a way that avoids triggering errors.
+	See <xref linkend="sect-Defensive_Coding-Java-Language-ReadArray"/>
+	for an example.
       </para>
       <para>
 	It is usually necessary to log errors.  Otherwise, no trace of

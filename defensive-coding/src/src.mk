@@ -19,6 +19,7 @@ CFLAGS_Java-JNI-Pointers = \
 
 # List Java files which sould be compiled
 compile_java += JavaFinally
+compile_java += JavaReadArray
 compile_java += JavaSecurityManagerUnprivileged
 compile_java += JavaSecurityManagerPrivileged
 

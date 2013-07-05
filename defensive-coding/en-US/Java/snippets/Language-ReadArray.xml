@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<!DOCTYPE programlisting PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+]>
+<!-- Automatically generated file.  Do not edit. -->
+<programlisting language="Java">
+static byte[] readBytes(InputStream in, int length) throws IOException {
+	final int startSize = 65536;
+    byte[] b = new byte[Math.min(length, startSize)];
+    int filled = 0;
+    while (true) {
+        int remaining = b.length - filled;
+	    readFully(in, b, filled, remaining);
+        if (b.length == length) {
+            break;
+        }
+        filled = b.length;
+        if (length - b.length &#60;= b.length) {
+            // Allocate final length.  Condition avoids overflow.
+            b = Arrays.copyOf(b, length);
+        } else {
+            b = Arrays.copyOf(b, b.length * 2);
+        }
+    }
+    return b;
+}
+
+static void readFully(InputStream in,byte[] b, int off, int len)
+	    throws IOException {
+	int startlen = len;
+    while (len &#62; 0) {
+        int count = in.read(b, off, len);
+        if (count &#60; 0) {
+            throw new EOFException();
+        }
+        off += count;
+        len -= count;
+    }
+}
+</programlisting>
