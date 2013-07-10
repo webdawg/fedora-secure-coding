@@ -135,7 +135,8 @@
       is used, the size check must be written manually.  For instance,
       to allocate an array of <literal>n</literal> elements of type
       <literal>T</literal>, check that the requested size is not
-      greater than <literal>n / sizeof(T)</literal>.
+      greater than <literal>n / sizeof(T)</literal>.  See <xref
+      linkend="sect-Defensive_Coding-C-Arithmetic"/>.
     </para>
   </section>
 
