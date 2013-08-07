@@ -217,7 +217,8 @@
       be changed.  <!-- ??? refer to event-driven programming -->
       Calls to <function>select</function> can be replaced with
       calls to <function>poll</function> or another event handling
-      mechanism.
+      mechanism.  Replacing the <function>select</function> function
+      is the recommended approach.
     </para>
     <para>
       Alternatively, the library with high descriptor usage can
