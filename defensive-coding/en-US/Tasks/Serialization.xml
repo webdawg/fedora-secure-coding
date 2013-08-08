@@ -70,7 +70,9 @@
 	Perl's <package>Storable</package> package
       </para></listitem>
       <listitem><para>
-	Java serialization (<type>java.io.ObjectInputStream</type>)
+	Java serialization (<type>java.io.ObjectInputStream</type>),
+	even if encoded in other formats (as with
+	<type>java.beans.XMLDecoder</type>)
       </para></listitem>
       <listitem><para>
 	PHP serialization (<function>unserialize</function>)
@@ -87,10 +89,13 @@
       even when the data members have been manipulated.
     </para>
     <para>
-      JSON decoders do not suffer from this problem.  But you must not
-      use the <function>eval</function> function to parse JSON objects
-      in Javascript; even with the regular expression filter from RFC
-      4627, there are still information leaks remaining.
+      In general, JSON decoders do not suffer from this problem.  But
+      you must not use the <function>eval</function> function to parse
+      JSON objects in Javascript; even with the regular expression
+      filter from RFC 4627, there are still information leaks
+      remaining.  JSON-based formats can still turn out risky if they
+      serve as an encoding form for any if the serialization
+      frameworks listed above.
     </para>
   </section>
 
@@ -419,6 +424,22 @@
 	  <xi:include href="snippets/Serialization-XML-OpenJDK_Parse-XMLSchema_DOM.xml"
 		      xmlns:xi="http://www.w3.org/2001/XInclude" />
 	</example>
+      </section>
+      <section id="sect-Defensive_Coding-Tasks-Serialization-XML-OpenJDK_Parse-Other">
+	<title>Other XML parsers in OpenJDK</title>
+	<para>
+	  OpenJDK contains additional XML parsing and processing
+	  facilities.  Some of them are insecure.
+	</para>
+	<para>
+	  The class <type>java.beans.XMLDecoder</type> acts as a
+	  bridge between the Java object serialization format and XML.
+	  It is close to impossible to securely deserialize Java
+	  objects in this format from untrusted inputs, so its use is
+	  not recommended, as with the Java object serialization
+	  format itself.  See <xref
+	  linkend="sect-Defensive_Coding-Tasks-Serialization-Library"/>.
+	</para>
       </section>
     </section>
   </section>
