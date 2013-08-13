@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 0\n"
-"POT-Creation-Date: 2013-03-12T03:19:44\n"
-"PO-Revision-Date: 2013-03-12T03:19:44\n"
+"POT-Creation-Date: 2013-08-13T01:54:52\n"
+"PO-Revision-Date: 2013-08-13T01:54:52\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: None\n"
 "MIME-Version: 1.0\n"
@@ -25,6 +25,16 @@ msgstr ""
 #. Tag: surname
 #, no-c-format
 msgid "Christensen"
+msgstr ""
+
+#. Tag: member
+#, no-c-format
+msgid "Added more C and C++ examples."
+msgstr ""
+
+#. Tag: member
+#, no-c-format
+msgid "TLS Client NSS: Rely on NSS 3.14 cipher suite defaults."
 msgstr ""
 
 #. Tag: member

@@ -1,0 +1,59 @@
+# 
+# AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: 0\n"
+"POT-Creation-Date: 2013-08-13T01:54:52\n"
+"PO-Revision-Date: 2013-08-13T01:54:52\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: None\n"
+"MIME-Version: 1.0\n"
+"Content-Type: application/x-publican; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. Tag: title
+#, no-c-format
+msgid "Other C-related topics"
+msgstr ""
+
+#. Tag: title
+#, no-c-format
+msgid "Wrapper functions"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Some libraries provide wrappers for standard library functions. Common cases include allocation functions such as <function>xmalloc</function> which abort the process on allocation failure (instead of returning a <literal>NULL</literal> pointer), or alternatives to relatively recent library additions such as <function>snprintf</function> (along with implementations for systems which lack them)."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "In general, such wrappers are a bad idea, particularly if they are not implemented as inline functions or preprocessor macros. The compiler lacks knowledge of such wrappers outside the translation unit which defines them, which means that some optimizations and security checks are not performed. Adding <literal>__attribute__</literal> annotations to function declarations can remedy this to some extent, but these annotations have to be maintained carefully for feature parity with the standard implementation."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "At the minimum, you should apply these attributes:"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "If you wrap function which accepts are GCC-recognized format string (for example, a <function>printf</function>-style function used for logging), you should add a suitable <literal>format</literal> attribute, as in <xref linkend=\"ex-Defensive_Coding-C-String-Functions-format-Attribute\" />."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "If you wrap a function which carries a <literal>warn_unused_result</literal> attribute and you propagate its return value, your wrapper should be declared with <literal>warn_unused_result</literal> as well."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Duplicating the buffer length checks based on the <function>__builtin_object_size</function> GCC builtin is desirable if the wrapper processes arrays. (This functionality is used by the <literal>-D_FORTIFY_SOURCE=2</literal> checks to guard against static buffer overflows.) However, designing appropriate interfaces and implementing the checks may not be entirely straightforward."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "For other attributes (such as <literal>malloc</literal>), careful analysis and comparison with the compiler documentation is required to check if propagating the attribute is appropriate. Incorrectly applied attributes can result in undesired behavioral changes in the compiled code."
+msgstr ""
+

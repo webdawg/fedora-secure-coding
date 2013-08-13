@@ -1,0 +1,39 @@
+# 
+# AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: 0\n"
+"POT-Creation-Date: 2013-08-13T01:54:52\n"
+"PO-Revision-Date: 2013-08-13T01:54:52\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: None\n"
+"MIME-Version: 1.0\n"
+"Content-Type: application/x-publican; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. Tag: programlisting
+#, no-c-format
+msgid "\n"
+"class NoEntityReader : public QXmlSimpleReader {\n"
+"  NoEntityHandler handler;\n"
+"public:\n"
+"  NoEntityReader();\n"
+"  void setDeclHandler(QXmlDeclHandler *);\n"
+"};\n"
+"\n"
+" NoEntityReader::NoEntityReader()\n"
+"{\n"
+"  QXmlSimpleReader::setDeclHandler(&amp;handler);\n"
+"  setFeature(\"http://xml.org/sax/features/namespaces\", true);\n"
+"  setFeature(\"http://xml.org/sax/features/namespace-prefixes\", false);\n"
+" }\n"
+"\n"
+"void\n"
+"NoEntityReader::setDeclHandler(QXmlDeclHandler *)\n"
+"{\n"
+"  // Ignore the handler which was passed in.\n"
+"}\n"
+""
+msgstr ""
+

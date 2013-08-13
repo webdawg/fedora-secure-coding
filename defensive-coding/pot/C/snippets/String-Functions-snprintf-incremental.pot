@@ -1,0 +1,28 @@
+# 
+# AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: 0\n"
+"POT-Creation-Date: 2013-08-13T01:54:52\n"
+"PO-Revision-Date: 2013-08-13T01:54:52\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: None\n"
+"MIME-Version: 1.0\n"
+"Content-Type: application/x-publican; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. Tag: programlisting
+#, no-c-format
+msgid "\n"
+"char buf[512];\n"
+"char *current = buf;\n"
+"const char *const end = buf + sizeof(buf);\n"
+"for (struct item *it = data; it-&gt;key; ++it) {\n"
+"  snprintf(current, end - current, \"%s%s=%d\",\n"
+"	       current == buf ? \"\" : \", \", it-&gt;key, it-&gt;value);\n"
+"  current += strlen(current);\n"
+"}\n"
+""
+msgstr ""
+

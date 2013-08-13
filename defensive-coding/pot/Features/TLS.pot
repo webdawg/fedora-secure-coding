@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 0\n"
-"POT-Creation-Date: 2013-03-12T03:19:44\n"
-"PO-Revision-Date: 2013-03-12T03:19:44\n"
+"POT-Creation-Date: 2013-08-13T01:54:52\n"
+"PO-Revision-Date: 2013-08-13T01:54:52\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: None\n"
 "MIME-Version: 1.0\n"
@@ -544,7 +544,12 @@ msgstr ""
 
 #. Tag: para
 #, no-c-format
-msgid "The following code shows how to implement a simple TLS client using NSS. Note that the error handling needs replacing before production use."
+msgid "The following code shows how to implement a simple TLS client using NSS. These instructions apply to NSS version 3.14 and later. Versions before 3.14 need different initialization code."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Keep in mind that the error handling needs to be improved before the code can be used in production."
 msgstr ""
 
 #. Tag: para
@@ -559,7 +564,7 @@ msgstr ""
 
 #. Tag: para
 #, no-c-format
-msgid "Initializing the NSS library is a complex task (<xref linkend=\"ex-Defensive_Coding-TLS-NSS-Init\" />). It is not thread-safe. By default, the library is in export mode, and all strong ciphers are disabled. Therefore, after creating the <literal>NSSInitCContext</literal> object, we probe all the strong ciphers we want to use, and check if at least one of them is available. If not, we call <function>NSS_SetDomesticPolicy</function> to switch to unrestricted policy mode. This function replaces the existing global cipher suite policy, that is why we avoid calling it unless absolutely necessary."
+msgid "Initializing the NSS library is shown in <xref linkend=\"ex-Defensive_Coding-TLS-NSS-Init\" />. This initialization procedure overrides global state. We only call <function>NSS_SetDomesticPolicy</function> if there are no strong ciphers available, assuming that it has already been called otherwise. This avoids overriding the process-wide cipher suite policy unnecessarily."
 msgstr ""
 
 #. Tag: para
@@ -579,7 +584,7 @@ msgstr ""
 
 #. Tag: para
 #, no-c-format
-msgid "After NSS has been initialized, the TLS connection can be created (<xref linkend=\"ex-Defensive_Coding-TLS-Client-NSS-Connect\" />). The internal <function>PR_ImportTCPSocket</function> function is used to turn the POSIX file descriptor <literal>sockfd</literal> into an NSPR file descriptor. (This function is de-facto part of the NSS public ABI, so it will not go away.) Creating the TLS-capable file descriptor requires a <emphasis>model</emphasis> descriptor, which is configured with the desired set of protocols and ciphers. (The <literal>good_ciphers</literal> variable is part of <xref linkend=\"ex-Defensive_Coding-TLS-NSS-Init\" />.) We cannot resort to disabling ciphers not on a whitelist because by default, the AES cipher suites are disabled. The model descriptor is not needed anymore after TLS support has been activated for the existing connection descriptor."
+msgid "After NSS has been initialized, the TLS connection can be created (<xref linkend=\"ex-Defensive_Coding-TLS-Client-NSS-Connect\" />). The internal <function>PR_ImportTCPSocket</function> function is used to turn the POSIX file descriptor <literal>sockfd</literal> into an NSPR file descriptor. (This function is de-facto part of the NSS public ABI, so it will not go away.) Creating the TLS-capable file descriptor requires a <emphasis>model</emphasis> descriptor, which is configured with the desired set of protocols. The model descriptor is not needed anymore after TLS support has been activated for the existing connection descriptor."
 msgstr ""
 
 #. Tag: para

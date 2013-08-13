@@ -1,0 +1,228 @@
+# 
+# AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: 0\n"
+"POT-Creation-Date: 2013-08-13T01:54:52\n"
+"PO-Revision-Date: 2013-08-13T01:54:52\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: None\n"
+"MIME-Version: 1.0\n"
+"Content-Type: application/x-publican; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. Tag: title
+#, no-c-format
+msgid "Interacting with the security manager"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "The Java platform is largely implemented in the Java language itself. Therefore, within the same JVM, code runs which is part of the Java installation and which is trusted, but there might also be code which comes from untrusted sources and is restricted by the Java sandbox (to varying degrees). The <emphasis>security manager</emphasis> draws a line between fully trusted, partially trusted and untrusted code."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "The type safety and accessibility checks provided by the Java language and JVM would be sufficient to implement a sandbox. However, only some Java APIs employ such a capabilities-based approach. (The Java SE library contains many public classes with public constructors which can break any security policy, such as <literal>java.io.FileOutputStream</literal>.) Instead, critical functionality is protected by <emphasis>stack inspection</emphasis>: At a security check, the stack is walked from top (most-nested) to bottom. The security check fails if a stack frame for a method is encountered whose class lacks the permission which the security check requires."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "This simple approach would not allow untrusted code (which lacks certain permissions) to call into trusted code while the latter retains trust. Such trust transitions are desirable because they enable Java as an implementation language for most parts of the Java platform, including security-relevant code. Therefore, there is a mechanism to mark certain stack frames as trusted (<xref linkend=\"sect-Defensive_Coding-Java-SecurityManager-Privileged\" />)."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "In theory, it is possible to run a Java virtual machine with a security manager that acts very differently from this approach, but a lot of code expects behavior very close to the platform default (including many classes which are part of the OpenJDK implementation)."
+msgstr ""
+
+#. Tag: title
+#, no-c-format
+msgid "Security manager compatibility"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "A lot of code can run without any additional permissions at all, with little changes. The following guidelines should help to increase compatibility with a restrictive security manager."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "When retrieving system properties using <function>System.getProperty(String)</function> or similar methods, catch <literal>SecurityException</literal> exceptions and treat the property as unset."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Avoid unnecessary file system or network access."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Avoid explicit class loading. Access to a suitable class loader might not be available when executing as untrusted code."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "If the functionality you are implementing absolutely requires privileged access and this functionality has to be used from untrusted code (hopefully in a restricted and secure manner), see <xref linkend=\"sect-Defensive_Coding-Java-SecurityManager-Privileged\" />."
+msgstr ""
+
+#. Tag: title
+#, no-c-format
+msgid "Activating the security manager"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "The usual command to launch a Java application, <command>java</command>, does not activate the security manager. Therefore, the virtual machine does not enforce any sandboxing restrictions, even if explicitly requested by the code (for example, as described in <xref linkend=\"sect-Defensive_Coding-Java-SecurityManager-Unprivileged\" />)."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "The <option>-Djava.security.manager</option> option activates the security manager, with the fairly restrictive default policy. With a very permissive policy, most Java code will run unchanged. Assuming the policy in <xref linkend=\"ex-Defensive_Coding-Java-SecurityManager-GrantAll\" /> has been saved in a file <filename>grant-all.policy</filename>, this policy can be activated using the option <option>-Djava.security.policy=grant-all.policy</option> (in addition to the <option>-Djava.security.manager</option> option)."
+msgstr ""
+
+#. Tag: title
+#, no-c-format
+msgid "Most permissve OpenJDK policy file"
+msgstr ""
+
+#. Tag: programlisting
+#, no-c-format
+msgid "\n"
+"grant {\n"
+"      permission java.security.AllPermission;\n"
+"};\n"
+""
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "With this most permissive policy, the security manager is still active, and explicit requests to drop privileges will be honored."
+msgstr ""
+
+#. Tag: title
+#, no-c-format
+msgid "Reducing trust in code"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "<xref linkend=\"ex-Defensive_Coding-Java-SecurityManager-Unprivileged\" /> shows how to run a piece code of with reduced privileges."
+msgstr ""
+
+#. Tag: title
+#, no-c-format
+msgid "Using the security manager to run code with reduced privileges"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "The example above does not add any additional permissions to the <literal>permissions</literal> object. If such permissions are necessary, code like the following (which grants read permission on all files in the current directory) can be used:"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Calls to the <function>java.security.AccessController.doPrivileged()</function> methods do not enforce any additional restriction if no security manager has been set. Except for a few special exceptions, the restrictions no longer apply if the <function>doPrivileged()</function> has returned, even to objects created by the code which ran with reduced privileges. (This applies to object finalization in particular.)"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "The example code above does not prevent the called code from calling the <function>java.security.AccessController.doPrivileged()</function> methods. This mechanism should be considered an additional safety net, but it still can be used to prevent unexpected behavior of trusted code. As long as the executed code is not dynamic and came with the original application or library, the sandbox is fairly effective."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "The <literal>context</literal> argument in <xref linkend=\"ex-Defensive_Coding-Java-SecurityManager-Unprivileged\" /> is extremely important—otherwise, this code would increase privileges instead of reducing them."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "For activating the security manager, see <xref linkend=\"sect-Defensive_Coding-Java-SecurityManager-Activate\" />. Unfortunately, this affects the virtual machine as a whole, so it is not possible to do this from a library."
+msgstr ""
+
+#. Tag: title
+#, no-c-format
+msgid "Re-gaining privileges"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Ordinarily, when trusted code is called from untrusted code, it loses its privileges (because of the untrusted stack frames visible to stack inspection). The <function>java.security.AccessController.doPrivileged()</function> family of methods provides a controlled backdoor from untrusted to trusted code."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "By design, this feature can undermine the Java security model and the sandbox. It has to be used very carefully. Most sandbox vulnerabilities can be traced back to its misuse."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "In essence, the <function>doPrivileged()</function> methods cause the stack inspection to end at their call site. Untrusted code further down the call stack becomes invisible to security checks."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "The following operations are common and safe to perform with elevated privileges."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Reading custom system properties with fixed names, especially if the value is not propagated to untrusted code. (File system paths including installation paths, host names and user names are sometimes considered private information and need to be protected.)"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Reading from the file system at fixed paths, either determined at compile time or by a system property. Again, leaking the file contents to the caller can be problematic."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Accessing network resources under a fixed address, name or URL, derived from a system property or configuration file, information leaks not withstanding."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "<xref linkend=\"ex-Defensive_Coding-Java-SecurityManager-Privileged\" /> shows how to request additional privileges."
+msgstr ""
+
+#. Tag: title
+#, no-c-format
+msgid "Using the security manager to run code with increased privileges"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Obviously, this only works if the class containing the call to <function>doPrivileged()</function> is marked trusted (usually because it is loaded from a trusted class loader)."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "When writing code that runs with elevated privileges, make sure that you follow the rules below."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Make the privileged code as small as possible. Perform as many computations as possible before and after the privileged code section, even if it means that you have to define a new class to pass the data around."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Make sure that you either control the inputs to the privileged code, or that the inputs are harmless and cannot affect security properties of the privileged code."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Data that is returned from or written by the privileged code must either be restricted (that is, it cannot be accessed by untrusted code), or must be harmless. Otherwise, privacy leaks or information disclosures which affect security properties can be the result."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "If the code calls back into untrusted code at a later stage (or performs other actions under control from the untrusted caller), you must obtain the original security context and restore it before performing the callback, as in <xref linkend=\"ex-Defensive_Coding-Java-SecurityManager-Callback\" />. (In this example, it would be much better to move the callback invocation out of the privileged code section, of course.)"
+msgstr ""
+
+#. Tag: title
+#, no-c-format
+msgid "Restoring privileges when invoking callbacks"
+msgstr ""
+

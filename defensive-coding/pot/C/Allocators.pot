@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 0\n"
-"POT-Creation-Date: 2013-03-12T03:19:44\n"
-"PO-Revision-Date: 2013-03-12T03:19:44\n"
+"POT-Creation-Date: 2013-08-13T01:54:52\n"
+"PO-Revision-Date: 2013-08-13T01:54:52\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: None\n"
 "MIME-Version: 1.0\n"
@@ -114,7 +114,7 @@ msgstr ""
 
 #. Tag: para
 #, no-c-format
-msgid "If <function>malloc</function> or <function>realloc</function> is used, the size check must be written manually. For instance, to allocate an array of <literal>n</literal> elements of type <literal>T</literal>, check that the requested size is not greater than <literal>n / sizeof(T)</literal>."
+msgid "If <function>malloc</function> or <function>realloc</function> is used, the size check must be written manually. For instance, to allocate an array of <literal>n</literal> elements of type <literal>T</literal>, check that the requested size is not greater than <literal>n / sizeof(T)</literal>. See <xref linkend=\"sect-Defensive_Coding-C-Arithmetic\" />."
 msgstr ""
 
 #. Tag: title

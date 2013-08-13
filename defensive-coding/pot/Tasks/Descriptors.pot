@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 0\n"
-"POT-Creation-Date: 2013-03-12T03:19:44\n"
-"PO-Revision-Date: 2013-03-12T03:19:44\n"
+"POT-Creation-Date: 2013-08-13T01:54:52\n"
+"PO-Revision-Date: 2013-08-13T01:54:52\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: None\n"
 "MIME-Version: 1.0\n"
@@ -159,7 +159,7 @@ msgstr ""
 
 #. Tag: para
 #, no-c-format
-msgid "If a library which creates many file descriptors is used in the same process as a library which uses <function>select</function>, at least one of them needs to be changed. Calls to <function>select</function> can be replaced with calls to <function>poll</function> or another event handling mechanism."
+msgid "If a library which creates many file descriptors is used in the same process as a library which uses <function>select</function>, at least one of them needs to be changed. Calls to <function>select</function> can be replaced with calls to <function>poll</function> or another event handling mechanism. Replacing the <function>select</function> function is the recommended approach."
 msgstr ""
 
 #. Tag: para

@@ -1,0 +1,214 @@
+# 
+# AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: 0\n"
+"POT-Creation-Date: 2013-08-13T01:54:52\n"
+"PO-Revision-Date: 2013-08-13T01:54:52\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: None\n"
+"MIME-Version: 1.0\n"
+"Content-Type: application/x-publican; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. Tag: title
+#, no-c-format
+msgid "The core language"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Implementations of the Java programming language provide strong memory safety, even in the presence of data races in concurrent code. This prevents a large range of security vulnerabilities from occurring, unless certain low-level features are used; see <xref linkend=\"sect-Defensive_Coding-Java-LowLevel\" />."
+msgstr ""
+
+#. Tag: title
+#, no-c-format
+msgid "Inceasing robustness when reading arrays"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "External data formats often include arrays, and the data is stored as an integer indicating the number of array elements, followed by this number of elements in the file or protocol data unit. This length specified can be much larger than what is actually available in the data source."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "To avoid allocating extremely large amounts of data, you can allocate a small array initially and grow it as you read more data, implementing an exponential growth policy. See the <function>readBytes(InputStream, int)</function> function in <xref linkend=\"ex-Defensive_Coding-Java-Language-ReadArray\" />."
+msgstr ""
+
+#. Tag: title
+#, no-c-format
+msgid "Incrementally reading a byte array"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "When reading data into arrays, hash maps or hash sets, use the default constructor and do not specify a size hint. You can simply add the elements to the collection as you read them."
+msgstr ""
+
+#. Tag: title
+#, no-c-format
+msgid "Resource management"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Unlike C++, Java does not offer destructors which can deallocate resources in a predictable fashion. All resource management has to be manual, at the usage site. (Finalizers are generally not usable for resource management, especially in high-performance code; see <xref linkend=\"sect-Defensive_Coding-Java-Language-Finalizers\" />.)"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "The first option is the <literal>try</literal>-<literal>finally</literal> construct, as shown in <xref linkend=\"ex-Defensive_Coding-Java-Language-Finally\" />. The code in the <literal>finally</literal> block should be as short as possible and should not throw any exceptions."
+msgstr ""
+
+#. Tag: title
+#, no-c-format
+msgid "Resource management with a <literal>try</literal>-<literal>finally</literal> block"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Note that the resource allocation happens <emphasis>outside</emphasis> the <literal>try</literal> block, and that there is no <literal>null</literal> check in the <literal>finally</literal> block. (Both are common artifacts stemming from IDE code templates.)"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "If the resource object is created freshly and implements the <literal>java.lang.AutoCloseable</literal> interface, the code in <xref linkend=\"ex-Defensive_Coding-Java-Language-TryWithResource\" /> can be used instead. The Java compiler will automatically insert the <function>close()</function> method call in a synthetic <literal>finally</literal> block."
+msgstr ""
+
+#. Tag: title
+#, no-c-format
+msgid "Resource management using the <literal>try</literal>-with-resource construct"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "To be compatible with the <literal>try</literal>-with-resource construct, new classes should name the resource deallocation method <function>close()</function>, and implement the <literal>AutoCloseable</literal> interface (the latter breaking backwards compatibility with Java 6). However, using the <literal>try</literal>-with-resource construct with objects that are not freshly allocated is at best awkward, and an explicit <literal>finally</literal> block is usually the better approach."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "In general, it is best to design the programming interface in such a way that resource deallocation methods like <function>close()</function> cannot throw any (checked or unchecked) exceptions, but this should not be a reason to ignore any actual error conditions."
+msgstr ""
+
+#. Tag: title
+#, no-c-format
+msgid "Finalizers"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Finalizers can be used a last-resort approach to free resources which would otherwise leak. Finalization is unpredictable, costly, and there can be a considerable delay between the last reference to an object going away and the execution of the finalizer. Generally, manual resource management is required; see <xref linkend=\"sect-Defensive_Coding-Java-Language-Resources\" />."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Finalizers should be very short and should only deallocate native or other external resources held directly by the object being finalized. In general, they must use synchronization: Finalization necessarily happens on a separate thread because it is inherently concurrent. There can be multiple finalization threads, and despite each object being finalized at most once, the finalizer must not assume that it has exclusive access to the object being finalized (in the <literal>this</literal> pointer)."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Finalizers should not deallocate resources held by other objects, especially if those objects have finalizers on their own. In particular, it is a very bad idea to define a finalizer just to invoke the resource deallocation method of another object, or overwrite some pointer fields."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Finalizers are not guaranteed to run at all. For instance, the virtual machine (or the machine underneath) might crash, preventing their execution."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Objects with finalizers are garbage-collected much later than objects without them, so using finalizers to zero out key material (to reduce its undecrypted lifetime in memory) may have the opposite effect, keeping objects around for much longer and prevent them from being overwritten in the normal course of program execution."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "For the same reason, code which allocates objects with finalizers at a high rate will eventually fail (likely with a <literal>java.lang.OutOfMemoryError</literal> exception) because the virtual machine has finite resources for keeping track of objects pending finalization. To deal with that, it may be necessary to recycle objects with finalizers."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "The remarks in this section apply to finalizers which are implemented by overriding the <function>finalize()</function> method, and to custom finalization using reference queues."
+msgstr ""
+
+#. Tag: title
+#, no-c-format
+msgid "Recovering from exceptions and errors"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Java exceptions come in three kinds, all ultimately deriving from <literal>java.lang.Throwable</literal>:"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "<emphasis>Run-time exceptions</emphasis> do not have to be declared explicitly and can be explicitly thrown from any code, by calling code which throws them, or by triggering an error condition at run time, like division by zero, or an attempt at an out-of-bounds array access. These exceptions derive from from the <literal>java.lang.RuntimeException</literal> class (perhaps indirectly)."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "<emphasis>Checked exceptions</emphasis> have to be declared explicitly by functions that throw or propagate them. They are similar to run-time exceptions in other regards, except that there is no language construct to throw them (except the <literal>throw</literal> statement itself). Checked exceptions are only present at the Java language level and are only enforced at compile time. At run time, the virtual machine does not know about them and permits throwing exceptions from any code. Checked exceptions must derive (perhaps indirectly) from the <literal>java.lang.Exception</literal> class, but not from <literal>java.lang.RuntimeException</literal>."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "<emphasis>Errors</emphasis> are exceptions which typically reflect serious error conditions. They can be thrown at any point in the program, and do not have to be declared (unlike checked exceptions). In general, it is not possible to recover from such errors; more on that below, in <xref linkend=\"sect-Defensive_Coding-Java-Language-Exceptions-Errors\" />. Error classes derive (perhaps indirectly) from <literal>java.lang.Error</literal>, or from <literal>java.lang.Throwable</literal>, but not from <literal>java.lang.Exception</literal>."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "The general expection is that run-time errors are avoided by careful programming (e.g., not dividing by zero). Checked exception are expected to be caught as they happen (e.g., when an input file is unexpectedly missing). Errors are impossible to predict and can happen at any point and reflect that something went wrong beyond all expectations."
+msgstr ""
+
+#. Tag: title
+#, no-c-format
+msgid "The difficulty of catching errors"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Errors (that is, exceptions which do not (indirectly) derive from <literal>java.lang.Exception</literal>), have the peculiar property that catching them is problematic. There are several reasons for this:"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "The error reflects a failed consistenty check, for example, <literal>java.lang.AssertionError</literal>."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "The error can happen at any point, resulting in inconsistencies due to half-updated objects. Examples are <literal>java.lang.ThreadDeath</literal>, <literal>java.lang.OutOfMemoryError</literal> and <literal>java.lang.StackOverflowError</literal>."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "The error indicates that virtual machine failed to provide some semantic guarantees by the Java programming language. <literal>java.lang.ExceptionInInitializerError</literal> is an example—it can leave behind a half-initialized class."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "In general, if an error is thrown, the virtual machine should be restarted as soon as possible because it is in an inconsistent state. Continuing running as before can have unexpected consequences. However, there are legitimate reasons for catching errors because not doing so leads to even greater problems."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Code should be written in a way that avoids triggering errors. See <xref linkend=\"sect-Defensive_Coding-Java-Language-ReadArray\" /> for an example."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "It is usually necessary to log errors. Otherwise, no trace of the problem might be left anywhere, making it very difficult to diagnose realted failures. Consequently, if you catch <literal>java.lang.Exception</literal> to log and suppress all unexpected exceptions (for example, in a request dispatching loop), you should consider switching to <literal>java.lang.Throwable</literal> instead, to also cover errors."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "The other reason mainly applies to such request dispatching loops: If you do not catch errors, the loop stops looping, resulting in a denial of service."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "However, if possible, catching errors should be coupled with a way to signal the requirement of a virtual machine restart."
+msgstr ""
+

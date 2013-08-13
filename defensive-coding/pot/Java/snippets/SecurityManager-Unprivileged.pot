@@ -1,0 +1,42 @@
+# 
+# AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: 0\n"
+"POT-Creation-Date: 2013-08-13T01:54:52\n"
+"PO-Revision-Date: 2013-08-13T01:54:52\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: None\n"
+"MIME-Version: 1.0\n"
+"Content-Type: application/x-publican; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. Tag: programlisting
+#, no-c-format
+msgid "\n"
+"Permissions permissions = new Permissions();\n"
+"        ProtectionDomain protectionDomain =\n"
+"    new ProtectionDomain(null, permissions);\n"
+"        AccessControlContext context = new AccessControlContext(\n"
+"            new ProtectionDomain[] { protectionDomain });\n"
+"\n"
+"// This is expected to succeed.\n"
+"try (FileInputStream in = new FileInputStream(path)) {\n"
+"    System.out.format(\"FileInputStream: %s%n\", in);\n"
+"}\n"
+"\n"
+"AccessController.doPrivileged(new PrivilegedExceptionAction&lt;Void&gt;() {\n"
+"	@Override\n"
+"        public Void run() throws Exception {\n"
+"	    // This code runs with reduced privileges and is\n"
+"	    // expected to fail.\n"
+"	    try (FileInputStream in = new FileInputStream(path)) {\n"
+"		System.out.format(\"FileInputStream: %s%n\", in);\n"
+"	    }\n"
+"	    return null;\n"
+"	}\n"
+"    }, context);\n"
+""
+msgstr ""
+
