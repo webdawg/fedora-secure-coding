@@ -1,5 +1,5 @@
 [main]
-host = https://www.transifex.net
+host = https://www.transifex.com
 lang_map = aln:aln-AL, ar:ar-SA, ast:ast-ES, as:as-IN, bal:bal-PK, bg:bg-BG, bn:bn-BD, bn_IN:bn-IN, bs:bs-BA, ca:ca-ES, cs:cs-CZ, da:da-DK, de_CH:de-CH, de:de-DE, el:el-GR, en_GB:en-GB, es:es-ES, et:et-EE, eu:eu-ES, fa:fa-IR, fi:fi-FI, fr:fr-FR, gl:gl-ES, gu:gu-IN, he:he-IL, hi:hi-IN, hr:hr-HR, hu:hu-HU, id:id-ID, is:is-IS, it:it-IT, ja:ja-JP, kn:kn-IN, ko:ko-KR, lt:lt-LT, lv:lv-LV, mai:mai-IN, ml:ml-IN, mr:mr-IN, ms:ms-MY, nb:nb-NO, nds:nds-DE, nl:nl-NL, nn:nn-NO, or:or-IN, pa:pa-IN, pl:pl-PL, pt_BR:pt-BR, pt:pt-PT, ro:ro-RO, ru:ru-RU, si:si-LK, sk:sk-SK, sl:sl-SI, sq:sq-AL, sr:sr-RS, sr@latin:sr-Latn-RS, sv:sv-SE, ta:ta-IN, te:te-IN, tg:tg-TJ, tr:tr-TR, uk:uk-UA, ur:ur-PK, vi:vi-VN, zh_CN:zh-CN, zh_HK:zh-HK, zh_TW:zh-TW
 
 [defensive-coding-guide.Book_Info]
@@ -23,6 +23,12 @@ type = PO
 [defensive-coding-guide.Defensive_Coding]
 file_filter = <lang>/Defensive_Coding.po
 source_file = pot/Defensive_Coding.pot
+source_lang = en
+type = PO
+
+[defensive-coding-guide.Other]
+file_filter = <lang>/C/Other.po
+source_file = pot/C/Other.pot
 source_lang = en
 type = PO
 
@@ -56,15 +62,33 @@ source_file = pot/C/snippets/String-Functions-snprintf.pot
 source_lang = en
 type = PO
 
+[defensive-coding-guide.String-Functions-strncat-merged]
+file_filter = <lang>/C/snippets/String-Functions-strncat-merged.po
+source_file = pot/C/snippets/String-Functions-strncat-merged.pot
+source_lang = en
+type = PO
+
 [defensive-coding-guide.Arithmetic-add]
 file_filter = <lang>/C/snippets/Arithmetic-add.po
 source_file = pot/C/snippets/Arithmetic-add.pot
 source_lang = en
 type = PO
 
+[defensive-coding-guide.String-Functions-strncat-emulation]
+file_filter = <lang>/C/snippets/String-Functions-strncat-emulation.po
+source_file = pot/C/snippets/String-Functions-strncat-emulation.pot
+source_lang = en
+type = PO
+
 [defensive-coding-guide.String-Functions-strncpy]
 file_filter = <lang>/C/snippets/String-Functions-strncpy.po
 source_file = pot/C/snippets/String-Functions-strncpy.pot
+source_lang = en
+type = PO
+
+[defensive-coding-guide.String-Functions-snprintf-incremental]
+file_filter = <lang>/C/snippets/String-Functions-snprintf-incremental.po
+source_file = pot/C/snippets/String-Functions-snprintf-incremental.pot
 source_lang = en
 type = PO
 
@@ -80,6 +104,12 @@ source_file = pot/C/snippets/Pointers-remaining.pot
 source_lang = en
 type = PO
 
+[defensive-coding-guide.String-Functions-strncat-as-strncpy]
+file_filter = <lang>/C/snippets/String-Functions-strncat-as-strncpy.po
+source_file = pot/C/snippets/String-Functions-strncat-as-strncpy.pot
+source_lang = en
+type = PO
+
 [defensive-coding-guide.Arithmetic-mult]
 file_filter = <lang>/C/snippets/Arithmetic-mult.po
 source_file = pot/C/snippets/Arithmetic-mult.pot
@@ -91,7 +121,6 @@ file_filter = <lang>/Python/Language.po
 source_file = pot/Python/Language.pot
 source_lang = en
 type = PO
-
 
 [defensive-coding-guide.CXX]
 file_filter = <lang>/CXX/CXX.po
@@ -111,6 +140,77 @@ source_file = pot/CXX/Std.pot
 source_lang = en
 type = PO
 
+[defensive-coding-guide.Java]
+file_filter = <lang>/Java/Java.po
+source_file = pot/Java/Java.pot
+source_lang = en
+type = PO
+
+[defensive-coding-guide.Language]
+file_filter = <lang>/Java/Language.po
+source_file = pot/Java/Language.pot
+source_lang = en
+type = PO
+
+[defensive-coding-guide.LowLevel]
+file_filter = <lang>/Java/LowLevel.po
+source_file = pot/Java/LowLevel.pot
+source_lang = en
+type = PO
+
+[defensive-coding-guide.SecurityManager]
+file_filter = <lang>/Java/SecurityManager.po
+source_file = pot/Java/SecurityManager.pot
+source_lang = en
+type = PO
+
+[defensive-coding-guide.TryWithResource]
+file_filter = <lang>/Java/snippets/TryWithResource.po
+source_file = pot/Java/snippets/TryWithResource.pot
+source_lang = en
+type = PO
+
+[defensive-coding-guide.SecurityManager-Privileged]
+file_filter = <lang>/Java/snippets/SecurityManager-Privileged.po
+source_file = pot/Java/snippets/SecurityManager-Privileged.pot
+source_lang = en
+type = PO
+
+[defensive-coding-guide.SecurityManager-CurrentDirectory]
+file_filter = <lang>/Java/snippets/SecurityManager-CurrentDirectory.po
+source_file = pot/Java/snippets/SecurityManager-CurrentDirectory.pot
+source_lang = en
+type = PO
+
+[defensive-coding-guide.JNI-Pointers]
+file_filter = <lang>/Java/snippets/JNI-Pointers.po
+source_file = pot/Java/snippets/JNI-Pointers.pot
+source_lang = en
+type = PO
+
+[defensive-coding-guide.SecurityManager-Unprivileged]
+file_filter = <lang>/Java/snippets/SecurityManager-Unprivileged.po
+source_file = pot/Java/snippets/SecurityManager-Unprivileged.pot
+source_lang = en
+type = PO
+
+[defensive-coding-guide.Language-ReadArray]
+file_filter = <lang>/Java/snippets/Language-ReadArray.po
+source_file = pot/Java/snippets/Language-ReadArray.pot
+source_lang = en
+type = PO
+
+[defensive-coding-guide.SecurityManager-Callback]
+file_filter = <lang>/Java/snippets/SecurityManager-Callback.po
+source_file = pot/Java/snippets/SecurityManager-Callback.pot
+source_lang = en
+type = PO
+
+[defensive-coding-guide.Finally]
+file_filter = <lang>/Java/snippets/Finally.po
+source_file = pot/Java/snippets/Finally.pot
+source_lang = en
+type = PO
 
 [defensive-coding-guide.File_System]
 file_filter = <lang>/Tasks/File_System.po
@@ -154,9 +254,21 @@ source_file = pot/Tasks/Cryptography.pot
 source_lang = en
 type = PO
 
+[defensive-coding-guide.Serialization-XML-Qt-NoEntityHandler]
+file_filter = <lang>/Tasks/snippets/Serialization-XML-Qt-NoEntityHandler.po
+source_file = pot/Tasks/snippets/Serialization-XML-Qt-NoEntityHandler.pot
+source_lang = en
+type = PO
+
 [defensive-coding-guide.Serialization-XML-OpenJDK_Parse-XMLSchema_SAX]
 file_filter = <lang>/Tasks/snippets/Serialization-XML-OpenJDK_Parse-XMLSchema_SAX.po
 source_file = pot/Tasks/snippets/Serialization-XML-OpenJDK_Parse-XMLSchema_SAX.pot
+source_lang = en
+type = PO
+
+[defensive-coding-guide.Serialization-XML-Qt-NoEntityReader]
+file_filter = <lang>/Tasks/snippets/Serialization-XML-Qt-NoEntityReader.po
+source_file = pot/Tasks/snippets/Serialization-XML-Qt-NoEntityReader.pot
 source_lang = en
 type = PO
 
@@ -193,6 +305,12 @@ type = PO
 [defensive-coding-guide.Serialization-XML-OpenJDK-NoResourceResolver]
 file_filter = <lang>/Tasks/snippets/Serialization-XML-OpenJDK-NoResourceResolver.po
 source_file = pot/Tasks/snippets/Serialization-XML-OpenJDK-NoResourceResolver.pot
+source_lang = en
+type = PO
+
+[defensive-coding-guide.Serialization-XML-Qt-QDomDocument]
+file_filter = <lang>/Tasks/snippets/Serialization-XML-Qt-QDomDocument.po
+source_file = pot/Tasks/snippets/Serialization-XML-Qt-QDomDocument.pot
 source_lang = en
 type = PO
 
