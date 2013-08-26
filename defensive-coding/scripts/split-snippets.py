@@ -23,7 +23,7 @@ import sys
 target_root = sys.argv[1]
 
 def output_file_name(dirname, basename):
-    return "{0}/en-US/{1}/snippets/{2}.xml".format(
+    return "{0}/en-US/snippets/{1}-{2}.xml".format(
         target_root, dirname, basename)
 
 re_open_file = re.compile(

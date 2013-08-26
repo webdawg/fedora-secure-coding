@@ -29,7 +29,7 @@
     </para>
     <example id="ex-Defensive_Coding-Java-Language-ReadArray">
       <title>Incrementally reading a byte array</title>
-      <xi:include href="Java/snippets/Language-ReadArray.xml"
+      <xi:include href="Javsnippets/a-Language-ReadArray.xml"
 		  xmlns:xi="http://www.w3.org/2001/XInclude" />
     </example>
     <para>
@@ -59,7 +59,7 @@
     <example id="ex-Defensive_Coding-Java-Language-Finally">
       <title>Resource management with a
       <literal>try</literal>-<literal>finally</literal> block</title>
-      <xi:include href="Java/snippets/Finally.xml"
+      <xi:include href="Javsnippets/a-Finally.xml"
 		  xmlns:xi="http://www.w3.org/2001/XInclude" />
     </example>
     <para>
@@ -81,7 +81,7 @@
     <example id="ex-Defensive_Coding-Java-Language-TryWithResource">
       <title>Resource management using the
       <literal>try</literal>-with-resource construct</title>
-      <xi:include href="Java/snippets/TryWithResource.xml"
+      <xi:include href="Javsnippets/a-TryWithResource.xml"
 		  xmlns:xi="http://www.w3.org/2001/XInclude" />
     </example>
     <para>

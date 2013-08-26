@@ -239,7 +239,7 @@
       </para>
       <example id="ex-Defensive_Coding-Tasks-Serialization-XML-Expat-EntityDeclHandler">
 	<title>Disabling XML entity processing with Expat</title>
-	<xi:include href="Tasks/snippets/Serialization-XML-Expat-EntityDeclHandler.xml"
+	<xi:include href="Tasksnippets/s-Serialization-XML-Expat-EntityDeclHandler.xml"
 		    xmlns:xi="http://www.w3.org/2001/XInclude" />
       </example>
       <para>
@@ -249,7 +249,7 @@
       </para>
       <example id="ex-Defensive_Coding-Tasks-Serialization-XML-Expat-Create">
 	<title>Creating an Expat XML parser</title>
-	<xi:include href="Tasks/snippets/Serialization-XML-Expat-Create.xml"
+	<xi:include href="Tasksnippets/s-Serialization-XML-Expat-Create.xml"
 		    xmlns:xi="http://www.w3.org/2001/XInclude" />
       </example>
       <para>
@@ -279,7 +279,7 @@
       </para>
       <example id="ex-Defensive_Coding-Tasks-Serialization-XML-Qt-NoEntityHandler">
 	<title>A QtXml entity handler which blocks entity processing</title>
-	<xi:include href="Tasks/snippets/Serialization-XML-Qt-NoEntityHandler.xml"
+	<xi:include href="Tasksnippets/s-Serialization-XML-Qt-NoEntityHandler.xml"
 		    xmlns:xi="http://www.w3.org/2001/XInclude" />
       </example>
       <para>
@@ -295,7 +295,7 @@
       </para>
       <example id="ex-Defensive_Coding-Tasks-Serialization-XML-Qt-NoEntityReader">
 	<title>A QtXml XML reader which blocks entity processing</title>
-	<xi:include href="Tasks/snippets/Serialization-XML-Qt-NoEntityReader.xml"
+	<xi:include href="Tasksnippets/s-Serialization-XML-Qt-NoEntityReader.xml"
 		    xmlns:xi="http://www.w3.org/2001/XInclude" />
       </example>
       <para>
@@ -311,7 +311,7 @@
       </para>
       <example id="ex-Defensive_Coding-Tasks-Serialization-XML-Qt-QDomDocument">
 	<title>Parsing an XML document with QDomDocument, without entity expansion</title>
-	<xi:include href="Tasks/snippets/Serialization-XML-Qt-QDomDocument.xml"
+	<xi:include href="Tasksnippets/s-Serialization-XML-Qt-QDomDocument.xml"
 		    xmlns:xi="http://www.w3.org/2001/XInclude" />
       </example>
     </section>
@@ -340,13 +340,13 @@
       </para>
       <example id="ex-Defensive_Coding-Tasks-Serialization-XML-OpenJDK-NoEntityResolver">
 	<title>Helper class to prevent DTD external entity resolution in OpenJDK</title>
-	<xi:include href="Tasks/snippets/Serialization-XML-OpenJDK-NoEntityResolver.xml"
+	<xi:include href="Tasksnippets/s-Serialization-XML-OpenJDK-NoEntityResolver.xml"
 		    xmlns:xi="http://www.w3.org/2001/XInclude" />
       </example>
       <example id="ex-Defensive_Coding-Tasks-Serialization-XML-OpenJDK-NoResourceResolver">
 	<title>Helper class to prevent schema resolution in
 	OpenJDK</title>
-	<xi:include href="Tasks/snippets/Serialization-XML-OpenJDK-NoResourceResolver.xml"
+	<xi:include href="Tasksnippets/s-Serialization-XML-OpenJDK-NoResourceResolver.xml"
 		    xmlns:xi="http://www.w3.org/2001/XInclude" />
       </example>
       <para>
@@ -355,7 +355,7 @@
       </para>
       <example id="ex-Defensive_Coding-Tasks-Serialization-XML-OpenJDK-Imports">
 	<title>Java imports for OpenJDK XML parsing</title>
-	<xi:include href="Tasks/snippets/Serialization-XML-OpenJDK-Imports.xml"
+	<xi:include href="Tasksnippets/s-Serialization-XML-OpenJDK-Imports.xml"
 		    xmlns:xi="http://www.w3.org/2001/XInclude" />
       </example>
       <section id="sect-Defensive_Coding-Tasks-Serialization-XML-OpenJDK_Parse-DOM">
@@ -369,7 +369,7 @@
 	</para>
 	<example id="ex-Defensive_Coding-Tasks-Serialization-XML-OpenJDK_Parse-DOM">
 	  <title>DOM-based XML parsing in OpenJDK</title>
-	  <xi:include href="Tasks/snippets/Serialization-XML-OpenJDK_Parse-DOM.xml"
+	  <xi:include href="Tasksnippets/s-Serialization-XML-OpenJDK_Parse-DOM.xml"
 		      xmlns:xi="http://www.w3.org/2001/XInclude" />
 	</example>
 	<para>
@@ -400,7 +400,7 @@
 	<example id="ex-Defensive_Coding-Tasks-Serialization-XML-OpenJDK_Parse-XMLSchema_SAX">
 	  <title>SAX-based validation against an XML schema in
 	  OpenJDK</title>
-	  <xi:include href="Tasks/snippets/Serialization-XML-OpenJDK_Parse-XMLSchema_SAX.xml"
+	  <xi:include href="Tasksnippets/s-Serialization-XML-OpenJDK_Parse-XMLSchema_SAX.xml"
 		      xmlns:xi="http://www.w3.org/2001/XInclude" />
 	</example>
 	<para>
@@ -421,7 +421,7 @@
 	<example id="ex-Defensive_Coding-Tasks-Serialization-XML-OpenJDK_Parse-XMLSchema_DOM">
 	  <title>Validation of a DOM document against an XML schema in
 	  OpenJDK</title>
-	  <xi:include href="Tasks/snippets/Serialization-XML-OpenJDK_Parse-XMLSchema_DOM.xml"
+	  <xi:include href="Tasksnippets/s-Serialization-XML-OpenJDK_Parse-XMLSchema_DOM.xml"
 		      xmlns:xi="http://www.w3.org/2001/XInclude" />
 	</example>
       </section>

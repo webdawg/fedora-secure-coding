@@ -184,7 +184,7 @@
 	<function>asprintf</function> instead.)
       </para>
       <informalexample>
-	<xi:include href="C/snippets/String-Functions-snprintf.xml"
+	<xi:include href="snippets/C-String-Functions-snprintf.xml"
 		    xmlns:xi="http://www.w3.org/2001/XInclude" />
       </informalexample>
       <para>
@@ -212,7 +212,7 @@
       </para>
       <example id="ex-Defensive_Coding-C-String-Functions-snprintf-incremental">
 	<title>Repeatedly writing to a buffer using <function>snprintf</function></title>
-	<xi:include href="C/snippets/String-Functions-snprintf-incremental.xml"
+	<xi:include href="snippets/C-String-Functions-snprintf-incremental.xml"
 		    xmlns:xi="http://www.w3.org/2001/XInclude" />
       </example>
       <para>
@@ -244,7 +244,7 @@
       </para>
       <example id="ex-Defensive_Coding-C-String-Functions-format-Attribute">
 	<title>The <literal>format</literal> function attribute</title>
-	<xi:include href="C/snippets/String-Functions-format.xml"
+	<xi:include href="snippets/C-String-Functions-format.xml"
 		    xmlns:xi="http://www.w3.org/2001/XInclude" />
       </example>
     </section>
@@ -256,7 +256,7 @@
 	ensuring NUL termination is:
       </para>
       <informalexample>
-	<xi:include href="C/snippets/String-Functions-strncpy.xml"
+	<xi:include href="snippets/C-String-Functions-strncpy.xml"
 		    xmlns:xi="http://www.w3.org/2001/XInclude" />
       </informalexample>
       <para>
@@ -264,7 +264,7 @@
 	function for this purpose:
       </para>
       <informalexample>
-	<xi:include href="C/snippets/String-Functions-strncat-as-strncpy.xml"
+	<xi:include href="snippets/C-String-Functions-strncat-as-strncpy.xml"
 		    xmlns:xi="http://www.w3.org/2001/XInclude" />
       </informalexample>
     </section>
@@ -289,7 +289,7 @@
 	linkend="ex-Defensive_Coding-C-String-Functions-snprintf-incremental"/>:
       </para>
       <informalexample>
-	<xi:include href="C/snippets/String-Functions-strncat-emulation.xml"
+	<xi:include href="snippets/C-String-Functions-strncat-emulation.xml"
 		    xmlns:xi="http://www.w3.org/2001/XInclude" />
       </informalexample>
       <para>
@@ -298,7 +298,7 @@
 	string:
       </para>
       <informalexample>
-	<xi:include href="C/snippets/String-Functions-strncat-merged.xml"
+	<xi:include href="snippets/C-String-Functions-strncat-merged.xml"
 		    xmlns:xi="http://www.w3.org/2001/XInclude" />
       </informalexample>
       <para>
