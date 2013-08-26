@@ -147,4 +147,50 @@
       integer overflow.
     </para>
   </section>
+
+  <section id="sect-Defensive_Coding-C-Globals">
+    <title>Global variables</title>
+    <para>
+      Global variables should be avoided because they usually lead to
+      thread safety hazards.  In any case, they should be declared
+      <literal>static</literal>, so that access is restricted to a
+      single translation unit.
+    </para>
+    <para>
+      Global constants are not a problem, but declaring them can be
+      tricky.  <xref linkend="ex-Defensive_Coding-C-Globals-String_Array"/>
+      shows how to declare a constant array of constant strings.
+      The second <literal>const</literal> is needed to make the
+      array constant, and not just the strings.  It must be placed
+      after the <literal>*</literal>, and not before it.
+    </para>
+    <example id="ex-Defensive_Coding-C-Globals-String_Array">
+      <title>Declaring a constant array of constant strings</title>
+      <xi:include href="snippets/C-Globals-String_Array.xml"
+		  xmlns:xi="http://www.w3.org/2001/XInclude" />
+    </example>
+    <para>
+      Sometimes, static variables local to functions are used as a
+      replacement for proper memory management.  Unlike non-static
+      local variables, it is possible to return a pointer to static
+      local variables to the caller.  But such variables are
+      well-hidden, but effectively global (just as static variables at
+      file scope). It is difficult to add thread safety afterwards if
+      such interfaces are used.  Merely dropping the
+      <literal>static</literal> keyword in such cases leads to
+      undefined behavior.
+    </para>
+    <para>
+      Another source for static local variables is a desire to reduce
+      stack space usage on embedded platforms, where the stack may
+      span only a few hundred bytes.  If this is the only reason why
+      the <literal>static</literal> keyword is used, it can just be
+      dropped, unless the object is very large (larger than
+      128 kilobytes on 32 bit platforms).  In the latter case, it is
+      recommended to allocate the object using
+      <literal>malloc</literal>, to obtain proper array checking, for
+      the same reasons outlined in <xref
+      linkend="sect-Defensive_Coding-C-Allocators-alloca"/>.
+    </para>
+  </section>
 </section>

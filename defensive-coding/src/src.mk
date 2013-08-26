@@ -12,6 +12,7 @@ LDFLAGS = -g
 compile_only += C-Pointers-remaining
 compile_only += C-Arithmetic-add
 compile_only += C-Arithmetic-mult
+compile_only += C-Globals
 
 compile_only += Java-JNI-Pointers
 CFLAGS_Java-JNI-Pointers = \
