@@ -80,7 +80,7 @@
     </para>
     <example id="ex-Defensive_Coding-Java-JNI-Pointers">
       <title>Array length checking in JNI code</title>
-      <xi:include href="Javsnippets/a-JNI-Pointers.xml"
+      <xi:include href="snippets/Java-JNI-Pointers.xml"
 		  xmlns:xi="http://www.w3.org/2001/XInclude" />
     </example>
     <para>

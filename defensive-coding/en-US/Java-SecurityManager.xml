@@ -126,7 +126,7 @@ grant {
     <example id="ex-Defensive_Coding-Java-SecurityManager-Unprivileged">
       <title>Using the security manager to run code with reduced
       privileges</title>
-      <xi:include href="Javsnippets/a-SecurityManager-Unprivileged.xml"
+      <xi:include href="snippets/Java-SecurityManager-Unprivileged.xml"
 		  xmlns:xi="http://www.w3.org/2001/XInclude" />
     </example>
     <para>
@@ -136,7 +136,7 @@ grant {
       on all files in the current directory) can be used:
     </para>
     <informalexample>
-      <xi:include href="Javsnippets/a-SecurityManager-CurrentDirectory.xml"
+      <xi:include href="snippets/Java-SecurityManager-CurrentDirectory.xml"
 		  xmlns:xi="http://www.w3.org/2001/XInclude" />
     </informalexample>
     <important>
@@ -234,7 +234,7 @@ grant {
     <example id="ex-Defensive_Coding-Java-SecurityManager-Privileged">
       <title>Using the security manager to run code with increased
       privileges</title>
-      <xi:include href="Javsnippets/a-SecurityManager-Privileged.xml"
+      <xi:include href="snippets/Java-SecurityManager-Privileged.xml"
 		  xmlns:xi="http://www.w3.org/2001/XInclude" />
     </example>
     <para>
@@ -283,7 +283,7 @@ grant {
     </para>
     <example id="ex-Defensive_Coding-Java-SecurityManager-Callback">
       <title>Restoring privileges when invoking callbacks</title>
-      <xi:include href="Javsnippets/a-SecurityManager-Callback.xml"
+      <xi:include href="snippets/Java-SecurityManager-Callback.xml"
 		  xmlns:xi="http://www.w3.org/2001/XInclude" />
     </example>
   </section>
