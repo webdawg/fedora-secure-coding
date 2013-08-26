@@ -49,7 +49,7 @@ public class JavaSecurityManagerUnprivileged {
 	//-
     }
 
-    private static void withGrant(String path) throws Exception {
+    private static void withGrant(final String path) throws Exception {
 	Permissions permissions = new Permissions();
 	//+ Java SecurityManager-CurrentDirectory
 	permissions.add(new FilePermission(
