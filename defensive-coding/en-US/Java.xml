@@ -4,8 +4,8 @@
 <chapter id="chap-Defensive_Coding-Java">
   <title>The Java Programming Language</title>
 
-  <xi:include href="Language.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
-  <xi:include href="LowLevel.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
-  <xi:include href="SecurityManager.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+  <xi:include href="Java-Language.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+  <xi:include href="Java-LowLevel.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+  <xi:include href="Java-SecurityManager.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
 </chapter>
 

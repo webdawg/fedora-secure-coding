@@ -54,7 +54,7 @@
 	</para>
 	<example id="ex-Defensive_Coding-TLS-Nagle">
 	  <title>Deactivating the TCP Nagle algorithm</title>
-	  <xi:include href="snippets/TLS-Nagle.xml"
+	  <xi:include href="Features/snippets/TLS-Nagle.xml"
 		      xmlns:xi="http://www.w3.org/2001/XInclude" />
 	</example>
       </listitem>
@@ -147,7 +147,7 @@
       </para>
       <example id="ex-Defensive_Coding-TLS-OpenSSL-Errors">
 	<title>Obtaining OpenSSL error codes</title>
-	<xi:include href="snippets/TLS-OpenSSL-Errors.xml"
+	<xi:include href="Features/snippets/TLS-OpenSSL-Errors.xml"
 		    xmlns:xi="http://www.w3.org/2001/XInclude" />
       </example>
       <para>
@@ -374,7 +374,7 @@
       </para>
       <example id="ex-Defensive_Coding-TLS-OpenSSL-Init">
 	<title>OpenSSL library initialization</title>
-	<xi:include href="snippets/TLS-Client-OpenSSL-Init.xml"
+	<xi:include href="Features/snippets/TLS-Client-OpenSSL-Init.xml"
 		    xmlns:xi="http://www.w3.org/2001/XInclude" />
       </example>
       <para>
@@ -392,7 +392,7 @@
       </para>
       <example id="ex-Defensive_Coding-TLS-Client-OpenSSL-CTX">
 	<title>OpenSSL client context creation</title>
-	<xi:include href="snippets/TLS-Client-OpenSSL-CTX.xml"
+	<xi:include href="Features/snippets/TLS-Client-OpenSSL-CTX.xml"
 		    xmlns:xi="http://www.w3.org/2001/XInclude" />
       </example>
       <para>
@@ -441,7 +441,7 @@
       </para>
       <example id="ex-Defensive_Coding-TLS-Client-OpenSSL-Connect">
 	<title>Creating a client connection using OpenSSL</title>
-	<xi:include href="snippets/TLS-Client-OpenSSL-Connect.xml"
+	<xi:include href="Features/snippets/TLS-Client-OpenSSL-Connect.xml"
 		    xmlns:xi="http://www.w3.org/2001/XInclude" />
       </example>
       <para>
@@ -454,7 +454,7 @@
       </para>
       <example id="ex-Defensive_Coding-TLS-OpenSSL-Connection-Use">
 	<title>Using an OpenSSL connection to send and receive data</title>
-	<xi:include href="snippets/TLS-Client-OpenSSL-Connection-Use.xml"
+	<xi:include href="Features/snippets/TLS-Client-OpenSSL-Connection-Use.xml"
 		    xmlns:xi="http://www.w3.org/2001/XInclude" />
       </example>
       <para>
@@ -471,7 +471,7 @@
       </para>
       <example id="ex-Defensive_Coding-TLS-OpenSSL-Connection-Close">
 	<title>Closing an OpenSSL connection in an orderly fashion</title>
-	<xi:include href="snippets/TLS-OpenSSL-Connection-Close.xml"
+	<xi:include href="Features/snippets/TLS-OpenSSL-Connection-Close.xml"
 		    xmlns:xi="http://www.w3.org/2001/XInclude" />
       </example>
       <para>
@@ -481,7 +481,7 @@
       </para>
       <example id="ex-Defensive_Coding-TLS-OpenSSL-Context-Close">
 	<title>Closing an OpenSSL connection in an orderly fashion</title>
-	<xi:include href="snippets/TLS-OpenSSL-Context-Close.xml"
+	<xi:include href="Features/snippets/TLS-OpenSSL-Context-Close.xml"
 		    xmlns:xi="http://www.w3.org/2001/XInclude" />
       </example>
     </section>
@@ -497,7 +497,7 @@
 	The GNUTLS library needs explicit initialization:
       </para>
       <informalexample id="ex-Defensive_Coding-TLS-GNUTLS-Init">
-	<xi:include href="snippets/TLS-GNUTLS-Init.xml"
+	<xi:include href="Features/snippets/TLS-GNUTLS-Init.xml"
 		    xmlns:xi="http://www.w3.org/2001/XInclude" />
       </informalexample>
       <para>
@@ -514,7 +514,7 @@
       </para>
       <example id="ex-Defensive_Coding-TLS-Client-GNUTLS-Credentials">
 	<title>Initializing a GNUTLS credentials structure</title>
-	<xi:include href="snippets/TLS-Client-GNUTLS-Credentials.xml"
+	<xi:include href="Features/snippets/TLS-Client-GNUTLS-Credentials.xml"
 		    xmlns:xi="http://www.w3.org/2001/XInclude" />
       </example>
       <para>
@@ -522,7 +522,7 @@
 	object should be freed:
       </para>
       <informalexample>
-	<xi:include href="snippets/TLS-GNUTLS-Credentials-Close.xml"
+	<xi:include href="Features/snippets/TLS-GNUTLS-Credentials-Close.xml"
 		    xmlns:xi="http://www.w3.org/2001/XInclude" />
       </informalexample>
       <para>
@@ -543,7 +543,7 @@
       </para>
       <example id="ex-Defensive_Coding-TLS-Client-GNUTLS-Connect">
 	<title>Establishing a TLS client connection using GNUTLS</title>
-	<xi:include href="snippets/TLS-Client-GNUTLS-Connect.xml"
+	<xi:include href="Features/snippets/TLS-Client-GNUTLS-Connect.xml"
 		    xmlns:xi="http://www.w3.org/2001/XInclude" />
       </example>
       <para>
@@ -558,7 +558,7 @@
       </para>
       <example id="ex-Defensive_Coding-TLS-Client-GNUTLS-Verify">
 	<title>Verifying a server certificate using GNUTLS</title>
-	<xi:include href="snippets/TLS-Client-GNUTLS-Verify.xml"
+	<xi:include href="Features/snippets/TLS-Client-GNUTLS-Verify.xml"
 		    xmlns:xi="http://www.w3.org/2001/XInclude" />
       </example>
       <para>
@@ -576,7 +576,7 @@
       <example id="ex-Defensive_Coding-TLS-Client-GNUTLS-Match">
 	<title>Matching the server host name and certificate in a
 	GNUTLS client</title>
-	<xi:include href="snippets/TLS-Client-GNUTLS-Match.xml"
+	<xi:include href="Features/snippets/TLS-Client-GNUTLS-Match.xml"
 		    xmlns:xi="http://www.w3.org/2001/XInclude" />
       </example>
       <para>
@@ -591,7 +591,7 @@
       </para>
       <example id="ex-Defensive_Coding-TLS-GNUTLS-Use">
 	<title>Using a GNUTLS session</title>
-	<xi:include href="snippets/TLS-GNUTLS-Use.xml"
+	<xi:include href="Features/snippets/TLS-GNUTLS-Use.xml"
 		    xmlns:xi="http://www.w3.org/2001/XInclude" />
       </example>
       <para>
@@ -603,7 +603,7 @@
       </para>
       <example id="ex-Defensive_Coding-TLS-GNUTLS-Disconnect">
 	<title>Using a GNUTLS session</title>
-	<xi:include href="snippets/TLS-GNUTLS-Disconnect.xml"
+	<xi:include href="Features/snippets/TLS-GNUTLS-Disconnect.xml"
 		    xmlns:xi="http://www.w3.org/2001/XInclude" />
       </example>
     </section>
@@ -614,7 +614,7 @@
 	classes:
       </para>
       <informalexample>
-	<xi:include href="snippets/TLS-Client-OpenJDK-Import.xml"
+	<xi:include href="Features/snippets/TLS-Client-OpenJDK-Import.xml"
 		    xmlns:xi="http://www.w3.org/2001/XInclude" />
       </informalexample>
       <para>
@@ -644,7 +644,7 @@
       <example id="ex-Defensive_Coding-TLS-Client-OpenJDK-Context">
 	<title>Setting up an <literal>SSLContext</literal> for OpenJDK TLS
 	clients</title>
-	<xi:include href="snippets/TLS-Client-OpenJDK-Context.xml"
+	<xi:include href="Features/snippets/TLS-Client-OpenJDK-Context.xml"
 		    xmlns:xi="http://www.w3.org/2001/XInclude" />
       </example>
       <para>
@@ -657,7 +657,7 @@
       <example id="ex-Defensive_Coding-TLS-OpenJDK-Parameters">
 	<title>Setting up <literal>SSLParameters</literal> for TLS use
 	with OpenJDK</title>
-	<xi:include href="snippets/TLS-OpenJDK-Parameters.xml"
+	<xi:include href="Features/snippets/TLS-OpenJDK-Parameters.xml"
 		    xmlns:xi="http://www.w3.org/2001/XInclude" />
       </example>
       <para>
@@ -666,7 +666,7 @@
 	separately, and this is only supported by OpenJDK 7 and later:
       </para>
       <informalexample>
-	<xi:include href="snippets/TLS-Client-OpenJDK-Hostname.xml"
+	<xi:include href="Features/snippets/TLS-Client-OpenJDK-Hostname.xml"
 		    xmlns:xi="http://www.w3.org/2001/XInclude" />
       </informalexample>
       <para>
@@ -687,7 +687,7 @@
       </para>
       <example id="ex-Defensive_Coding-TLS-Client-OpenJDK-Connect">
 	<title>Establishing a TLS connection with OpenJDK</title>
-	<xi:include href="snippets/TLS-Client-OpenJDK-Connect.xml"
+	<xi:include href="Features/snippets/TLS-Client-OpenJDK-Connect.xml"
 		    xmlns:xi="http://www.w3.org/2001/XInclude" />
       </example>
       <para>
@@ -704,7 +704,7 @@
       </para>
       <example id="ex-Defensive_Coding-TLS-Client-OpenJDK-Use">
 	<title>Using a TLS client socket in OpenJDK</title>
-	<xi:include href="snippets/TLS-Client-OpenJDK-Use.xml"
+	<xi:include href="Features/snippets/TLS-Client-OpenJDK-Use.xml"
 		    xmlns:xi="http://www.w3.org/2001/XInclude" />
       </example>
       <section>
@@ -726,7 +726,7 @@
 	</para>
 	<example id="ex-Defensive_Coding-TLS-Client-MyTrustManager">
 	  <title>A customer trust manager for OpenJDK TLS clients</title>
-	  <xi:include href="snippets/TLS-Client-OpenJDK-MyTrustManager.xml"
+	  <xi:include href="Features/snippets/TLS-Client-OpenJDK-MyTrustManager.xml"
 		      xmlns:xi="http://www.w3.org/2001/XInclude" />
 	</example>
 	<para>
@@ -737,7 +737,7 @@
 	</para>
 	<example id="ex-Defensive_Coding-TLS-Client-Context_For_Cert">
 	  <title>Using a custom TLS trust manager with OpenJDK</title>
-	  <xi:include href="snippets/TLS-Client-OpenJDK-Context_For_Cert.xml"
+	  <xi:include href="Features/snippets/TLS-Client-OpenJDK-Context_For_Cert.xml"
 		      xmlns:xi="http://www.w3.org/2001/XInclude" />
 	</example>
 	<para>
@@ -782,7 +782,7 @@
       </para>
       <example id="ex-Defensive_Coding-TLS-NSS-Includes">
 	<title>Include files for NSS</title>
-	<xi:include href="snippets/TLS-NSS-Includes.xml"
+	<xi:include href="Features/snippets/TLS-NSS-Includes.xml"
 		    xmlns:xi="http://www.w3.org/2001/XInclude" />
       </example>
       <para>
@@ -805,7 +805,7 @@
       </para>
       <example id="ex-Defensive_Coding-TLS-NSS-Init">
 	<title>Initializing the NSS library</title>
-	<xi:include href="snippets/TLS-NSS-Init.xml"
+	<xi:include href="Features/snippets/TLS-NSS-Init.xml"
 		    xmlns:xi="http://www.w3.org/2001/XInclude" />
       </example>
       <para>
@@ -813,7 +813,7 @@
 	the following function calls:
       </para>
       <informalexample id="ex-Defensive_Coding-TLS-NSS-Close">
-	<xi:include href="snippets/TLS-NSS-Close.xml"
+	<xi:include href="Features/snippets/TLS-NSS-Close.xml"
 		    xmlns:xi="http://www.w3.org/2001/XInclude" />
       </informalexample>
       <para>
@@ -849,7 +849,7 @@
       </para>
       <example id="ex-Defensive_Coding-TLS-Client-NSS-Connect">
 	<title>Creating a TLS connection with NSS</title>
-	<xi:include href="snippets/TLS-Client-NSS-Connect.xml"
+	<xi:include href="Features/snippets/TLS-Client-NSS-Connect.xml"
 		    xmlns:xi="http://www.w3.org/2001/XInclude" />
       </example>
       <para>
@@ -859,7 +859,7 @@
       </para>
       <example id="ex-Defensive_Coding-TLS-NSS-Use">
 	<title>Using NSS for sending and receiving data</title>
-	<xi:include href="snippets/TLS-NSS-Use.xml"
+	<xi:include href="Features/snippets/TLS-NSS-Use.xml"
 		    xmlns:xi="http://www.w3.org/2001/XInclude" />
       </example>
       <para>
@@ -868,7 +868,7 @@
       </para>
       <example id="ex-Defensive_Coding-TLS-Client-NSS-Close">
 	<title>Closing NSS client connections</title>
-	<xi:include href="snippets/TLS-Client-NSS-Close.xml"
+	<xi:include href="Features/snippets/TLS-Client-NSS-Close.xml"
 		    xmlns:xi="http://www.w3.org/2001/XInclude" />
       </example>
     </section>
@@ -905,7 +905,7 @@
       <example id="ex-Defensive_Coding-TLS-Client-Python-check_host_name">
 	<title>Implementing TLS host name checking Python (without
 	wildcard support)</title>
-	<xi:include href="snippets/TLS-Client-Python-check_host_name.xml"
+	<xi:include href="Features/snippets/TLS-Client-Python-check_host_name.xml"
 		    xmlns:xi="http://www.w3.org/2001/XInclude" />
       </example>
       <para>
@@ -962,7 +962,7 @@
       </para>
       <example id="ex-Defensive_Coding-TLS-Client-Python-Connect">
 	<title>Establishing a TLS client connection with Python</title>
-	<xi:include href="snippets/TLS-Client-Python-Connect.xml"
+	<xi:include href="Features/snippets/TLS-Client-Python-Connect.xml"
 		    xmlns:xi="http://www.w3.org/2001/XInclude" />
       </example>
       <para>
@@ -970,14 +970,14 @@
 	be used like a regular socket:
       </para>
       <informalexample>
-	<xi:include href="snippets/TLS-Python-Use.xml"
+	<xi:include href="Features/snippets/TLS-Python-Use.xml"
 		    xmlns:xi="http://www.w3.org/2001/XInclude" />
       </informalexample>
       <para>
 	Closing the TLS socket is straightforward as well:
       </para>
       <informalexample>
-	<xi:include href="snippets/TLS-Python-Close.xml"
+	<xi:include href="Features/snippets/TLS-Python-Close.xml"
 		    xmlns:xi="http://www.w3.org/2001/XInclude" />
       </informalexample>
     </section>

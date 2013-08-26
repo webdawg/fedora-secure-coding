@@ -57,7 +57,7 @@
     </para>
     <example id="ex-Defensive_Coding-C-Pointers-remaining">
       <title>Array processing in C</title>
-      <xi:include href="snippets/Pointers-remaining.xml"
+      <xi:include href="C/snippets/Pointers-remaining.xml"
 		  xmlns:xi="http://www.w3.org/2001/XInclude" />
     </example>
     <para>
@@ -83,7 +83,7 @@
     </para>
     <example id="ex-Defensive_Coding-C-Arithmetic-bad">
       <title>Incorrect overflow detection in C</title>
-      <xi:include href="snippets/Arithmetic-add.xml"
+      <xi:include href="C/snippets/Arithmetic-add.xml"
 		  xmlns:xi="http://www.w3.org/2001/XInclude" />
     </example>
     <para>
@@ -119,7 +119,7 @@
     </itemizedlist>
     <example id="ex-Defensive_Coding-C-Arithmetic-mult">
       <title>Overflow checking for unsigned multiplication</title>
-      <xi:include href="snippets/Arithmetic-mult.xml"
+      <xi:include href="C/snippets/Arithmetic-mult.xml"
 		  xmlns:xi="http://www.w3.org/2001/XInclude" />
     </example>
     <para>
