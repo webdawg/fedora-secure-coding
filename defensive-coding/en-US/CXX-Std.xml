@@ -87,7 +87,7 @@
   <section id="sect-Defensive_Coding-CXX-Std-Subscript">
     <title>Containers and <literal>operator[]</literal></title>
     <para>
-      Many containers similar to <literal>std::vector</literal>
+      Many sequence containers similar to <literal>std::vector</literal>
       provide both <literal>operator[](size_type)</literal> and a
       member function <literal>at(size_type)</literal>.  This applies
       to <literal>std::vector</literal> itself,
@@ -103,6 +103,26 @@
       <literal>at(size_type)</literal> over
       <literal>operator[](size_type)</literal>, even though it is
       slightly more verbose.
+    </para>
+  </section>
+  <section id="sect-Defensive_Coding-CXX-Std-Iterators">
+    <title>Iterators</title>
+    <para>
+      Iterators do not perform any bounds checking.  Therefore, all
+      functions that work on iterators should accept them in pairs,
+      denoting a range, and make sure that iterators are not moved
+      outside that range.  For forward iterators and bidirectional
+      iterators, you need to check for equality before moving the
+      first or last iterator in the range.  For random-access
+      iterators, you need to compute the difference before adding or
+      subtracting an offset.  It is not possible to perform the
+      operation and check for an invalid operator afterwards.
+    </para>
+    <para>
+      Output iterators cannot be compared for equality.  Therefore, it
+      is impossible to write code that detects that it has been
+      supplied an output area that is too small, and their use should
+      be avoided.
     </para>
   </section>
 </section>
