@@ -1,0 +1,164 @@
+# 
+# AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: 0\n"
+"POT-Creation-Date: 2013-09-18T00:49:42\n"
+"PO-Revision-Date: 2013-09-18T00:49:42\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: None\n"
+"MIME-Version: 1.0\n"
+"Content-Type: application/x-publican; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. Tag: title
+#, no-c-format
+msgid "The core language"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "C provides no memory safety. Most recommendations in this section deal with this aspect of the language."
+msgstr ""
+
+#. Tag: title
+#, no-c-format
+msgid "Undefined behavior"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Some C constructs are defined to be undefined by the C standard. This does not only mean that the standard does not describe what happens when the construct is executed. It also allows optimizing compilers such as GCC to assume that this particular construct is never reached. In some cases, this has caused GCC to optimize security checks away. (This is not a flaw in GCC or the C language. But C certainly has some areas which are more difficult to use than others.)"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Common sources of undefined behavior are:"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "out-of-bounds array accesses"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "null pointer dereferences"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "overflow in signed integer arithmetic"
+msgstr ""
+
+#. Tag: title
+#, no-c-format
+msgid "Recommendations for pointers and array handling"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Always keep track of the size of the array you are working with. Often, code is more obviously correct when you keep a pointer past the last element of the array, and calculate the number of remaining elements by substracting the current position from that pointer. The alternative, updating a separate variable every time when the position is advanced, is usually less obviously correct."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "<xref linkend=\"ex-Defensive_Coding-C-Pointers-remaining\" /> shows how to extract Pascal-style strings from a character buffer. The two pointers kept for length checks are <varname>inend</varname> and <varname>outend</varname>. <varname>inp</varname> and <varname>outp</varname> are the respective positions. The number of input bytes is checked using the expression <literal>len &gt; (size_t)(inend - inp)</literal>. The cast silences a compiler warning; <varname>inend</varname> is always larger than <varname>inp</varname>."
+msgstr ""
+
+#. Tag: title
+#, no-c-format
+msgid "Array processing in C"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "It is important that the length checks always have the form <literal>len &gt; (size_t)(inend - inp)</literal>, where <varname>len</varname> is a variable of type <type>size_t</type> which denotes the <emphasis>total</emphasis> number of bytes which are about to be read or written next. In general, it is not safe to fold multiple such checks into one, as in <literal>len1 + len2 &gt; (size_t)(inend - inp)</literal>, because the expression on the left can overflow or wrap around (see <xref linkend=\"sect-Defensive_Coding-C-Arithmetic\" />), and it no longer reflects the number of bytes to be processed."
+msgstr ""
+
+#. Tag: title
+#, no-c-format
+msgid "Recommendations for integer arithmetic"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Overflow in signed integer arithmetic is undefined. This means that it is not possible to check for overflow after it happened, see <xref linkend=\"ex-Defensive_Coding-C-Arithmetic-bad\" />."
+msgstr ""
+
+#. Tag: title
+#, no-c-format
+msgid "Incorrect overflow detection in C"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "The following approaches can be used to check for overflow, without actually causing it."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Use a wider type to perform the calculation, check that the result is within bounds, and convert the result to the original type. All intermediate results must be checked in this way."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Perform the calculation in the corresponding unsigned type and use bit fiddling to detect the overflow."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Compute bounds for acceptable input values which are known to avoid overflow, and reject other values. This is the preferred way for overflow checking on multiplications, see <xref linkend=\"ex-Defensive_Coding-C-Arithmetic-mult\" />."
+msgstr ""
+
+#. Tag: title
+#, no-c-format
+msgid "Overflow checking for unsigned multiplication"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Basic arithmetic operations a commutative, so for bounds checks, there are two different but mathematically equivalent expressions. Sometimes, one of the expressions results in better code because parts of it can be reduced to a constant. This applies to overflow checks for multiplication <literal>a * b</literal> involving a constant <literal>a</literal>, where the expression is reduced to <literal>b &gt; C</literal> for some constant <literal>C</literal> determined at compile time. The other expression, <literal>b &amp;&amp; a &gt; ((unsigned)-1) / b</literal>, is more difficult to optimize at compile time."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "When a value is converted to a signed integer, GCC always chooses the result based on 2's complement arithmetic. This GCC extension (which is also implemented by other compilers) helps a lot when implementing overflow checks."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Legacy code should be compiled with the <option>-fwrapv</option> GCC option. As a result, GCC will provide 2's complement semantics for integer arithmetic, including defined behavior on integer overflow."
+msgstr ""
+
+#. Tag: title
+#, no-c-format
+msgid "Global variables"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Global variables should be avoided because they usually lead to thread safety hazards. In any case, they should be declared <literal>static</literal>, so that access is restricted to a single translation unit."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Global constants are not a problem, but declaring them can be tricky. <xref linkend=\"ex-Defensive_Coding-C-Globals-String_Array\" /> shows how to declare a constant array of constant strings. The second <literal>const</literal> is needed to make the array constant, and not just the strings. It must be placed after the <literal>*</literal>, and not before it."
+msgstr ""
+
+#. Tag: title
+#, no-c-format
+msgid "Declaring a constant array of constant strings"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Sometimes, static variables local to functions are used as a replacement for proper memory management. Unlike non-static local variables, it is possible to return a pointer to static local variables to the caller. But such variables are well-hidden, but effectively global (just as static variables at file scope). It is difficult to add thread safety afterwards if such interfaces are used. Merely dropping the <literal>static</literal> keyword in such cases leads to undefined behavior."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Another source for static local variables is a desire to reduce stack space usage on embedded platforms, where the stack may span only a few hundred bytes. If this is the only reason why the <literal>static</literal> keyword is used, it can just be dropped, unless the object is very large (larger than 128 kilobytes on 32 bit platforms). In the latter case, it is recommended to allocate the object using <literal>malloc</literal>, to obtain proper array checking, for the same reasons outlined in <xref linkend=\"sect-Defensive_Coding-C-Allocators-alloca\" />."
+msgstr ""
+

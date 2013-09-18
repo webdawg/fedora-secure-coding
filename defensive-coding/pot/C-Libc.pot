@@ -1,0 +1,304 @@
+# 
+# AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: 0\n"
+"POT-Creation-Date: 2013-09-18T00:49:42\n"
+"PO-Revision-Date: 2013-09-18T00:49:42\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: None\n"
+"MIME-Version: 1.0\n"
+"Content-Type: application/x-publican; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. Tag: title
+#, no-c-format
+msgid "The C standard library"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Parts of the C standard library (and the UNIX and GNU extensions) are difficult to use, so you shoud avoid them."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Please check the applicable documentation before using the recommended replacements. Many of these functions allocate buffers using <function>malloc</function> which your code must deallocate explicitly using <function>free</function>."
+msgstr ""
+
+#. Tag: title
+#, no-c-format
+msgid "Absolutely banned interfaces"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "The functions listed below must not be used because they are almost always unsafe. Use the indicated replacements instead."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "<function>gets</function> ⟶ <function>fgets</function>"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "<function>getwd</function> ⟶ <function>getcwd</function> or <function>get_current_dir_name</function>"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "<function>readdir_r</function> ⟶ <function>readdir</function>"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "<function>realpath</function> (with a non-NULL second parameter) ⟶ <function>realpath</function> with NULL as the second parameter, or <function>canonicalize_file_name</function>"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "The constants listed below must not be used, either. Instead, code must allocate memory dynamically and use interfaces with length checking."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "<literal>NAME_MAX</literal> (limit not actually enforced by the kernel)"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "<literal>PATH_MAX</literal> (limit not actually enforced by the kernel)"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "<literal>_PC_NAME_MAX</literal> (This limit, returned by the <function>pathconf</function> function, is not enforced by the kernel.)"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "<literal>_PC_PATH_MAX</literal> (This limit, returned by the <function>pathconf</function> function, is not enforced by the kernel.)"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "The following structure members must not be used."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "<literal>f_namemax</literal> in <literal>struct statvfs</literal> (limit not actually enforced by the kernel, see <literal>_PC_NAME_MAX</literal> above)"
+msgstr ""
+
+#. Tag: title
+#, no-c-format
+msgid "Functions to avoid"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "The following string manipulation functions can be used securely in principle, but their use should be avoided because they are difficult to use correctly. Calls to these functions can be replaced with <function>asprintf</function> or <function>vasprintf</function>. (For non-GNU targets, these functions are available from Gnulib.) In some cases, the <function>snprintf</function> function might be a suitable replacement, see <xref linkend=\"sect-Defensive_Coding-C-String-Functions-Length\" />."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "<function>sprintf</function>"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "<function>strcat</function>"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "<function>strcpy</function>"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "<function>vsprintf</function>"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Use the indicated replacements for the functions below."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "<function>alloca</function> ⟶ <function>malloc</function> and <function>free</function> (see <xref linkend=\"sect-Defensive_Coding-C-Allocators-alloca\" />)"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "<function>putenv</function> ⟶ explicit <varname>envp</varname> argument in process creation (see <xref linkend=\"sect-Defensive_Coding-Tasks-Processes-environ\" />)"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "<function>setenv</function> ⟶ explicit <varname>envp</varname> argument in process creation (see <xref linkend=\"sect-Defensive_Coding-Tasks-Processes-environ\" />)"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "<function>strdupa</function> ⟶ <function>strdup</function> and <function>free</function> (see <xref linkend=\"sect-Defensive_Coding-C-Allocators-alloca\" />)"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "<function>strndupa</function> ⟶ <function>strndup</function> and <function>free</function> (see <xref linkend=\"sect-Defensive_Coding-C-Allocators-alloca\" />)"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "<function>system</function> ⟶ <function>posix_spawn</function> or <function>fork</function>/<function>execve</function>/ (see <xref linkend=\"sect-Defensive_Coding-Tasks-Processes-execve\" />)"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "<function>unsetenv</function> ⟶ explicit <varname>envp</varname> argument in process creation (see <xref linkend=\"sect-Defensive_Coding-Tasks-Processes-environ\" />)"
+msgstr ""
+
+#. Tag: title
+#, no-c-format
+msgid "String Functions With Explicit Length Arguments"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "The C run-time library provides string manipulation functions which not just look for NUL characters for string termination, but also honor explicit lengths provided by the caller. However, these functions evolved over a long period of time, and the lengths mean different things depending on the function."
+msgstr ""
+
+#. Tag: title
+#, no-c-format
+msgid "<literal>snprintf</literal>"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "The <function>snprintf</function> function provides a way to construct a string in a statically-sized buffer. (If the buffer size is allocated on the heap, consider use <function>asprintf</function> instead.)"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "The second argument to the <function>snprintf</function> call should always be the size of the buffer in the first argument (which should be a character array). Elaborate pointer and length arithmetic can introduce errors and nullify the security benefits of <function>snprintf</function>."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "In particular, <literal>snprintf</literal> is not well-suited to constructing a string iteratively, by appending to an existing buffer. <function>snprintf</function> returns one of two values, <literal>-1</literal> on errors, or the number of characters which <emphasis>would have been written to the buffer if the buffer were large enough</emphasis>. This means that adding the result of <function>snprintf</function> to the buffer pointer to skip over the characters just written is incorrect and risky. However, as long as the length argument is not zero, the buffer will remain NUL-terminated. <xref linkend=\"ex-Defensive_Coding-C-String-Functions-snprintf-incremental\" /> works because <literal>end -current &gt; 0</literal> is a loop invariant. After the loop, the result string is in the <varname>buf</varname> variable."
+msgstr ""
+
+#. Tag: title
+#, no-c-format
+msgid "Repeatedly writing to a buffer using <function>snprintf</function>"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "If you want to avoid the call to <function>strlen</function> for performance reasons, you have to check for a negative return value from <function>snprintf</function> and also check if the return value is equal to the specified buffer length or larger. Only if neither condition applies, you may advance the pointer to the start of the write buffer by the number return by <function>snprintf</function>. However, this optimization is rarely worthwhile."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Note that it is not permitted to use the same buffer both as the destination and as a source argument."
+msgstr ""
+
+#. Tag: title
+#, no-c-format
+msgid "<literal>vsnprintf</literal> and format strings"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "If you use <function>vsnprintf</function> (or <function>vasprintf</function> or even <function>snprintf</function>) with a format string which is not a constant, but a function argument, it is important to annotate the function with a <literal>format</literal> function attribute, so that GCC can warn about misuse of your function (see <xref linkend=\"ex-Defensive_Coding-C-String-Functions-format-Attribute\" />)."
+msgstr ""
+
+#. Tag: title
+#, no-c-format
+msgid "The <literal>format</literal> function attribute"
+msgstr ""
+
+#. Tag: title
+#, no-c-format
+msgid "<function>strncpy</function>"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "The <function>strncpy</function> function does not ensure that the target buffer is NUL-terminated. A common idiom for ensuring NUL termination is:"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Another approach uses the <function>strncat</function> function for this purpose:"
+msgstr ""
+
+#. Tag: title
+#, no-c-format
+msgid "<function>strncat</function>"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "The length argument of the <function>strncat</function> function specifies the maximum number of characters copied from the source buffer, excluding the terminating NUL character. This means that the required number of bytes in the destination buffer is the length of the original string, plus the length argument in the <function>strncat</function> call, plus one. Consequently, this function is rarely appropriate for performing a length-checked string operation, with the notable exception of the <function>strcpy</function> emulation described in <xref linkend=\"sect-Defensive_Coding-C-Libc-strncpy\" />."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "To implement a length-checked string append, you can use an approach similar to <xref linkend=\"ex-Defensive_Coding-C-String-Functions-snprintf-incremental\" />:"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "In many cases, including this one, the string concatenation can be avoided by combining everything into a single format string:"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "But you should must not dynamically construct format strings to avoid concatenation because this would prevent GCC from type-checking the argument lists."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "It is not possible to use format strings like <literal>\"%s%s\"</literal> to implement concatenation, unless you use separate buffers. <function>snprintf</function> does not support overlapping source and target strings."
+msgstr ""
+
+#. Tag: title
+#, no-c-format
+msgid "<function>strlcpy</function> and <function>strlcat</function>"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Some systems support <function>strlcpy</function> and <function>strlcat</function> functions which behave this way, but these functions are not part of GNU libc. <function>strlcpy</function> is often replaced with <function>snprintf</function> with a <literal>\"%s\"</literal> format string. See <xref linkend=\"sect-Defensive_Coding-C-Libc-strncpy\" /> for a caveat related to the <function>snprintf</function> return value."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "To emulate <function>strlcat</function>, use the approach described in <xref linkend=\"sect-Defensive_Coding-C-Libc-strncat\" />."
+msgstr ""
+
+#. Tag: title
+#, no-c-format
+msgid "ISO C11 Annex K *<function>_s</function> functions"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "ISO C11 adds another set of length-checking functions, but GNU libc currently does not implement them."
+msgstr ""
+
+#. Tag: title
+#, no-c-format
+msgid "Other <function>strn</function>* and <function>stpn</function>* functions"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "GNU libc contains additional functions with different variants of length checking. Consult the documentation before using them to find out what the length actually means."
+msgstr ""
+

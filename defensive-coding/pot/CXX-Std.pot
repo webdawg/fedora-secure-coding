@@ -1,0 +1,209 @@
+# 
+# AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: 0\n"
+"POT-Creation-Date: 2013-09-18T00:49:42\n"
+"PO-Revision-Date: 2013-09-18T00:49:42\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: None\n"
+"MIME-Version: 1.0\n"
+"Content-Type: application/x-publican; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. Tag: title
+#, no-c-format
+msgid "The C++ standard library"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "The C++ standard library includes most of its C counterpart by reference, see <xref linkend=\"sect-Defensive_Coding-C-Libc\" />."
+msgstr ""
+
+#. Tag: title
+#, no-c-format
+msgid "Functions that are difficult to use"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "This section collects functions and function templates which are part of the standard library and are difficult to use."
+msgstr ""
+
+#. Tag: title
+#, no-c-format
+msgid "Unpaired iterators"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Functions which use output operators or iterators which do not come in pairs (denoting ranges) cannot perform iterator range checking. (See <xref linkend=\"sect-Defensive_Coding-CXX-Std-Iterators\" />) Function templates which involve output iterators are particularly dangerous:"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "<function>std::copy</function>"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "<function>std::copy_backward</function>"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "<function>std::copy_if</function>"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "<function>std::move</function> (three-argument variant)"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "<function>std::move_backward</function>"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "<function>std::partition_copy_if</function>"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "<function>std::remove_copy</function>"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "<function>std::remove_copy_if</function>"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "<function>std::replace_copy</function>"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "<function>std::replace_copy_if</function>"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "<function>std::swap_ranges</function>"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "<function>std::transform</function>"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "In addition, <function>std::copy_n</function>, <function>std::fill_n</function> and <function>std::generate_n</function> do not perform iterator checking, either, but there is an explicit count which has to be supplied by the caller, as opposed to an implicit length indicator in the form of a pair of forward iterators."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "These output-iterator-expecting functions should only be used with unlimited-range output iterators, such as iterators obtained with the <function>std::back_inserter</function> function."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Other functions use single input or forward iterators, which can read beyond the end of the input range if the caller is not careful:"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "<function>std::equal</function>"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "<function>std::is_permutation</function>"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "<function>std::mismatch</function>"
+msgstr ""
+
+#. Tag: title
+#, no-c-format
+msgid "String handling with <literal>std::string</literal>"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "The <literal>std::string</literal> class provides a convenient way to handle strings. Unlike C strings, <literal>std::string</literal> objects have an explicit length (and can contain embedded NUL characters), and storage for its characters is managed automatically. This section discusses <literal>std::string</literal>, but these observations also apply to other instances of the <literal>std::basic_string</literal> template."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "The pointer returned by the <function>data()</function> member function does not necessarily point to a NUL-terminated string. To obtain a C-compatible string pointer, use <function>c_str()</function> instead, which adds the NUL terminator."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "The pointers returned by the <function>data()</function> and <function>c_str()</function> functions and iterators are only valid until certain events happen. It is required that the exact <literal>std::string</literal> object still exists (even if it was initially created as a copy of another string object). Pointers and iterators are also invalidated when non-const member functions are called, or functions with a non-const reference parameter. The behavior of the GCC implementation deviates from that required by the C++ standard if multiple threads are present. In general, only the first call to a non-const member function after a structural modification of the string (such as appending a character) is invalidating, but this also applies to member function such as the non-const version of <function>begin()</function>, in violation of the C++ standard."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Particular care is necessary when invoking the <function>c_str()</function> member function on a temporary object. This is convenient for calling C functions, but the pointer will turn invalid as soon as the temporary object is destroyed, which generally happens when the outermost expression enclosing the expression on which <function>c_str()</function> is called completes evaluation. Passing the result of <function>c_str()</function> to a function which does not store or otherwise leak that pointer is safe, though."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Like with <literal>std::vector</literal> and <literal>std::array</literal>, subscribing with <literal>operator[]</literal> does not perform bounds checks. Use the <function>at(size_type)</function> member function instead. See <xref linkend=\"sect-Defensive_Coding-CXX-Std-Subscript\" />."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Never write to the pointers returned by <function>data()</function> or <function>c_str()</function> after casting away <literal>const</literal>. If you need a C-style writable string, use a <literal>std::vector&lt;char&gt;</literal> object and its <function>data()</function> member function. In this case, you have to explicitly add the terminating NUL character."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "GCC's implementation of <literal>std::string</literal> is currently based on reference counting. It is expected that a future version will remove the reference counting, due to performance and conformance issues. As a result, code that implicitly assumes sharing by holding to pointers or iterators for too long will break, resulting in run-time crashes or worse. On the other hand, non-const iterator-returning functions will no longer give other threads an opportunity for invalidating existing iterators and pointers because iterator invalidation does not depend on sharing of the internal character array object anymore."
+msgstr ""
+
+#. Tag: title
+#, no-c-format
+msgid "Containers and <literal>operator[]</literal>"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Many sequence containers similar to <literal>std::vector</literal> provide both <literal>operator[](size_type)</literal> and a member function <literal>at(size_type)</literal>. This applies to <literal>std::vector</literal> itself, <literal>std::array</literal>, <literal>std::string</literal> and other instances of <literal>std::basic_string</literal>."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "<literal>operator[](size_type)</literal> is not required by the standard to perform bounds checking (and the implementation in GCC does not). In contrast, <literal>at(size_type)</literal> must perform such a check. Therefore, in code which is not performance-critical, you should prefer <literal>at(size_type)</literal> over <literal>operator[](size_type)</literal>, even though it is slightly more verbose."
+msgstr ""
+
+#. Tag: title
+#, no-c-format
+msgid "Iterators"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Iterators do not perform any bounds checking. Therefore, all functions that work on iterators should accept them in pairs, denoting a range, and make sure that iterators are not moved outside that range. For forward iterators and bidirectional iterators, you need to check for equality before moving the first or last iterator in the range. For random-access iterators, you need to compute the difference before adding or subtracting an offset. It is not possible to perform the operation and check for an invalid operator afterwards."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Output iterators cannot be compared for equality. Therefore, it is impossible to write code that detects that it has been supplied an output area that is too small, and their use should be avoided."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "These issues make some of the standard library functions difficult to use correctly, see <xref linkend=\"sect-Defensive_Coding-CXX-Std-Functions-Unpaired_Iterators\" />."
+msgstr ""
+

@@ -1,0 +1,41 @@
+# 
+# AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: 0\n"
+"POT-Creation-Date: 2013-09-18T00:49:43\n"
+"PO-Revision-Date: 2013-09-18T00:49:43\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: None\n"
+"MIME-Version: 1.0\n"
+"Content-Type: application/x-publican; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. Tag: programlisting
+#, no-c-format
+msgid "\n"
+"// Prepare TLS parameters.  These have to applied to every TLS\n"
+"// socket before the handshake is triggered.\n"
+"SSLParameters params = ctx.getDefaultSSLParameters();\n"
+"// Do not send an SSL-2.0-compatible Client Hello.\n"
+"ArrayList&lt;String&gt; protocols = new ArrayList&lt;String&gt;(\n"
+"    Arrays.asList(params.getProtocols()));\n"
+"protocols.remove(\"SSLv2Hello\");\n"
+"params.setProtocols(protocols.toArray(new String[protocols.size()]));\n"
+"// Adjust the supported ciphers.\n"
+"ArrayList&lt;String&gt; ciphers = new ArrayList&lt;String&gt;(\n"
+"    Arrays.asList(params.getCipherSuites()));\n"
+"ciphers.retainAll(Arrays.asList(\n"
+"    \"TLS_RSA_WITH_AES_128_CBC_SHA256\",\n"
+"    \"TLS_RSA_WITH_AES_256_CBC_SHA256\",\n"
+"    \"TLS_RSA_WITH_AES_256_CBC_SHA\",\n"
+"    \"TLS_RSA_WITH_AES_128_CBC_SHA\",\n"
+"    \"SSL_RSA_WITH_3DES_EDE_CBC_SHA\",\n"
+"    \"SSL_RSA_WITH_RC4_128_SHA1\",\n"
+"    \"SSL_RSA_WITH_RC4_128_MD5\",\n"
+"    \"TLS_EMPTY_RENEGOTIATION_INFO_SCSV\"));\n"
+"params.setCipherSuites(ciphers.toArray(new String[ciphers.size()]));\n"
+""
+msgstr ""
+
