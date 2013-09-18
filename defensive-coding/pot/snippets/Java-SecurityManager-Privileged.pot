@@ -1,0 +1,33 @@
+# 
+# AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: 0\n"
+"POT-Creation-Date: 2013-09-18T00:49:43\n"
+"PO-Revision-Date: 2013-09-18T00:49:43\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: None\n"
+"MIME-Version: 1.0\n"
+"Content-Type: application/x-publican; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. Tag: programlisting
+#, no-c-format
+msgid "\n"
+"// This is expected to fail.\n"
+"try {\n"
+"    System.out.println(System.getProperty(\"user.home\"));\n"
+"} catch (SecurityException e) {\n"
+"    e.printStackTrace(System.err);\n"
+"}\n"
+"AccessController.doPrivileged(new PrivilegedAction&lt;Void&gt;() {\n"
+"        public Void run() {\n"
+"            // This should work.\n"
+"            System.out.println(System.getProperty(\"user.home\"));\n"
+"            return null;\n"
+"        }\n"
+"    });\n"
+""
+msgstr ""
+

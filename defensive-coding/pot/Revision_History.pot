@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 0\n"
-"POT-Creation-Date: 2013-08-13T01:54:52\n"
-"PO-Revision-Date: 2013-08-13T01:54:52\n"
+"POT-Creation-Date: 2013-09-18T00:49:43\n"
+"PO-Revision-Date: 2013-09-18T00:49:43\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: None\n"
 "MIME-Version: 1.0\n"
@@ -25,6 +25,26 @@ msgstr ""
 #. Tag: surname
 #, no-c-format
 msgid "Christensen"
+msgstr ""
+
+#. Tag: member
+#, no-c-format
+msgid "Add a chapter which covers some Java topics."
+msgstr ""
+
+#. Tag: member
+#, no-c-format
+msgid "Deserialization: Warn about Java's java.beans.XMLDecoder."
+msgstr ""
+
+#. Tag: member
+#, no-c-format
+msgid "C: Correct the advice on array allocation (<ulink url=\"https://bugzilla.redhat.com/show_bug.cgi?id=995595\">bug 995595</ulink>)."
+msgstr ""
+
+#. Tag: member
+#, no-c-format
+msgid "C: Add material on global variables."
 msgstr ""
 
 #. Tag: member
