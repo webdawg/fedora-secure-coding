@@ -4,5 +4,5 @@
 <!-- Automatically generated file.  Do not edit. -->
 <programlisting language="C">
 buf[0] = '\0';
-strncpy(buf, data, sizeof(buf) - 1);
+strncat(buf, data, sizeof(buf) - 1);
 </programlisting>

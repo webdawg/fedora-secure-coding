@@ -64,7 +64,7 @@
     <itemizedlist>
       <listitem><para>
 	Python's <package>pickle</package> and <package>cPickle</package>
-	modules
+	modules, and wrappers such as <package>shelve</package>
       </para></listitem>
       <listitem><para>
 	Perl's <package>Storable</package> package

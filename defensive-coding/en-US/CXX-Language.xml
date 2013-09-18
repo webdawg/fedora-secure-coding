@@ -19,8 +19,9 @@
       array.  Current GCC versions generate code that performs a
       computation of the form <literal>sizeof(T) * size_t(n) +
       cookie_size</literal>, where <literal>cookie_size</literal> is
-      currently at most 8.  This computation can overflow, and
-      GCC-generated code does not detect this.
+      currently at most 8.  This computation can overflow, and GCC
+      versions prior to 4.8 generated code which did not detect this.
+      (Fedora 18 was the first release which fixed this in GCC.)
     </para>
     <para>
       The <literal>std::vector</literal> template can be used instead
@@ -28,11 +29,12 @@
       overflow internally.)
     </para>
     <para>
-      If there is no alternative to <literal>operator new[]</literal>,
-      code which allocates arrays with a variable length must check
-      for overflow manually.  For the <literal>new T[n]</literal>
-      example, the size check could be <literal>n || (n > 0 &amp;&amp;
-      n &gt; (size_t(-1) - 8) / sizeof(T))</literal>.  (See <xref
+      If there is no alternative to <literal>operator new[]</literal>
+      and the sources will be compiled with older GCC versions, code
+      which allocates arrays with a variable length must check for
+      overflow manually.  For the <literal>new T[n]</literal> example,
+      the size check could be <literal>n || (n > 0 &amp;&amp; n &gt;
+      (size_t(-1) - 8) / sizeof(T))</literal>.  (See <xref
       linkend="sect-Defensive_Coding-C-Arithmetic"/>.)  If there are
       additional dimensions (which must be constants according to the
       C++ standard), these should be included as factors in the

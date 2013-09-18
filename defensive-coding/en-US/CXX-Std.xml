@@ -7,10 +7,142 @@
     The C++ standard library includes most of its C counterpart
     by reference, see <xref linkend="sect-Defensive_Coding-C-Libc"/>.
   </para>
-  <section>
+  <section id="sect-Defensive_Coding-CXX-Std-Functions">
+    <title>Functions that are difficult to use</title>
+    <para>
+      This section collects functions and function templates which are
+      part of the standard library and are difficult to use.
+    </para>
+    <section id="sect-Defensive_Coding-CXX-Std-Functions-Unpaired_Iterators">
+      <title>Unpaired iterators</title>
+      <para>
+	Functions which use output operators or iterators which do not
+	come in pairs (denoting ranges) cannot perform iterator range
+	checking.
+	(See <xref linkend="sect-Defensive_Coding-CXX-Std-Iterators"/>)
+	Function templates which involve output iterators are
+	particularly dangerous:
+      </para>
+      <itemizedlist>
+	<listitem><para><function>std::copy</function></para></listitem>
+	<listitem><para><function>std::copy_backward</function></para></listitem>
+	<listitem><para><function>std::copy_if</function></para></listitem>
+	<listitem><para><function>std::move</function> (three-argument variant)</para></listitem>
+	<listitem><para><function>std::move_backward</function></para></listitem>
+	<listitem><para><function>std::partition_copy_if</function></para></listitem>
+	<listitem><para><function>std::remove_copy</function></para></listitem>
+	<listitem><para><function>std::remove_copy_if</function></para></listitem>
+	<listitem><para><function>std::replace_copy</function></para></listitem>
+	<listitem><para><function>std::replace_copy_if</function></para></listitem>
+	<listitem><para><function>std::swap_ranges</function></para></listitem>
+	<listitem><para><function>std::transform</function></para></listitem>
+      </itemizedlist>
+      <para>
+	In addition, <function>std::copy_n</function>,
+	<function>std::fill_n</function> and
+	<function>std::generate_n</function> do not perform iterator
+	checking, either, but there is an explicit count which has to be
+	supplied by the caller, as opposed to an implicit length
+	indicator in the form of a pair of forward iterators.
+      </para>
+      <para>
+	These output-iterator-expecting functions should only be used
+	with unlimited-range output iterators, such as iterators
+	obtained with the <function>std::back_inserter</function>
+	function.
+      </para>
+      <para>
+	Other functions use single input or forward iterators, which can
+	read beyond the end of the input range if the caller is not careful:
+      </para>
+      <itemizedlist>
+	<listitem><para><function>std::equal</function></para></listitem>
+	<listitem><para><function>std::is_permutation</function></para></listitem>
+	<listitem><para><function>std::mismatch</function></para></listitem>
+      </itemizedlist>
+    </section>
+  </section>
+  <section id="sect-Defensive_Coding-CXX-Std-String">
+    <title>String handling with <literal>std::string</literal></title>
+    <para>
+      The <literal>std::string</literal> class provides a convenient
+      way to handle strings.  Unlike C strings,
+      <literal>std::string</literal> objects have an explicit length
+      (and can contain embedded NUL characters), and storage for its
+      characters is managed automatically.  This section discusses
+      <literal>std::string</literal>, but these observations also
+      apply to other instances of the
+      <literal>std::basic_string</literal> template.
+    </para>
+    <para>
+      The pointer returned by the <function>data()</function> member
+      function does not necessarily point to a NUL-terminated string.
+      To obtain a C-compatible string pointer, use
+      <function>c_str()</function> instead, which adds the NUL
+      terminator.
+    </para>
+    <para>
+      The pointers returned by the <function>data()</function> and
+      <function>c_str()</function> functions and iterators are only
+      valid until certain events happen.  It is required that the
+      exact <literal>std::string</literal> object still exists (even
+      if it was initially created as a copy of another string object).
+      Pointers and iterators are also invalidated when non-const
+      member functions are called, or functions with a non-const
+      reference parameter.  The behavior of the GCC implementation
+      deviates from that required by the C++ standard if multiple
+      threads are present.  In general, only the first call to a
+      non-const member function after a structural modification of the
+      string (such as appending a character) is invalidating, but this
+      also applies to member function such as the non-const version of
+      <function>begin()</function>, in violation of the C++ standard.
+    </para>
+    <para>
+      Particular care is necessary when invoking the
+      <function>c_str()</function> member function on a temporary
+      object.  This is convenient for calling C functions, but the
+      pointer will turn invalid as soon as the temporary object is
+      destroyed, which generally happens when the outermost expression
+      enclosing the expression on which <function>c_str()</function>
+      is called completes evaluation.  Passing the result of
+      <function>c_str()</function> to a function which does not store
+      or otherwise leak that pointer is safe, though.
+    </para>
+    <para>
+      Like with <literal>std::vector</literal> and
+      <literal>std::array</literal>, subscribing with
+      <literal>operator[]</literal> does not perform bounds checks.
+      Use the <function>at(size_type)</function> member function
+      instead.  See <xref
+      linkend="sect-Defensive_Coding-CXX-Std-Subscript"/>.
+    </para>
+    <para>
+      Never write to the pointers returned by
+      <function>data()</function> or <function>c_str()</function>
+      after casting away <literal>const</literal>.  If you need a
+      C-style writable string, use a
+      <literal>std::vector&lt;char&gt;</literal> object and its
+      <function>data()</function> member function.  In this case, you
+      have to explicitly add the terminating NUL character.
+    </para>
+    <para>
+      GCC's implementation of <literal>std::string</literal> is
+      currently based on reference counting.  It is expected that a
+      future version will remove the reference counting, due to
+      performance and conformance issues.  As a result, code that
+      implicitly assumes sharing by holding to pointers or iterators
+      for too long will break, resulting in run-time crashes or worse.
+      On the other hand, non-const iterator-returning functions will
+      no longer give other threads an opportunity for invalidating
+      existing iterators and pointers because iterator invalidation
+      does not depend on sharing of the internal character array
+      object anymore.
+    </para>
+  </section>
+  <section id="sect-Defensive_Coding-CXX-Std-Subscript">
     <title>Containers and <literal>operator[]</literal></title>
     <para>
-      Many containers similar to <literal>std::vector</literal>
+      Many sequence containers similar to <literal>std::vector</literal>
       provide both <literal>operator[](size_type)</literal> and a
       member function <literal>at(size_type)</literal>.  This applies
       to <literal>std::vector</literal> itself,
@@ -26,6 +158,31 @@
       <literal>at(size_type)</literal> over
       <literal>operator[](size_type)</literal>, even though it is
       slightly more verbose.
+    </para>
+  </section>
+  <section id="sect-Defensive_Coding-CXX-Std-Iterators">
+    <title>Iterators</title>
+    <para>
+      Iterators do not perform any bounds checking.  Therefore, all
+      functions that work on iterators should accept them in pairs,
+      denoting a range, and make sure that iterators are not moved
+      outside that range.  For forward iterators and bidirectional
+      iterators, you need to check for equality before moving the
+      first or last iterator in the range.  For random-access
+      iterators, you need to compute the difference before adding or
+      subtracting an offset.  It is not possible to perform the
+      operation and check for an invalid operator afterwards.
+    </para>
+    <para>
+      Output iterators cannot be compared for equality.  Therefore, it
+      is impossible to write code that detects that it has been
+      supplied an output area that is too small, and their use should
+      be avoided.
+    </para>
+    <para>
+      These issues make some of the standard library functions
+      difficult to use correctly, see <xref
+      linkend="sect-Defensive_Coding-CXX-Std-Functions-Unpaired_Iterators"/>.
     </para>
   </section>
 </section>

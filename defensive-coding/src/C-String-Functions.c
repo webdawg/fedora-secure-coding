@@ -70,7 +70,7 @@ main(void)
     assert(strncmp(buf, data, 9) == 0);
     //+ C String-Functions-strncat-as-strncpy
     buf[0] = '\0';
-    strncpy(buf, data, sizeof(buf) - 1);
+    strncat(buf, data, sizeof(buf) - 1);
     //-
   }
   {
