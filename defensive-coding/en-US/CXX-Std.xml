@@ -115,6 +115,10 @@
       Use the <function>at(size_type)</function> member function
       instead.  See <xref
       linkend="sect-Defensive_Coding-CXX-Std-Subscript"/>.
+      Furthermore, accessing the terminating NUL character using
+      <literal>operator[]</literal> is not possible.  (In some
+      implementations, the <literal>c_str()</literal> member function
+      writes the NUL character on demand.)
     </para>
     <para>
       Never write to the pointers returned by
