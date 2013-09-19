@@ -163,6 +163,15 @@
       <literal>operator[](size_type)</literal>, even though it is
       slightly more verbose.
     </para>
+    <para>
+      The <literal>front()</literal> and <literal>back()</literal>
+      member functions are undefined if a vector object is empty.  You
+      can use <literal>vec.at(0)</literal> and
+      <literal>vec.at(vec.size() - 1)</literal> as checked
+      replacements.  For an empty vector, <literal>data()</literal> is
+      defined; it returns an arbitrary pointer, but not necessarily
+      the NULL pointer.
+    </para>
   </section>
   <section id="sect-Defensive_Coding-CXX-Std-Iterators">
     <title>Iterators</title>
