@@ -1,14 +1,17 @@
-TODO items
-----------
+TODO and bug tracking
+---------------------
 
-Suggested items for inclusion are listed here:
+The secure-coding guide has its own component in Bugzilla:
 
-https://engineering.redhat.com/trac/product-security/wiki/DefensiveCodingTODO
+https://bugzilla.redhat.com/enter_bug.cgi?product=Fedora%20Documentation&component=defensive-coding-guide
+
+Please file bugs and suggestions there.
 
 Building HTML documentation
 ---------------------------
 
-Just type "make".
+Just type "make".  If you do not want to build the example code, run
+"make build-manual".
 
 When you type "make", the code examples in src/ are compiled (mainly
 to check for obvious syntax errors, but also for manual testing).  If
@@ -19,14 +22,5 @@ included in the manual.
 Dependencies
 ------------
 
-Building the manual needs the "publican" package and the
-"publican-redhat-engservices" package available here:
-
-http://download.lab.bos.redhat.com/brewroot/packages/publican-redhat-engservices/
-
-Version 0.4 of the publican-redhat-engservices package needs publican
-3.0.  This version of the package:
-
-http://download.lab.bos.redhat.com/brewroot/packages/publican-redhat-engservices/0.3/2.el6eng/noarch/publican-redhat-engservices-0.3-2.el6eng.noarch.rpm
-
-is known to work with publican 2.8 available in Fedora 17.
+Building the manual needs the "publican" and the "publican-fedora"
+packages.
