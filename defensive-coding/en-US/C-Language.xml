@@ -141,6 +141,20 @@
       lot when implementing overflow checks.
     </para>
     <para>
+      Sometimes, it is necessary to compare unsigned and signed
+      integer variables.  This results in a compiler warning,
+      <emphasis>comparison between signed and unsigned integer
+      expressions</emphasis>, because the comparison often gives
+      unexpected results for negative values.  When adding a cast,
+      make sure that negative values are covered properly.  If the
+      bound is unsigned and the checked quantity is signed, you should
+      cast the checked quantity to an unsigned type as least as wide
+      as either operand type.  As a result, negative values will fail
+      the bounds check.  (You can still check for negative values
+      separately for clarity, and the compiler will optimize away this
+      redundant check.)
+    </para>
+    <para>
       Legacy code should be compiled with the <option>-fwrapv</option>
       GCC option.  As a result, GCC will provide 2's complement
       semantics for integer arithmetic, including defined behavior on
