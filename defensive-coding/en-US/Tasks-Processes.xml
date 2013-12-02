@@ -24,7 +24,7 @@
       <para>
 	The configured program name should be an absolute path.  If it
 	is a relative path, the contents of the <envar>PATH</envar>
-	must be obtained in s secure manner (see <xref
+	must be obtained in a secure manner (see <xref
 	linkend="sect-Defensive_Coding-Tasks-secure_getenv"/>).
 	If the <envar>PATH</envar> variable is not set or untrusted,
 	the safe default <literal>/bin:/usr/bin</literal> must be
@@ -290,7 +290,7 @@
     <para>
       At the moment, the parent process should explicitly wait for
       termination of the child process using
-      <function>waitpid</function> or <function>waitpid</function>,
+      <function>waitpid</function> or <function>waitid</function>,
       and hope that the status is not collected by an event loop
       first.
     </para>

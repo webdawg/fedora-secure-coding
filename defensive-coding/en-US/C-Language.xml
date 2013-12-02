@@ -123,7 +123,7 @@
 		  xmlns:xi="http://www.w3.org/2001/XInclude" />
     </example>
     <para>
-      Basic arithmetic operations a commutative, so for bounds checks,
+      Basic arithmetic operations are commutative, so for bounds checks,
       there are two different but mathematically equivalent
       expressions.  Sometimes, one of the expressions results in
       better code because parts of it can be reduced to a constant.

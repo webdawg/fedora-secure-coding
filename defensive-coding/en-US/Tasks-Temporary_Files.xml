@@ -6,7 +6,7 @@
   <para>
     In this chapter, we describe how to create temporary files and
     directories, how to remove them, and how to work with programs
-    which do not create files in ways that a safe with a shared
+    which do not create files in ways that are safe with a shared
     directory for temporary files.  General file system manipulation
     is treated in a separate chapter, <xref
     linkend="chap-Defensive_Coding-Tasks-File_System"/>.
