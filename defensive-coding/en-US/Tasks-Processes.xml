@@ -172,9 +172,9 @@
       <title>Robust argument list processing</title>
       <para>
 	When invoking a program, it is sometimes necessary to include
-	data from untrusted sources.  Such data should be check
+	data from untrusted sources.  Such data should be checked
 	against embedded <literal>NUL</literal> characters because the
-	system APIs will sliently truncate argument strings at the first 
+	system APIs will silently truncate argument strings at the first
 	<literal>NUL</literal> character.
       </para>
       <para>
