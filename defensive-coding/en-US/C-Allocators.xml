@@ -140,7 +140,7 @@
     </para>
   </section>
 
-  <section>
+  <section id="sect-Defensive_Coding-C-Allocators-Custom">
     <title>Custom memory allocators</title>
     <para>
       Custom memory allocates come in two forms: replacements for
@@ -176,7 +176,8 @@
 	  allocators.  In micro-benchmarks, pool allocators can show
 	  huge wins, and size-specific pools can reduce internal
 	  fragmentation.  But often, utilization of individual pools
-	  is poor, and 
+	  is poor, and external fragmentation increases the overall
+	  memory usage.
 	</para>
       </listitem>
     </itemizedlist>
