@@ -1,0 +1,131 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+]>
+<chapter id="chap-Defensive_Coding-Tasks-Packaging">
+  <title>RPM packaging</title>
+  <para>
+    This chapter deals with security-related concerns around RPM
+    packaging.  It has to be read in conjunction with
+    distribution-specific packaging guidelines.
+  </para>
+  <section id="sect-Defensive_Coding-Tasks-Packaging-Certificates">
+    <title>Generating X.509 self-signed certificates during
+    installation</title>
+    <para>
+      Some applications need X.509 certificates for authentication
+      purposes.  For example, a single private/public key pair could
+      be used to define cluster membership, enabling authentication
+      and encryption of all intra-cluster communication.  (Lack of
+      certification from a CA matters less in such a context.)  For
+      such use, generating the key pair at package installation time
+      when preparing system images for use in the cluster is
+      reasonable.  For other use cases, it is necessary to generate
+      the key pair before the service is started for the first time.
+    </para>
+    <important>
+      <para>
+	The way the key is generated may not be suitable for key
+	material of critical value.  (<command>openssl
+	genrsa</command> uses, but does not require, entropy from a
+	physical source of randomness, among other things.)  Such keys
+	should be stored in a hardware security module if possible,
+	and generated from random bits reserved for this purpose
+	derived from a non-deterministic physical source.
+      </para>
+    </important>
+    <para>
+      In the spec file, we define two RPM variables which contain the
+      names of the files used to store the private and public key, and
+      the user name for the service:
+    </para>
+    <informalexample>
+      <programlisting language="RPM Spec">
+# Name of the user owning the file with the private key
+%define tlsuser %{name}
+# Name of the directory which contains the key and certificate files
+%define tlsdir %{_sysconfdir}/%{name}
+%define tlskey %{tlsdir}/%{name}.key
+%define tlscert %{tlsdir}/%{name}.crt
+      </programlisting>
+    </informalexample>
+    <para>
+      These variables likely need adjustment based on the needs of the
+      package.
+    </para>
+    <para>
+      Typically, the file with the private key needs to be owned by
+      the system user which needs to read it,
+      <literal>%{tlsuser}</literal> (not <literal>root</literal>).  In
+      order to avoid races, if the <emphasis>directory</emphasis>
+      <literal>%{tlsdir}</literal> is <emphasis>owned by the services
+      user</emphasis>, you should use the code in <xref
+      linkend="ex-Defensive_Coding-Packaging-Certificates-Owned"/>.
+      The invocation of <application>su</application> with the
+      <option>-s /bin/bash</option> argument is necessary in case the
+      login shell for the user has been disabled.
+    </para>
+    <example id="ex-Defensive_Coding-Packaging-Certificates-Owned">
+      <title>Creating a key pair in a user-owned directory</title>
+      <programlisting language="Bash">
+%post
+if [ $1 -eq 1 ] ; then
+  if ! test -e %{tlskey} ; then
+    su -s /bin/bash \
+      -c "umask 077 &amp;&amp; openssl genrsa -out %{tlskey} 2048 2>/dev/null" \
+      %{tlsuser}
+  fi
+  if ! test -e %{tlscert} ; then
+    cn="Automatically generated certificate for the %{tlsuser} service"
+    req_args="-key %{tlskey} -out %{tlscert} -days 7305 -subj \"/CN=$cn/\""
+    su -s /bin/bash \
+      -c "openssl req -new -x509 -extensions usr_cert $req_args" \
+      %{tlsuser}
+  fi
+fi
+
+%files
+%dir %attr(0755,%{tlsuser},%{tlsuser]) %{tlsdir}
+%ghost %attr(0600,%{tlsuser},%{tlsuser}) %{tlskey}
+%ghost %attr(0644,%{tlsuser},%{tlsuser}) %{tlscert}
+      </programlisting>
+    </example>
+    <para>
+      If the <emphasis>directory</emphasis>
+      <literal>%{tlsdir}</literal> <emphasis>is owned by</emphasis>
+      <literal>root</literal>, use the code in <xref
+      linkend="ex-Defensive_Coding-Packaging-Certificates-Unowned"/>.
+    </para>
+    <example id="ex-Defensive_Coding-Packaging-Certificates-Unowned">
+      <title>Creating a key pair in a <literal>root</literal>-owned directory</title>
+      <programlisting language="Bash">
+%post
+if [ $1 -eq 1 ] ; then
+  if ! test -e %{tlskey} ; then
+    (umask 077 &amp;&amp; openssl genrsa -out %{tlskey} 2048 2>/dev/null)
+    chown %{tlsuser} %{tlskey}
+  fi
+  if ! test -e %{tlscert} ; then
+    cn="Automatically generated certificate for the %{tlsuser} service"
+    openssl req -new -x509 -extensions usr_cert \
+      -key %{tlskey} -out %{tlscert} -days 7305 -subj "/CN=$cn/"
+  fi
+fi
+
+%files
+%dir %attr(0755,%{root},%{root}]) %{tlsdir}
+%ghost %attr(0600,%{tlsuser},%{tlsuser}) %{tlskey}
+%ghost %attr(0644,%{root},%{root}) %{tlscert}
+      </programlisting>
+    </example>
+    <para>
+      In order for this to work, the package which generates the keys
+      must require the <application>openssl</application> package.  If
+      the user which owns the key file is generated by a different
+      package, the package generating the certificate must specify a
+      <literal>Requires(pre):</literal> on the package which creates
+      the user.  This ensures that the user account will exist when it
+      is needed for the <application>su</application> or
+      <application>chmod</application> invocation.
+    </para>
+  </section>
+</chapter>

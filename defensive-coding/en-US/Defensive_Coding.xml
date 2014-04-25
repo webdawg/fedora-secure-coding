@@ -18,6 +18,7 @@
     <xi:include href="Tasks-Processes.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
     <xi:include href="Tasks-Serialization.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
     <xi:include href="Tasks-Cryptography.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+    <xi:include href="Tasks-Packaging.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
   </part>
   <part>
     <title>Implementing Security Features</title>
