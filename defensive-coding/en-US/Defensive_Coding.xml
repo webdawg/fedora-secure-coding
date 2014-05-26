@@ -8,6 +8,7 @@
     <xi:include href="CXX.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
     <xi:include href="Java.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
     <xi:include href="Python.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+    <xi:include href="Vala.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
   </part>
   <part>
     <title>Specific Programming Tasks</title>
