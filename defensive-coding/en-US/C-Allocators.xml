@@ -29,7 +29,7 @@
       realloc(ptr, size);</literal> is wrong because the memory
       pointed to by <literal>ptr</literal> leaks in case of an error.
     </para>
-    <section>
+    <section id="sect-Defensive_Coding-C-Use-After-Free">
       <title>Use-after-free errors</title>
       <para>
 	After <function>free</function>, the pointer is invalid.
