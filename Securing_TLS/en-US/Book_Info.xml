@@ -1,9 +1,9 @@
 <?xml version='1.0' encoding='utf-8' ?>
-<!DOCTYPE articleinfo PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+<!DOCTYPE bookinfo PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
 <!ENTITY % BOOK_ENTITIES SYSTEM "Securing_TLS.ent">
 %BOOK_ENTITIES;
 ]>
-<articleinfo id="arti-Fedora_Security_Team-Securing_TLS-Securing_TLS">
+<bookinfo id="book-Fedora_Security_Team-Securing_TLS-Securing_TLS">
 	<title>Securing TLS</title>
 	<subtitle>Enter a short description here.</subtitle>
 	<productname>Fedora Security Team</productname>
@@ -24,5 +24,5 @@
 	</corpauthor>
 	<xi:include href="Common_Content/Legal_Notice.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
 	<xi:include href="Author_Group.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
-</articleinfo>
+</bookinfo>
 
