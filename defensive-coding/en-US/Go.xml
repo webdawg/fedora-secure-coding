@@ -1,0 +1,90 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+]>
+<chapter id="chap-Defensive_Coding-Go">
+<title>The Go Programming Language</title>
+<para>
+  This chapter contains language-specific recommendations for Go.
+</para>
+<section id="chap-Defensive_Coding-Go-Memory_Safety">
+  <title>Memory safety</title>
+  <para>
+    Go provides memory safety, but only if the program is not executed
+    in parallel (that is, <envar>GOMAXPROCS</envar> is not larger than
+    <literal>1</literal>).  The reason is that interface values and
+    slices consist of multiple words are not updated atomically.
+    Another thread of execution can observe an inconsistent pairing
+    between type information and stored value (for interfaces) or
+    pointer and length (for slices), and such inconsistency can lead
+    to a memory safety violation.
+  </para>
+  <para>
+    Code which does not run in parallel and does not use the
+    <literal>unsafe</literal> package (or other packages which expose
+    unsafe constructs) is memory-safe.  For example, invalid casts and
+    out-of-range subscripting cause panics and run time.
+  </para>
+  <para>
+    Keep in mind that finalization can introduce parallelism because
+    finalizers are executed concurrently, potentially interleaved with
+    the rest of the program.
+  </para>
+</section>
+<section id="chap-Defensive_Coding-Go-Error_Handling">
+  <title>Error handling</title>
+  <para>
+    Only a few common operations (such as pointer dereference, integer
+    division, array subscripting) trigger exceptions in Go, called
+    <emphasis>panics</emphasis>.  Most interfaces in the standard
+    library use a separate return value of type
+    <literal>error</literal> to signal error.
+  </para>
+  <para>
+    Not checking error return values can lead to incorrect operation
+    and data loss (especially in the case of writes, using interfaces
+    such as <literal>io.Writer</literal>).
+  </para>
+  <para>
+    The correct way to check error return values depends on the
+    function or method being called.  In the majority of cases, the
+    first step after calling a function should be an error check
+    against the <literal>nil</literal> value, handling any encountered
+    error.  See <xref
+    linkend="ex-Defensive_Coding-Go-Error_Handling-Regular"/> for
+    details.
+  </para>
+  <example id="ex-Defensive_Coding-Go-Error_Handling-Regular">
+    <title>Regular error handling in Go</title>
+    <xi:include href="snippets/Go-Error_Handling-Regular.xml"
+		xmlns:xi="http://www.w3.org/2001/XInclude" />
+  </example>
+  <para>
+    However, with <literal>io.Reader</literal>,
+    <literal>io.ReaderAt</literal> and related interfaces, it is
+    necessary to check for a non-zero number of read bytes first, as
+    shown in <xref
+    linkend="ex-Defensive_Coding-Go-Error_Handling-IO"/>.  If this
+    pattern is not followed, data loss may occur.  This is due to the
+    fact that the <literal>io.Reader</literal> interface permits
+    returning both data and an error at the same time.
+  </para>
+  <example id="ex-Defensive_Coding-Go-Error_Handling-IO">
+    <title>Read error handling in Go</title>
+    <xi:include href="snippets/Go-Error_Handling-IO.xml"
+		xmlns:xi="http://www.w3.org/2001/XInclude" />
+  </example>
+</section>
+<section id="chap-Defensive_Coding-Go-Garbage_Collector">
+  <title>Garbage Collector</title>
+  <para>
+    Older Go releases (before Go 1.3) use a conservative garbage
+    collector without blacklisting.  This means that data blobs can
+    cause retention of unrelated data structures because the data is
+    conservatively interpreted as pointers.  This phenomenon can be
+    triggered accidentally on 32-bit architectures and is more likely
+    to occur if the heap grows larger.  On 64-bit architectures, it
+    may be possible to trigger it deliberately—it is unlikely to occur
+    spontaneously.
+  </para>
+</section>
+</chapter>

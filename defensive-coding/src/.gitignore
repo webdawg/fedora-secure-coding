@@ -4,5 +4,6 @@
 /TLS-Client-OpenSSL
 /XML-Parser-Expat
 /XML-Parser-Qt
+/Go-Error_Handling
 *.class
 *.o

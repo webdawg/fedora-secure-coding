@@ -2,10 +2,12 @@
 
 CC = gcc
 CXX = g++
+GCCGO = gccgo
 CWARNFLAGS = -Wall -W -Wno-unused-parameter -Werror=implicit-function-declaration
 CXXWARNFLAGS = -Wall -W
 CFLAGS = -std=gnu99 -O2 $(CWARNFLAGS) -g
 CXXFLAGS = -std=c++03 -O2 $(CXXWARNFLAGS) -g
+GOFLAGS = -O2 -Wall -W
 LDFLAGS = -g
 
 # List files which should only be compiled for syntax checking.
@@ -41,6 +43,7 @@ compile_and_link += XML-Parser-Expat
 LIBS_XML-Parser-Expat = -lexpat
 compile_and_link += XML-Parser-Qt
 LIBS_XML-Parser-Qt = -lQtCore -lQtXml
+compile_and_link += Go-Error_Handling
 
 # Define preprocessor symbols if certain functions exist.
 CHECK_FUNCTION = crypto/X509_check_host/-DHAVE_X509_CHECK_HOST \
@@ -67,6 +70,9 @@ src/%.class: src/%.java
 
 src/%: src/%.o
 	$(CXX) $(LDFLAGS) $^ -o $@ $(LIBS_$(notdir $@))
+
+src/%: src/%.go
+	$(GCCGO) $(GOFLAGS) $(LDFLAGS) -o $@ $^
 
 src/TLS-Client-GNUTLS: src/tcp_connect.o
 src/TLS-Client-OpenSSL: src/tcp_connect.o src/x509_check_host.o

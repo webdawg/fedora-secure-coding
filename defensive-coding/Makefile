@@ -9,7 +9,7 @@ build: build-src build-manual
 build-snippets:
 	mkdir -p en-US/snippets
 	python scripts/split-snippets.py . \
-	  src/*.c src/*.cpp src/*.java src/*.py
+	  src/*.c src/*.cpp src/*.java src/*.py src/*.go
 
 build-manual: build-snippets
 	publican build --formats=html,epub,pdf --langs=en-US

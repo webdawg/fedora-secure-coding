@@ -1,0 +1,53 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<!DOCTYPE section PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+]>
+<chapter id="chap-Defensive_Coding-Vala">
+<title>The Vala Programming Language</title>
+<para>
+  Vala is a programming language mainly targeted at GNOME developers.
+</para>
+<para>
+  Its syntax is inspired by C# (and thus, indirectly, by Java).  But
+  unlike C# and Java, Vala does not attempt to provide memory safety:
+  Vala is compiled to C, and the C code is compiled with GCC using
+  typical compiler flags.  Basic operations like integer arithmetic
+  are directly mapped to C constructs.  As a results, the
+  recommendations in <xref linkend="chap-Defensive_Coding-C"/> apply.
+</para>
+<para>
+  In particular, the following Vala language constructs can result in
+  undefined behavior at run time:
+</para>
+<itemizedlist>
+  <listitem>
+    <para>
+      Integer arithmetic, as described in <xref
+      linkend="sect-Defensive_Coding-C-Arithmetic"/>.
+    </para>
+  </listitem>
+  <listitem>
+    <para>
+      Pointer arithmetic, string subscripting and the
+      <literal>substring</literal> method on strings (the
+      <literal>string</literal> class in the
+      <literal>glib-2.0</literal> package) are not range-checked.  It
+      is the responsibility of the calling code to ensure that the
+      arguments being passed are valid.  This applies even to cases
+      (like <literal>substring</literal>) where the implementation
+      would have range information to check the validity of indexes.
+      See <xref linkend="sect-Defensive_Coding-C-Pointers"/>.
+    </para>
+  </listitem>
+  <listitem>
+    <para>
+      Similarly, Vala only performs garbage collection (through
+      reference counting) for <literal>GObject</literal> values.  For
+      plain C pointers (such as strings), the programmer has to ensure
+      that storage is deallocated once it is no longer needed (to
+      avoid memory leaks), and that storage is not being deallocated
+      while it is still being used (see <xref
+      linkend="sect-Defensive_Coding-C-Use-After-Free"/>).
+    </para>
+  </listitem>
+</itemizedlist>
+</chapter>
