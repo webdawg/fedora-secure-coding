@@ -11,33 +11,19 @@
 	<section id="sect-Fedora_Security_Team-Securing_TLS-mod_ssl-configuration">
 		<title>Configuration</title>
 		<para>
-			<application>mod_ssl</application>'s configuration file, by default, appears as such:
+			<application>mod_ssl</application>'s configuration file, by default, has mostly sane settings.  Below we'll talk about portions of the configuration that are important.
+		</para>
+		<para>
 <screen>
 #
 # When we also provide SSL we have to listen to the 
 # the HTTPS port in addition.
 #
 Listen 443 https
+</screen>
+This specifies the port that httpd should listen to for SSL/TLS traffic.  Port 443 is the standard port for https.
 
-##
-##  SSL Global Context
-##
-##  All SSL configuration in this context applies both to
-##  the main server and all SSL-enabled virtual hosts.
-##
-
-#   Pass Phrase Dialog:
-#   Configure the pass phrase gathering process.
-#   The filtering dialog program (`builtin' is a internal
-#   terminal dialog) has to provide the pass phrase on stdout.
-SSLPassPhraseDialog exec:/usr/libexec/httpd-ssl-pass-dialog
-
-#   Inter-Process Session Cache:
-#   Configure the SSL Session Cache: First the mechanism 
-#   to use and second the expiring timeout (in seconds).
-SSLSessionCache         shmcb:/run/httpd/sslcache(512000)
-SSLSessionCacheTimeout  300
-
+<screen>
 #   Pseudo Random Number Generator (PRNG):
 #   Configure one or more sources to seed the PRNG of the 
 #   SSL library. The seed data should be of good random quality.
@@ -53,8 +39,11 @@ SSLRandomSeed connect builtin
 #SSLRandomSeed startup file:/dev/random  512
 #SSLRandomSeed connect file:/dev/random  512
 #SSLRandomSeed connect file:/dev/urandom 512
+</screen>
 
-#
+The random number generator is very important for cryptology and this is where those settings get established.  By default the pseudo-random number generator is defined here although if you have another source of random data you can put that here.
+
+<screen>
 # Use "SSLCryptoDevice" to enable any supported hardware
 # accelerators. Use "openssl engine -v" to list supported
 # engine names.  NOTE: If you enable an accelerator and the
@@ -63,37 +52,29 @@ SSLRandomSeed connect builtin
 #
 SSLCryptoDevice builtin
 #SSLCryptoDevice ubsec
+</screen>
 
-##
-## SSL Virtual Host Context
-##
+Many processors have cryptographic accelerators that help with complex ciphers such as AES.  In fact, most hardware accelerators are specifically designed to increase the speed of AES-128 (see below where we talk about speed optimization).  Unless you have a specific accelerator in your system this default setting should be okay.
 
-&#60;VirtualHost _default_:443&#62;
-
-# General setup for the virtual host, inherited from global configuration
-#DocumentRoot "/var/www/html"
-#ServerName www.example.com:443
-
-# Use separate log files for the SSL virtual host; note that LogLevel
-# is not inherited from httpd.conf.
-ErrorLog logs/ssl_error_log
-TransferLog logs/ssl_access_log
-LogLevel warn
-
-#   SSL Engine Switch:
-#   Enable/Disable SSL for this virtual host.
-SSLEngine on
-
+<screen>
 #   SSL Protocol support:
 # List the enable protocol levels with which clients will be able to
 # connect.  Disable SSLv2 access by default:
 SSLProtocol all -SSLv2
+</screen>
 
+Here's where the really important settings begin (well, they are all important).  SSLProtocol allows you to set which protocols to use (e.g. SSLv2, SSLv3, TLSv1, TLSv1.1, TLSv1.2).  The default setting <literal>all -SSLv2</literal> means that all the protocols will be supported except SSLv2.  You could go in and individually specify the individual protocols but this setting makes it future-proof.  When TLSv1.3 is released and supported by OpenSSL you won't have to change anything; your system will automatically start supporting TLSv1.3.  Unless you have a good reason to do so it's recommended that you leave this setting the way it is.
+
+<screen>
 #   SSL Cipher Suite:
 #   List the ciphers that the client is permitted to negotiate.
 #   See the mod_ssl documentation for a complete list.
 SSLCipherSuite HIGH:MEDIUM:!aNULL:!MD5
+</screen>
 
+The setting everyone seems to care about.  What symmetric ciphers will your webserver will use is determined here.  The default setting should probably be hardened a bit by removing <literal>MEDIUM</literal> from the list.  All current operating systems and browsers support <literal>HIGH</literal> ciphers which offer the best protection.  The <literal>!aNULL</literal> removes unauthenticated cipher options and the <literal>!MD5</literal> removed any cipher that utilizes the <literal>MD5</literal> hash which is quite weak and should be avoided.
+
+<screen>
 #   Speed-optimized SSL Cipher configuration:
 #   If speed is your main concern (on busy HTTPS servers e.g.),
 #   you might want to force clients to specific, performance
@@ -143,92 +124,6 @@ SSLCertificateKeyFile /etc/pki/tls/private/localhost.key
 #   issuer chain before deciding the certificate is not valid.
 #SSLVerifyClient require
 #SSLVerifyDepth  10
-
-#   Access Control:
-#   With SSLRequire you can do per-directory access control based
-#   on arbitrary complex boolean expressions containing server
-#   variable checks and other lookup directives.  The syntax is a
-#   mixture between C and Perl.  See the mod_ssl documentation
-#   for more details.
-#&#60;Location /&#62;
-#SSLRequire (    %{SSL_CIPHER} !~ m/^(EXP|NULL)/ \
-#            and %{SSL_CLIENT_S_DN_O} eq "Snake Oil, Ltd." \
-#            and %{SSL_CLIENT_S_DN_OU} in {"Staff", "CA", "Dev"} \
-#            and %{TIME_WDAY} >= 1 and %{TIME_WDAY} &#60;= 5 \
-#            and %{TIME_HOUR} >= 8 and %{TIME_HOUR} &#60;= 20       ) \
-#           or %{REMOTE_ADDR} =~ m/^192\.76\.162\.[0-9]+$/
-#&#60;/Location&#62;
-
-#   SSL Engine Options:
-#   Set various options for the SSL engine.
-#   o FakeBasicAuth:
-#     Translate the client X.509 into a Basic Authorisation.  This means that
-#     the standard Auth/DBMAuth methods can be used for access control.  The
-#     user name is the `one line&#39; version of the client&#39;s X.509 certificate.
-#     Note that no password is obtained from the user. Every entry in the user
-#     file needs this password: `xxj31ZMTZzkVA&#39;.
-#   o ExportCertData:
-#     This exports two additional environment variables: SSL_CLIENT_CERT and
-#     SSL_SERVER_CERT. These contain the PEM-encoded certificates of the
-#     server (always existing) and the client (only existing when client
-#     authentication is used). This can be used to import the certificates
-#     into CGI scripts.
-#   o StdEnvVars:
-#     This exports the standard SSL/TLS related `SSL_* &#39; environment variables.
-#     Per default this exportation is switched off for performance reasons,
-#     because the extraction step is an expensive operation and is usually
-#     useless for serving static content. So one usually enables the
-#     exportation for CGI and SSI requests only.
-#   o StrictRequire:
-#     This denies access when "SSLRequireSSL" or "SSLRequire" applied even
-#     under a "Satisfy any" situation, i.e. when it applies access is denied
-#     and no other module can change it.
-#   o OptRenegotiate:
-#     This enables optimized SSL connection renegotiation handling when SSL
-#     directives are used in per-directory context. 
-#SSLOptions +FakeBasicAuth +ExportCertData +StrictRequire
-&#60;Files ~ "\.(cgi|shtml|phtml|php3?)$"&#62;
-    SSLOptions +StdEnvVars
-&#60;/Files%#62;
-&#60;Directory "/var/www/cgi-bin"&#62;
-    SSLOptions +StdEnvVars
-&#60;/Directory&#62;
-
-#   SSL Protocol Adjustments:
-#   The safe and default but still SSL/TLS standard compliant shutdown
-#   approach is that mod_ssl sends the close notify alert but doesn&#39;t wait for
-#   the close notify alert from client. When you need a different shutdown
-#   approach you can use one of the following variables:
-#   o ssl-unclean-shutdown:
-#     This forces an unclean shutdown when the connection is closed, i.e. no
-#     SSL close notify alert is send or allowed to received.  This violates
-#     the SSL/TLS standard but is needed for some brain-dead browsers. Use
-#     this when you receive I/O errors because of the standard approach where
-#     mod_ssl sends the close notify alert.
-#   o ssl-accurate-shutdown:
-#     This forces an accurate shutdown when the connection is closed, i.e. a
-#     SSL close notify alert is send and mod_ssl waits for the close notify
-#     alert of the client. This is 100% SSL/TLS standard compliant, but in
-#     practice often causes hanging connections with brain-dead browsers. Use
-#     this only for browsers where you know that their SSL implementation
-#     works correctly. 
-#   Notice: Most problems of broken clients are also related to the HTTP
-#   keep-alive facility, so you usually additionally want to disable
-#   keep-alive for those clients, too. Use variable "nokeepalive" for this.
-#   Similarly, one has to force some clients to use HTTP/1.0 to workaround
-#   their broken HTTP/1.1 implementation. Use variables "downgrade-1.0" and
-#   "force-response-1.0" for this.
-BrowserMatch "MSIE [2-5]" \
-         nokeepalive ssl-unclean-shutdown \
-         downgrade-1.0 force-response-1.0
-
-#   Per-Server Logging:
-#   The home of a custom SSL log file. Use this when you want a
-#   compact non-error SSL logfile on a virtual host basis.
-CustomLog logs/ssl_request_log \
-          "%t %h %{SSL_PROTOCOL}x %{SSL_CIPHER}x \"%r\" %b"
-
-&#60;/VirtualHost&#62;
 </screen>
 		</para>
 	</section>		
