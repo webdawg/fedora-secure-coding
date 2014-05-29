@@ -3,31 +3,34 @@
 <!ENTITY % BOOK_ENTITIES SYSTEM "Securing_TLS.ent">
 %BOOK_ENTITIES;
 ]>
-<chapter id="chap-Fedora_Security_Team-Securing_TLS-Test_Chapter">
-	<title>Test Chapter</title>
+<chapter id="chap-Fedora_Security_Team-Securing_TLS-OpenSSL">
+	<title>OpenSSL</title>
 	<para>
-		This is a test paragraph
+		<application>OpenSSL</application> is a popular and powerful open source toolkit for implementing SSL and TLS.  It's used to add SSL and TLS encryption to other popular software like <application>Apache</application>, <application>dovecot</application>, and <application>ejabberd</application>.
 	</para>
-	<section id="sect-Fedora_Security_Team-Securing_TLS-Test_Chapter-Test_Section_1">
-		<title>Test Section 1</title>
-		<para>
-			This is a test paragraph in a section
-		</para>
+	<section id="sect-Fedora_Security_Team-Securing_TLS-OpenSSL-Cipher_Categories">
+		<title>Cipher Categories</title>
+		<para><application>OpenSSL</application> groups cipher suites together into easy to define sets that make it easy to implement encryption that makes sense for individual systems.  These sets include <literal>HIGH</literal>, <literal>MEDIUM</literal>, <literal>LOW</literal>, <literal>EXPORT</literal>, and <literal>DEFAULT</literal>.  By utilizing one, or a combination, of these sets in configuration files, the systems administrator can define many ciphers at once.</para>
+		<section id="sect-Fedora_Security_Team-Securing_TLS-OpenSSL-Cipher_Categories-High">
+			<title>High Ciphers</title>
+			<para />
+		</section>
+                <section id="sect-Fedora_Security_Team-Securing_TLS-OpenSSL-Cipher_Categories-Medium">
+                        <title>Medium Ciphers</title>
+                        <para />
+                </section>
+                <section id="sect-Fedora_Security_Team-Securing_TLS-OpenSSL-Cipher_Categories-Low">
+                        <title>Low Ciphers</title>
+                        <para />
+                </section>
+                <section id="sect-Fedora_Security_Team-Securing_TLS-OpenSSL-Cipher_Categories-Export">
+                        <title>Export Ciphers</title>
+                        <para />
+                </section>
+                <section id="sect-Fedora_Security_Team-Securing_TLS-OpenSSL-Cipher_Categories-Default">
+                        <title>Default Ciphers</title>
+                        <para />
+                </section>
 	</section>
-	
-	<section id="sect-Fedora_Security_Team-Securing_TLS-Test_Chapter-Test_Section_2">
-		<title>Test Section 2</title>
-		<para>
-			This is a test paragraph in Section 2
-			<orderedlist>
-				<listitem>
-					<para>
-						This is a test listitem.
-					</para>
-				</listitem>
-			</orderedlist>
-		</para>
-	</section>
-
 </chapter>
 
