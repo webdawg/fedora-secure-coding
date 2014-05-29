@@ -5,13 +5,13 @@
 ]>
 <authorgroup>
 	<author>
-		<firstname>Enter your first name here.</firstname>
-		<surname>Enter your surname here.</surname>
+		<firstname>Eric</firstname>
+		<surname>Christensen</surname>
 		<affiliation>
-			<orgname>Enter your organisation's name here.</orgname>
-			<orgdiv>Enter your organisational division here.</orgdiv>
+			<orgname>Red Hat</orgname>
+			<orgdiv>Product Security</orgdiv>
 		</affiliation>
-		<email>Enter your email address here.</email>
+		<email>sparks@redhat.com</email>
 	</author>
 </authorgroup>
 
