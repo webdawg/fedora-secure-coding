@@ -1,4 +1,4 @@
 <!ENTITY PRODUCT "Fedora Security Team">
 <!ENTITY BOOKID "Securing_TLS">
 <!ENTITY YEAR "2014">
-<!ENTITY HOLDER "| You need to change the HOLDER entity in the en-US/Securing_TLS.ent file |">
+<!ENTITY HOLDER "Red Hat, Inc. and contributors">
