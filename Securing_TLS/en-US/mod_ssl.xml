@@ -86,8 +86,17 @@ The setting everyone seems to care about.  What symmetric ciphers will your webs
 #   compromised, captures of past or future traffic must be
 #   considered compromised, too.
 #SSLCipherSuite RC4-SHA:AES128-SHA:HIGH:MEDIUM:!aNULL:!MD5
-#SSLHonorCipherOrder on 
+</screen>
 
+These are settings that are for those that want speed over security.  If you are concerned with processor time for decrypting data you can comment out the above <literal>SSLCipherSuite</literal> line and use this one.  It is highly recommended that you remove the <literal>RC4-SHA</literal> as RC4 should no longer be used.  The prioritization of <literal>AES128-SHA</literal> above all other ciphers means that the hardware accelerator will be most efficient with most clients.
+
+<screen>
+#SSLHonorCipherOrder on 
+</screen>
+
+This should be uncommented and used no matter your configuration for security or speed.  This setting makes the client connect to the first cipher they can which makes for the most secure or fastest (depending on your settings) happen more often.
+
+<screen>
 #   Server Certificate:
 # Point SSLCertificateFile at a PEM encoded certificate.  If
 # the certificate is encrypted, then you will be prompted for a
@@ -116,7 +125,11 @@ SSLCertificateKeyFile /etc/pki/tls/private/localhost.key
 #   certificates for client authentication or alternatively one
 #   huge file containing all of them (file must be PEM encoded)
 #SSLCACertificateFile /etc/pki/tls/certs/ca-bundle.crt
+</screen>
 
+These are where your certificates live.  You may have to update the name of the certificate and key files but the files should live in the directories provided.
+
+<screen>
 #   Client Authentication (Type):
 #   Client certificate verification type and depth.  Types are
 #   none, optional, require and optional_no_ca.  Depth is a
@@ -125,6 +138,8 @@ SSLCertificateKeyFile /etc/pki/tls/private/localhost.key
 #SSLVerifyClient require
 #SSLVerifyDepth  10
 </screen>
+
+These are settings for requiring certificate authentication from the client as well.  Use this to add additional security to your site by validating certificates on the client side.
 		</para>
 	</section>		
 </chapter>
