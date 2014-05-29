@@ -12,25 +12,153 @@
 		<title>Cipher Categories</title>
 		<para><application>OpenSSL</application> groups cipher suites together into easy to define sets that make it easy to implement encryption that makes sense for individual systems.  These sets include <literal>HIGH</literal>, <literal>MEDIUM</literal>, <literal>LOW</literal>, <literal>EXPORT</literal>, and <literal>DEFAULT</literal>.  By utilizing one, or a combination, of these sets in configuration files, the systems administrator can define many ciphers at once.</para>
 		<section id="sect-Fedora_Security_Team-Securing_TLS-OpenSSL-Cipher_Categories-High">
-			<title>High Ciphers</title>
-			<para />
+			<title><literal>High</literal> Ciphers</title>
+			<para><literal>HIGH</literal> ciphers are the ciphers that offer the best protection (generally speaking these cipher suites provide robust 128-bits of security although this is does not hold up completely).</para> 
+			<para>The current <literal>HIGH</literal> cipher suites offered by OpenSSL (version 1.0.1e) are:
+<screen>
+ECDHE-RSA-AES256-GCM-SHA384 TLSv1.2
+ECDHE-ECDSA-AES256-GCM-SHA384 TLSv1.2
+ECDHE-RSA-AES256-SHA384 TLSv1.2
+ECDHE-ECDSA-AES256-SHA384 TLSv1.2
+ECDHE-RSA-AES256-SHA    SSLv3
+ECDHE-ECDSA-AES256-SHA  SSLv3
+DHE-DSS-AES256-GCM-SHA384 TLSv1.2
+DHE-RSA-AES256-GCM-SHA384 TLSv1.2
+DHE-RSA-AES256-SHA256   TLSv1.2
+DHE-DSS-AES256-SHA256   TLSv1.2
+DHE-RSA-AES256-SHA      SSLv3
+DHE-DSS-AES256-SHA      SSLv3
+DHE-RSA-CAMELLIA256-SHA SSLv3
+DHE-DSS-CAMELLIA256-SHA SSLv3
+AECDH-AES256-SHA        SSLv3
+ADH-AES256-GCM-SHA384   TLSv1.2
+ADH-AES256-SHA256       TLSv1.2
+ADH-AES256-SHA          SSLv3
+ADH-CAMELLIA256-SHA     SSLv3
+ECDH-RSA-AES256-GCM-SHA384 TLSv1.2
+ECDH-ECDSA-AES256-GCM-SHA384 TLSv1.2
+ECDH-RSA-AES256-SHA384  TLSv1.2 
+ECDH-ECDSA-AES256-SHA384 TLSv1.2
+ECDH-RSA-AES256-SHA     SSLv3
+ECDH-ECDSA-AES256-SHA   SSLv3
+AES256-GCM-SHA384       TLSv1.2
+AES256-SHA256           TLSv1.2
+AES256-SHA              SSLv3
+CAMELLIA256-SHA         SSLv3
+PSK-AES256-CBC-SHA      SSLv3
+ECDHE-RSA-DES-CBC3-SHA  SSLv3
+ECDHE-ECDSA-DES-CBC3-SHA SSLv3
+EDH-RSA-DES-CBC3-SHA    SSLv3
+EDH-DSS-DES-CBC3-SHA    SSLv3
+AECDH-DES-CBC3-SHA      SSLv3
+ADH-DES-CBC3-SHA        SSLv3
+ECDH-RSA-DES-CBC3-SHA   SSLv3
+ECDH-ECDSA-DES-CBC3-SHA SSLv3
+DES-CBC3-SHA            SSLv3
+DES-CBC3-MD5            SSLv2
+PSK-3DES-EDE-CBC-SHA    SSLv3
+KRB5-DES-CBC3-SHA       SSLv3
+KRB5-DES-CBC3-MD5       SSLv3
+ECDHE-RSA-AES128-GCM-SHA256 TLSv1.2
+ECDHE-ECDSA-AES128-GCM-SHA256 TLSv1.2
+ECDHE-RSA-AES128-SHA256 TLSv1.2
+ECDHE-ECDSA-AES128-SHA256 TLSv1.2
+ECDHE-RSA-AES128-SHA    SSLv3
+ECDHE-ECDSA-AES128-SHA  SSLv3
+DHE-DSS-AES128-GCM-SHA256 TLSv1.2
+DHE-RSA-AES128-GCM-SHA256 TLSv1.2
+DHE-RSA-AES128-SHA256   TLSv1.2
+DHE-DSS-AES128-SHA256   TLSv1.2
+DHE-RSA-AES128-SHA      SSLv3
+DHE-DSS-AES128-SHA      SSLv3
+DHE-RSA-CAMELLIA128-SHA SSLv3
+DHE-DSS-CAMELLIA128-SHA SSLv3
+AECDH-AES128-SHA        SSLv3
+ADH-AES128-GCM-SHA256   TLSv1.2
+ADH-AES128-SHA256       TLSv1.2
+ADH-AES128-SHA          SSLv3
+ADH-CAMELLIA128-SHA     SSLv3
+ECDH-RSA-AES128-GCM-SHA256 TLSv1.2
+ECDH-ECDSA-AES128-GCM-SHA256 TLSv1.2
+ECDH-RSA-AES128-SHA256  TLSv1.2 
+ECDH-ECDSA-AES128-SHA256 TLSv1.2
+ECDH-RSA-AES128-SHA     SSLv3
+ECDH-ECDSA-AES128-SHA   SSLv3
+AES128-GCM-SHA256       TLSv1.2
+AES128-SHA256           TLSv1.2
+AES128-SHA              SSLv3
+CAMELLIA128-SHA         SSLv3
+PSK-AES128-CBC-SHA      SSLv3
+</screen>
+			</para>
 		</section>
                 <section id="sect-Fedora_Security_Team-Securing_TLS-OpenSSL-Cipher_Categories-Medium">
                         <title>Medium Ciphers</title>
-                        <para />
+                        <para><literal>MEDIUM</literal> ciphers are the ciphers that offer moderate protection and should not be used for any serious security.  Many times these ciphers are used for interoperability but that should really be few and far between.</para>
+                        <para>The current <literal>MEDIUM</literal> cipher suites offered by OpenSSL (version 1.0.1e) are:
+<screen>
+DHE-RSA-SEED-SHA        SSLv3
+DHE-DSS-SEED-SHA        SSLv3
+ADH-SEED-SHA            SSLv3
+SEED-SHA                SSLv3
+IDEA-CBC-SHA            SSLv3
+IDEA-CBC-MD5            SSLv2
+RC2-CBC-MD5             SSLv2
+KRB5-IDEA-CBC-SHA       SSLv3
+KRB5-IDEA-CBC-MD5       SSLv3
+ECDHE-RSA-RC4-SHA       SSLv3
+ECDHE-ECDSA-RC4-SHA     SSLv3
+AECDH-RC4-SHA           SSLv3
+ADH-RC4-MD5             SSLv3
+ECDH-RSA-RC4-SHA        SSLv3
+ECDH-ECDSA-RC4-SHA      SSLv3
+RC4-SHA                 SSLv3
+RC4-MD5                 SSLv3
+RC4-MD5                 SSLv2
+PSK-RC4-SHA             SSLv3
+KRB5-RC4-SHA            SSLv3
+KRB5-RC4-MD5            SSLv3
+</screen>
+			</para>
                 </section>
                 <section id="sect-Fedora_Security_Team-Securing_TLS-OpenSSL-Cipher_Categories-Low">
                         <title>Low Ciphers</title>
-                        <para />
+                        <para><literal>LOW</literal> ciphers are the ciphers that offer little to no protection and should not be used for any serious security.  Many times these ciphers are used for interoperability but that should really be few and far between.</para>
+                        <para>The current <literal>LOW</literal> cipher suites offered by OpenSSL (version 1.0.1e) are:
+<screen>
+EDH-RSA-DES-CBC-SHA     SSLv3 
+EDH-DSS-DES-CBC-SHA     SSLv3 
+ADH-DES-CBC-SHA         SSLv3 
+DES-CBC-SHA             SSLv3 
+DES-CBC-MD5             SSLv2 
+KRB5-DES-CBC-SHA        SSLv3 
+KRB5-DES-CBC-MD5        SSLv3 
+</screen>
+			</para>
                 </section>
                 <section id="sect-Fedora_Security_Team-Securing_TLS-OpenSSL-Cipher_Categories-Export">
                         <title>Export Ciphers</title>
-                        <para />
-                </section>
-                <section id="sect-Fedora_Security_Team-Securing_TLS-OpenSSL-Cipher_Categories-Default">
-                        <title>Default Ciphers</title>
-                        <para />
-                </section>
+                        <para><literal>EXPORT</literal> ciphers are the ciphers that offer little to no protection and should not be used for any serious security.  Many times these ciphers are used for interoperability but that should really be few and far between.</para>
+                        <para>The current <literal>EXPORT</literal> cipher suites offered by OpenSSL (version 1.0.1e) are:
+<screen>
+EXP-EDH-RSA-DES-CBC-SHA SSLv3
+EXP-EDH-DSS-DES-CBC-SHA SSLv3
+EXP-ADH-DES-CBC-SHA     SSLv3
+EXP-DES-CBC-SHA         SSLv3
+EXP-RC2-CBC-MD5         SSLv3
+EXP-RC2-CBC-MD5         SSLv2
+EXP-KRB5-RC2-CBC-SHA    SSLv3
+EXP-KRB5-DES-CBC-SHA    SSLv3
+EXP-KRB5-RC2-CBC-MD5    SSLv3
+EXP-KRB5-DES-CBC-MD5    SSLv3
+EXP-ADH-RC4-MD5         SSLv3
+EXP-RC4-MD5             SSLv3
+EXP-RC4-MD5             SSLv2
+EXP-KRB5-RC4-SHA        SSLv3
+EXP-KRB5-RC4-MD5        SSLv3
+</screen>
+			</para>
+		</section>
 	</section>
 </chapter>
 
