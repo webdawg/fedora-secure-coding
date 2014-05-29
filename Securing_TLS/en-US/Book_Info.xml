@@ -5,14 +5,14 @@
 ]>
 <bookinfo id="book-Fedora_Security_Team-Securing_TLS-Securing_TLS">
 	<title>Securing TLS</title>
-	<subtitle>Enter a short description here.</subtitle>
+	<subtitle>Securing data-in-transit using the latest recommendations for SSL and TLS implementations.</subtitle>
 	<productname>Fedora Security Team</productname>
-	<productnumber>0.1</productnumber>
+	<productnumber></productnumber>
 	<edition>1</edition>
 	<pubsnumber>0</pubsnumber>
 	<abstract>
 		<para>
-			A short overview and summary of the book's subject and purpose, traditionally no more than one paragraph long. Note: the abstract will appear in the front matter of your book and will also be placed in the description field of the book's RPM spec file.
+			This book describes a recommended way of configuring SSL and TLS circuits to protect data being passed across the network.  This includes web, email, and authentication encryption for data in transit.
 		</para>
 	</abstract>
 	<corpauthor>
