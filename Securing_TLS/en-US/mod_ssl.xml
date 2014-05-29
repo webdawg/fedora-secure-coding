@@ -22,7 +22,8 @@
 Listen 443 https
 </screen>
 This specifies the port that httpd should listen to for SSL/TLS traffic.  Port 443 is the standard port for https.
-
+</para>
+<para>
 <screen>
 #   Pseudo Random Number Generator (PRNG):
 #   Configure one or more sources to seed the PRNG of the 
@@ -39,10 +40,18 @@ SSLRandomSeed connect builtin
 #SSLRandomSeed startup file:/dev/random  512
 #SSLRandomSeed connect file:/dev/random  512
 #SSLRandomSeed connect file:/dev/urandom 512
+#SSLRandomSeed connect exec:/usr/local/bin/rand 16
 </screen>
 
-The random number generator is very important for cryptology and this is where those settings get established.  By default the pseudo-random number generator is defined here although if you have another source of random data you can put that here.
-
+The random number generator is very important for cryptology and this is where those settings get established.  By default the pseudo-random number generator is configured here although if you have another source of random data you can specify it here.
+</para>
+<para>
+For Linux systems, the quality of entropy provided by <literal>/dev/urandom</literal> is very high so we recommend its use for both <literal>startup</literal> and <literal>connect</literal>.  The number of bytes read should be left at 256 for <literal>startup</literal> as it has minimal impact on performance, and set to 32 for the <literal>connect</literal> use (256 bits).  This provides enough entropy for both internal operation and for ServerRandom value in TLS (which is limited to 256 bits).
+</para>
+<para>
+In cases where the system on which <literal>mod_ssl</literal> is running is slow and doesn't have a hardware random number generator, we highly recommend to set the values to the ones quoted in the above example.
+</para>
+<para>
 <screen>
 # Use "SSLCryptoDevice" to enable any supported hardware
 # accelerators. Use "openssl engine -v" to list supported
