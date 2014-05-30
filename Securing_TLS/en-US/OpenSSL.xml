@@ -190,6 +190,26 @@ openssl x509 -req -days 365 -sha384 -in key_name.csr -signkey key_name.key -out 
 <emphasis>Optional</emphasis> - This last step isn't generally necessary.  This is what the CA does on their side except they use their key in place of key_name.key to sign your key.  By doing this you are creating a self-signed certificate which is not very useful and should only be used for testing purposes.
 			</para>
 		</section>
+                <section id="sect-Fedora_Security_Team-Securing_TLS-OpenSSL-Generating_Crypto-ECDSA">
+			<title>Generating ECDSA keys</title>
+			<para>ECDSA keys are part of the latest generation of cryptography used in TLS-protected circuits.  ECDSA keys do not have to be as large as an RSA key to provide similar protection.</para>
+			<para>The process for generating an ECDSA key is similar to that of RSA and we'll go over the commands now.
+
+<screen>
+openssl ecparam -genkey -name <emphasis>curve</emphasis> -out key_name.pem
+</screen>
+In this command you must provide the name of the curve to use.  There are many curves to choose from but based on your particular installation of OpenSSL your choices may be limited.  To determine what curves are available you run <command>openssl ecparam -list_curves</command>.
+<screen>
+openssl req -new -key key_name.key -out key_name.csr
+</screen>
+This will generate a certificate signing request (<abbrev>CSR</abbrev>) to provide to your certificate authority (<abbrev>CA</abbrev>) for signing.
+<note><para>It's important to find a CA that will sign your ECDSA key with an ECDSA key to keep the security level high.</para></note>
+<screen>
+openssl req -x509 -newkey ecdsa:ECC_params.pem -keyout server.key -out server.crt -subj /CN=localhost -nodes -batch
+</screen>
+This command will actually generate a self-signed certificate in one swipe.
+			</para>
+		</section>
 	</section>
 </chapter>
 
