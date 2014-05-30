@@ -8,6 +8,12 @@
 	<para>
 		<application>Apache</application> web server utilizes <application>mod_ssl</application> to utilize OpenSSL for cryptography.  Configuration is handled by the <filename>/etc/httpd/conf.d/ssl.conf</filename> file and can be modified to support a wide range of ciphers and protocols.
 	</para>
+        <section id="sect-Fedora_Security_Team-Securing_TLS-mod_ssl-installation">
+                <title>Installation</title>
+                <para>
+			To install <application>mod_ssl</application> using <application>yum</application> just issue the following command: <command>yum install mod_ssl openssl</command>.
+		</para>
+	</section>
 	<section id="sect-Fedora_Security_Team-Securing_TLS-mod_ssl-configuration">
 		<title>Configuration</title>
 		<para>
