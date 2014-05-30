@@ -160,5 +160,36 @@ EXP-KRB5-RC4-MD5        SSLv3
 			</para>
 		</section>
 	</section>
+	<section id="sect-Fedora_Security_Team-Securing_TLS-OpenSSL-Generating_Crypto">
+		<title>Generating Crypto</title>
+		<para>Properly generating keys and certificates is as important as the ciphers suite being used to secure the circuit.  The best cipher can be broken with improperly generated keys.</para>
+
+		<section id="sect-Fedora_Security_Team-Securing_TLS-OpenSSL-Generating_Crypto-RSA">
+			<title>Generating RSA keys</title>
+			<para>RSA keys are the most common key type used to secure SSL and TLS circuits.  It's relatively simple to generate keys and we'll describe how and why now.</para>
+			<para>
+<screen>
+openssl genrsa -aes128 -out key_name.key 3072
+</screen>
+This will generate a 3072-bit RSA key that is sufficently large for true 128 bits of security.  To obtain 256 bits of security the RSA key will need to be 15360 bits.  If you require that type of security, however, a ECDSA key should be utilized.
+<important><para>The industry standard 2048-bit RSA key only provides 112 bits of security.<footnote><para>NIST SP 800-57 Part 1, Rev 3 <ulink url="http://csrc.nist.gov/publications/nistpubs/800-57/sp800-57_part1_rev3_general.pdf" /></para></footnote></para></important>
+
+<screen>
+openssl rsa -in key_name.key -out key_name.key
+</screen>
+This simply removes the password that was placed on the key at generation.  You can do this once you are sure you no longer need to protect the key (like when it's going to be used on the server).
+
+<screen>
+openssl req -new -key key_name.key -out key_name.csr
+</screen>
+This will generate a certificate signing request (<abbrev>CSR</abbrev>) to provide to your certificate authority (<abbrev>CA</abbrev>) for signing.
+
+<screen>
+openssl x509 -req -days 365 -sha384 -in key_name.csr -signkey key_name.key -out key_name.crt
+</screen>
+<emphasis>Optional</emphasis> - This last step isn't generally necessary.  This is what the CA does on their side except they use their key in place of key_name.key to sign your key.  By doing this you are creating a self-signed certificate which is not very useful and should only be used for testing purposes.
+			</para>
+		</section>
+	</section>
 </chapter>
 
