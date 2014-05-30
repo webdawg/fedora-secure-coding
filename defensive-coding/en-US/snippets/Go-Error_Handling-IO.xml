@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<!DOCTYPE programlisting PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+]>
+<!-- Automatically generated file.  Do not edit. -->
+<programlisting language="C">
+func IOError(r io.Reader, buf []byte, processor Processor,
+	handler ErrorHandler) (message string, err error) {
+	n, err := r.Read(buf)
+	// First check for available data.
+	if n &#62; 0 {
+		message, err = processor.Process(buf[0:n])
+		// Regular error handling.
+		if err != nil {
+			handler.Handle(err)
+			return "", err
+		}
+	}
+	// Then handle any error.
+	if err != nil {
+		handler.Handle(err)
+		return "", err
+	}
+	return
+}
+</programlisting>
