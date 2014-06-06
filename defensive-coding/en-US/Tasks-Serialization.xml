@@ -42,6 +42,136 @@
       characters simplifies testing and debugging.  However, binary
       protocols with length fields may be more efficient to parse.
     </para>
+    <para>
+      In new datagram-oriented protocols, unique numbers such as
+      sequence numbers or identifiers for fragment reassembly (see
+      <xref
+      linkend="sect-Defensive_Coding-Tasks-Serialization-Fragmentation"/>)
+      should be at least 64 bits large, and really should not be
+      smaller than 32 bits in size.  Protocols should not permit
+      fragments with overlapping contents.
+    </para>
+  </section>
+
+  <section id="sect-Defensive_Coding-Tasks-Serialization-Fragmentation">
+    <title>Fragmentation</title>
+    <para>
+      Some serialization formats use frames or protocol data units
+      (PDUs) on lower levels which are smaller than the PDUs on higher
+      levels.  With such an architecture, higher-level PDUs may have
+      to be <emphasis>fragmented</emphasis> into smaller frames during
+      serialization, and frames may need
+      <emphasis>reassembly</emphasis> into large PDUs during
+      deserialization.
+    </para>
+    <para>
+      Serialization formats may use conceptually similar structures
+      for completely different purposes, for example storing multiple
+      layers and color channels in a single image file.
+    </para>
+    <para>
+      When fragmenting PDUs, establish a reasonable lower bound for
+      the size of individual fragments (as large as possible—limits as
+      low as one or even zero can add substantial overhead).  Avoid
+      fragmentation if at all possible, and try to obtain the maximum
+      acceptable fragment length from a trusted data source.
+    </para>
+    <para>
+      When implementing reassembly, consider the following aspects.
+    </para>
+    <itemizedlist>
+      <listitem>
+	<para>
+	  Avoid allocating significant amount of resources without
+	  proper authentication.  Allocate memory for the unfragmented
+	  PDU as more and more and fragments are encountered, and not
+	  based on the initially advertised unfragmented PDU size,
+	  unless there is a sufficiently low limit on the unfragmented
+	  PDU size, so that over-allocation cannot lead to performance
+	  problems.
+	</para>
+      </listitem>
+      <listitem>
+	<para>
+	  Reassembly queues on top of datagram-oriented transports
+	  should be bounded, both in the combined size of the arrived
+	  partial PDUs waiting for reassembly, and the total number of
+	  partially reassembled fragments.  The latter limit helps to
+	  reduce the risk of accidental reassembly of unrelated
+	  fragments, as it can happen with small fragment IDs (see
+	  <xref linkend="sect-Defensive_Coding-Tasks-Serialization-Fragmentation-ID"/>).
+	  It also guards to some extent against deliberate injection of fragments,
+	  by guessing fragment IDs.
+	</para>
+      </listitem>
+      <listitem>
+	<para>
+	  Carefully keep track of which bytes in the unfragmented PDU
+	  have been covered by fragments so far.  If message
+	  reordering is a concern, the most straightforward data
+	  structure for this is an array of bits, with one bit for
+	  every byte (or other atomic unit) in the unfragmented PDU.
+	  Complete reassembly can be determined by increasing a
+	  counter of set bits in the bit array as the bit array is
+	  updated, taking overlapping fragments into consideration.
+	</para>
+      </listitem>
+      <listitem>
+	<para>
+	  Reject overlapping fragments (that is, multiple fragments
+	  which provide data at the same offset of the PDU being
+	  fragmented), unless the protocol explicitly requires
+	  accepting overlapping fragments.  The bit array used for
+	  tracking already arrived bytes can be used for this purpose.
+	</para>
+      </listitem>
+      <listitem>
+	<para>
+	  Check for conflicting values of unfragmented PDU lengths (if
+	  this length information is part of every fragment) and
+	  reject fragments which are inconsistent.
+	</para>
+      </listitem>
+      <listitem>
+	<para>
+	  Validate fragment lengths and offsets of individual
+	  fragments against the unfragmented PDU length (if they are
+	  present).  Check that the last byte in the fragment does not
+	  lie after the end of the unfragmented PDU.  Avoid integer
+	  overflows in these computations (see <xref
+	  linkend="sect-Defensive_Coding-C-Arithmetic"/>).
+	</para>
+      </listitem>
+    </itemizedlist>
+    <section id="sect-Defensive_Coding-Tasks-Serialization-Fragmentation-ID">
+      <title>Fragment IDs</title>
+      <para>
+	If the underlying transport is datagram-oriented (so that PDUs
+	can be reordered, duplicated or be lost, like with UDP),
+	fragment reassembly needs to take into account endpoint
+	addresses of the communication channel, and there has to be
+	some sort of fragment ID which identifies the individual
+	fragments as part of a larger PDU.  In addition, the
+	fragmentation protocol will typically involve fragment offsets
+	and fragment lengths, as mentioned above.
+      </para>
+      <para>
+	If the transport may be subject to blind PDU injection (again,
+	like UDP), the fragment ID must be generated randomly.  If the
+	fragment ID is 64 bit or larger (strongly recommended), it can
+	be generated in a completely random fashion for most traffic
+	volumes.  If it is less than 64 bits large (so that accidental
+	collisions can happen if a lot of PDUs are transmitted), the
+	fragment ID should be incremented sequentially from a starting
+	value.  The starting value should be derived using a HMAC-like
+	construction from the endpoint addresses, using a long-lived
+	random key.  This construction ensures that despite the
+	limited range of the ID, accidental collisions are as unlikely
+	as possible.  (This will not work reliable with really short
+	fragment IDs, such as the 16 bit IDs used by the Internet
+	Protocol.)
+      </para>
+    </section>
   </section>
 
   <section>
