@@ -103,8 +103,19 @@
 	<para>
 	  Perform the calculation in the corresponding unsigned type
 	  and use bit fiddling to detect the overflow.
+	  <xref linkend="ex-Defensive_Coding-C-Arithmetic-add_unsigned"/>
+	  shows how to perform an overflow check for unsigned integer
+	  addition.  For three or more terms, all the intermediate
+	  additions have to be checked in this way.
 	</para>
       </listitem>
+    </itemizedlist>
+    <example id="ex-Defensive_Coding-C-Arithmetic-add_unsigned">
+      <title>Overflow checking for unsigned addition</title>
+      <xi:include href="snippets/C-Arithmetic-add_unsigned.xml"
+		  xmlns:xi="http://www.w3.org/2001/XInclude" />
+    </example>
+    <itemizedlist>
       <listitem>
 	<para>
 	  Compute bounds for acceptable input values which are known

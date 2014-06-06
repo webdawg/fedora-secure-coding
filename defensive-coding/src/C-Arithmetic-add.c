@@ -15,3 +15,17 @@ add(int a, int b)
   return result;
 }
 //-
+
+//+ C Arithmetic-add_unsigned
+void report_overflow(void);
+
+unsigned
+add_unsigned(unsigned a, unsigned b)
+{
+  unsigned sum = a + b;
+  if (sum < a) { // or sum < b
+    report_overflow();
+  }
+  return sum;
+}
+//-

@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<!DOCTYPE programlisting PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+]>
+<!-- Automatically generated file.  Do not edit. -->
+<programlisting language="C">
+void report_overflow(void);
+
+unsigned
+add_unsigned(unsigned a, unsigned b)
+{
+  unsigned sum = a + b;
+  if (sum &#60; a) { // or sum &#60; b
+    report_overflow();
+  }
+  return sum;
+}
+</programlisting>
