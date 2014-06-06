@@ -86,10 +86,19 @@ fi
 
 %files
 %dir %attr(0755,%{tlsuser},%{tlsuser]) %{tlsdir}
-%ghost %attr(0600,%{tlsuser},%{tlsuser}) %{tlskey}
-%ghost %attr(0644,%{tlsuser},%{tlsuser}) %{tlscert}
+%ghost %attr(0600,%{tlsuser},%{tlsuser}) %config(noreplace) %{tlskey}
+%ghost %attr(0644,%{tlsuser},%{tlsuser}) %config(noreplace) %{tlscert}
       </programlisting>
     </example>
+    <para>
+      The files containing the key material are marked as ghost
+      configuration files.  This ensures that they are tracked in the
+      RPM database as associated with the package, but RPM will not
+      create them when the package is installed and not verify their
+      contents (the <literal>%ghost</literal>), or delete the files
+      when the package is uninstalled (the
+      <literal>%config(noreplace)</literal> part).
+    </para>
     <para>
       If the <emphasis>directory</emphasis>
       <literal>%{tlsdir}</literal> <emphasis>is owned by</emphasis>
@@ -114,8 +123,8 @@ fi
 
 %files
 %dir %attr(0755,root,root]) %{tlsdir}
-%ghost %attr(0600,%{tlsuser},%{tlsuser}) %{tlskey}
-%ghost %attr(0644,root,root) %{tlscert}
+%ghost %attr(0600,%{tlsuser},%{tlsuser}) %config(noreplace) %{tlskey}
+%ghost %attr(0644,root,root) %config(noreplace) %{tlscert}
       </programlisting>
     </example>
     <para>
