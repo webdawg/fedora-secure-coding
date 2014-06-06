@@ -20,7 +20,8 @@
       such use, generating the key pair at package installation time
       when preparing system images for use in the cluster is
       reasonable.  For other use cases, it is necessary to generate
-      the key pair before the service is started for the first time.
+      the key pair before the service is started for the first time,
+      see <xref linkend="sect-Defensive_Coding-Tasks-Packaging-Certificates-Service"/>.
     </para>
     <important>
       <para>
@@ -126,6 +127,40 @@ fi
       the user.  This ensures that the user account will exist when it
       is needed for the <application>su</application> or
       <application>chmod</application> invocation.
+    </para>
+  </section>
+  <section id="sect-Defensive_Coding-Tasks-Packaging-Certificates-Service">
+    <title>Generating X.509 self-signed certificates before service
+    start</title>
+    <para>
+      An alternative way to automatically provide an X.509 key pair is
+      to create it just before the service is started for the first
+      time.  This ensures that installation images which are created
+      from installed RPM packages receive different key material.
+      Creating the key pair at package installation time (see <xref
+      linkend="sect-Defensive_Coding-Tasks-Packaging-Certificates"/>)
+      would put the key into the image, which may or may not make
+      sense.
+    </para>
+    <important>
+      <para>
+	The caveats about the way the key is generated in <xref
+	linkend="sect-Defensive_Coding-Tasks-Packaging-Certificates"/>
+	apply to this procedure as well.
+    </para>
+    </important>
+    <para>
+      Generating key material before service start may happen very
+      early during boot, when the kernel randomness pool has not yet
+      been initialized.  Currently, the only way to check for the
+      initialization is to look for the kernel message
+      <literal>random: nonblocking pool is initialized</literal>.  In
+      theory, it is also possible to read from
+      <filename>/dev/random</filename> while generating the key
+      material (instead of <filename>/dev/urandom</filename>), but
+      this can block not just during the boot process, but also much
+      later at run time, and generally results in a poor user
+      experience.
     </para>
   </section>
 </chapter>
