@@ -113,9 +113,9 @@ if [ $1 -eq 1 ] ; then
 fi
 
 %files
-%dir %attr(0755,%{root},%{root}]) %{tlsdir}
+%dir %attr(0755,root,root]) %{tlsdir}
 %ghost %attr(0600,%{tlsuser},%{tlsuser}) %{tlskey}
-%ghost %attr(0644,%{root},%{root}) %{tlscert}
+%ghost %attr(0644,root,root) %{tlscert}
       </programlisting>
     </example>
     <para>
