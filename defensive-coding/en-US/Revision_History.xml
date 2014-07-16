@@ -8,6 +8,28 @@
   <simpara>
     <revhistory>
       <revision>
+        <revnumber>1.2-1</revnumber>
+        <date>Wed Jul 16 2014</date>
+        <author>
+          <firstname>Florian</firstname>
+          <surname>Weimer</surname>
+          <email>fweimer@redhat.com</email>
+        </author>
+        <revdescription>
+          <simplelist>
+            <member>C: Corrected the <function>strncat</function> example</member>
+	    <member>C: Mention mixed signed/unsigned comparisons</member>
+	    <member>C: Unsigned overflow checking example</member>
+	    <member>C++: <literal>operator new[]</literal> has been fixed in GCC</member>
+	    <member>C++: Additional material on <literal>std::string</literal>, iterators</member>
+	    <member>OpenSSL: Mention <command>openssl genrsa</command> entropy issue</member>
+	    <member>Packaging: X.509 key generation</member>
+	    <member>Go, Vala: Add short chapters</member>
+	    <member>Serialization: Notes on fragmentation and reassembly</member>
+          </simplelist>
+        </revdescription>
+      </revision>
+      <revision>
         <revnumber>1.1-1</revnumber>
         <date>Tue Aug 27 2013</date>
         <author>
