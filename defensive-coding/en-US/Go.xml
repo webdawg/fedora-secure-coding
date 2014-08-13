@@ -87,4 +87,24 @@
     spontaneously.
   </para>
 </section>
+<section id="chap-Defensive_Coding-Go-Marshaling">
+  <title>Marshaling and marshaling</title>
+  <para>
+    Several packages in the <literal>encoding</literal> hierarchy
+    provide support for serialization and deserialization.  The usual
+    caveats apply (see
+    <xref linkend="chap-Defensive_Coding-Tasks-Serialization"/>).
+  </para>
+  <para>
+    As an additional precaution, the <function>Unmarshal</function>
+    and <function>Decode</function> functions should only be used with
+    fresh values in the <literal>interface{}</literal> argument.  This
+    is due to the way defaults for missing values are implemented:
+    During deserialization, missing value do not result in an error,
+    but the original value is preserved.  Using a fresh value (with
+    suitable default values if necessary) ensures that data from a
+    previous deserialization operation does not leak into the current
+    one.  This is especially relevant when structs are deserialized.
+  </para>
+</section>
 </chapter>
