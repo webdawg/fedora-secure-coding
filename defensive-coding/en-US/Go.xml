@@ -22,7 +22,7 @@
     Code which does not run in parallel and does not use the
     <literal>unsafe</literal> package (or other packages which expose
     unsafe constructs) is memory-safe.  For example, invalid casts and
-    out-of-range subscripting cause panics and run time.
+    out-of-range subscripting cause panics at run time.
   </para>
   <para>
     Keep in mind that finalization can introduce parallelism because
