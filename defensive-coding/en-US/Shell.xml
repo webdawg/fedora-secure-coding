@@ -203,6 +203,11 @@ external-program "$arg1" "$arg2"
 	linkend="sect-Defensive_Coding-Shell-Alternatives"/>.
       </para>
     </important>
+    <para>
+      If it is impossible to avoid shell arithmetic on untrusted
+      inputs, refer to <xref
+      linkend="sect-Defensive_Coding-Shell-Input_Validation"/>.
+    </para>
   </section>
   <section id="sect-Defensive_Coding-Shell-Types">
     <title>Type declarations</title>
@@ -375,6 +380,41 @@ trap cleanup 0
    </programlisting>
  </informalexample>
   </example>
+</section>
+<section id="sect-Defensive_Coding-Shell-Input_Validation">
+  <title>Performing input validation</title>
+  <para>
+    In some cases, input validation cannot be avoided.  For example,
+    if arithmetic evaluation is absolutely required, it is imperative
+    to check that input values are, in fact, integers.  See <xref
+    linkend="sect-Defensive_Coding-Shell-Arithmetic"/>.
+  </para>
+  <para>
+    The following construct can be used to check if a string
+    “<literal>$value</literal>” is not a non-negative integer.
+  </para>
+  <informalexample>
+    <programlisting language="Bash">
+case "$value" in
+    *[!0-9]*)
+        echo "invalid input value" 1>&amp;2
+	exit 1
+	;;
+esac
+    </programlisting>
+  </informalexample>
+  <para>
+    The pattern “<literal>*[!0-9]*</literal>” is not special shell
+    syntax—it matches any string which contains arbitrary characters,
+    followed by a non-digit, followed by arbitrary characters.
+  </para>
+  <para>
+    Using <literal>case</literal> statements is the most reliable way
+    for performing input validation, although constructing proper
+    patterns is difficult.  The <literal>expr</literal> external
+    command and the built-in operator <literal>=~</literal> can give
+    misleading results.
+  </para>
 </section>
 <section id="sect-Defensive_Coding-Shell-Edit_Guard">
   <title>Guarding shell scripts against changes</title>
