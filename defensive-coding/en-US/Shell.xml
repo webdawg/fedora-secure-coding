@@ -162,6 +162,14 @@ external-program "$arg1" "$arg2"
 	  evaluation, even with integer operators such as
 	  <literal>-eq</literal>.)
 	</para>
+	<para>
+	  The conditional expression
+	  “<literal>[[ $</literal><emphasis>variable</emphasis><literal> =~ </literal><emphasis>regexp</emphasis><literal> ]]</literal>”
+	  can be used for input validation, assuming that
+	  <emphasis>regexp</emphasis> is a constant regular
+	  expression.
+	  See <xref linkend="sect-Defensive_Coding-Shell-Input_Validation"/>.
+	</para>
       </listitem>
       <listitem>
 	<para>
@@ -391,29 +399,27 @@ trap cleanup 0
   </para>
   <para>
     The following construct can be used to check if a string
-    “<literal>$value</literal>” is not a non-negative integer.
+    “<literal>$value</literal>” is an integer.
   </para>
   <informalexample>
     <programlisting language="Bash">
-case "$value" in
-    *[!0-9]*)
-        echo "invalid input value" 1>&amp;2
-	exit 1
-	;;
-esac
+if [[ $value =~ ^-?[0-9]$ ]] ; then
+    echo value is an integer
+else
+    echo "value is not an integer" 1>&amp;2
+    exit 1
+fi
     </programlisting>
   </informalexample>
   <para>
-    The pattern “<literal>*[!0-9]*</literal>” is not special shell
-    syntax—it matches any string which contains arbitrary characters,
-    followed by a non-digit, followed by arbitrary characters.
+    Using <literal>case</literal> statements for input validation is
+    also possible, but the pattern language is more restrictive, and
+    it can be difficult to write suitable patterns.
   </para>
   <para>
-    Using <literal>case</literal> statements is the most reliable way
-    for performing input validation, although constructing proper
-    patterns is difficult.  The <literal>expr</literal> external
-    command and the built-in operator <literal>=~</literal> can give
-    misleading results.
+    The <literal>expr</literal> external command can give misleading
+    results (e.g., if the value being checked contains operators
+    itself) and should not be used.
   </para>
 </section>
 <section id="sect-Defensive_Coding-Shell-Edit_Guard">
