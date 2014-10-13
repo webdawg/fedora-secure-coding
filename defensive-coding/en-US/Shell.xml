@@ -398,23 +398,22 @@ trap cleanup 0
     linkend="sect-Defensive_Coding-Shell-Arithmetic"/>.
   </para>
   <para>
-    The following construct can be used to check if a string
-    “<literal>$value</literal>” is an integer.
+    <xref linkend="ex-Defensive_Coding-Shell-Input_Validation"/>
+    shows a construct which can be used to check if a string
+    “<literal>$value</literal>” is an integer.  This construct is
+    specific to <application>bash</application> and not portable to
+    POSIX shells.
   </para>
-  <informalexample>
-    <programlisting language="Bash">
-if [[ $value =~ ^-?[0-9]$ ]] ; then
-    echo value is an integer
-else
-    echo "value is not an integer" 1>&amp;2
-    exit 1
-fi
-    </programlisting>
-  </informalexample>
+  <example id="ex-Defensive_Coding-Shell-Input_Validation">
+    <title>Input validation in <application>bash</application></title>
+    <xi:include href="snippets/Shell-Input_Validation.xml"
+		xmlns:xi="http://www.w3.org/2001/XInclude" />
+  </example>
   <para>
     Using <literal>case</literal> statements for input validation is
-    also possible, but the pattern language is more restrictive, and
-    it can be difficult to write suitable patterns.
+    also possible and supported by other (POSIX) shells, but the
+    pattern language is more restrictive, and it can be difficult to
+    write suitable patterns.
   </para>
   <para>
     The <literal>expr</literal> external command can give misleading
