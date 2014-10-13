@@ -93,7 +93,7 @@ external-program "$arg1" "$arg2"
     shell scripts difficult.
   </para>
   <para>
-    Double evaluation can be requested explicitly with the
+    Double expansion can be requested explicitly with the
     <literal>eval</literal> built-in command, or by invoking a
     subshell with “<literal>bash -c</literal>”.  These constructs
     should not be used.
@@ -108,8 +108,8 @@ external-program "$arg1" "$arg2"
       <emphasis>Arithmetic evaluation</emphasis> is a process by which
       the shell computes the integer value of an expression specified
       as a string.  It is highly problematic for two reasons: It
-      triggers double evaluation (see <xref
-      linkend="sect-Defensive_Coding-Shell-Arithmetic"/>), and the
+      triggers double expansion (see <xref
+      linkend="sect-Defensive_Coding-Shell-Double_Expansion"/>), and the
       language of arithmetic expressions is not self-contained.  Some
       constructs in arithmetic expressions (notably array subscripts)
       provide a trapdoor from the restricted language of arithmetic
