@@ -34,6 +34,7 @@ def extension_to_language(path, map={
         'c' : 'C',
         'py' : 'Python',
         'java' : 'Java',
+        'sh' : 'Bash',
         }):
     return map.get(path.split('.')[-1], 'C')
 
