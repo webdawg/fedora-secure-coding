@@ -215,41 +215,58 @@
     <section id="sect-Defensive_Coding-TLS-Pitfalls-GNUTLS">
       <title>GNUTLS Pitfalls</title>
       <para>
-	<filename>libgnutls.so.26</filename> links to
-	<filename>libpthread.so.0</filename>.  Loading the threading
-	library too late causes problems, so the main program should
-	be linked with <literal>-lpthread</literal> as well.  As a
-	result, it can be difficult to use GNUTLS in a plugin which is
-	loaded with the <function>dlopen</function> function.  Another
-	side effect is that applications which merely link against
-	GNUTLS (even without actually using it) may incur a
-	substantial overhead because other libraries automatically
-	switch to thread-safe algorithms.
+	Older versions of GNUTLS had several peculiarities.  As of
+	GNUTLS 3.3.10, they have been addressed, so these are only a
+	concern for applications which have to run with older GNUTLS
+	versions.
       </para>
-      <para>
-	The <function>gnutls_global_init</function> function must be
-	called before using any functionality provided by the library.
-	This function is not thread-safe, so external locking is
-	required, but it is not clear which lock should be used.
-	Omitting the synchronization does not just lead to a memory
-	leak, as it is suggested in the GNUTLS documentation, but to
-	undefined behavior because there is no barrier that would
-	enforce memory ordering.
-      </para>
-      <para>
-	The <function>gnutls_global_deinit</function> function does
-	not actually deallocate all resources allocated by
-	<function>gnutls_global_init</function>.  It is currently not
-	thread-safe.  Therefore, it is best to avoid calling it
-	altogether.
-      </para>
-      <para>
-	The X.509 implementation in GNUTLS is rather lenient.  For
-	example, it is possible to create and process X.509
-	version&nbsp;1 certificates which carry extensions.  These
-	certificates are (correctly) rejected by other
-	implementations.
-      </para>
+      <itemizedlist>
+	<listitem>
+	  <para>
+	    The dynamic shared object provided by GNTULS links to
+	    <filename>libpthread.so.0</filename>.  Loading the
+	    threading library too late causes problems, so the main
+	    program should be linked with <literal>-lpthread</literal>
+	    as well.  As a result, it can be difficult to use GNUTLS
+	    in a plugin which is loaded with the
+	    <function>dlopen</function> function.  Another side effect
+	    is that applications which merely link against GNUTLS
+	    (even without actually using it) may incur a substantial
+	    overhead because other libraries automatically switch to
+	    thread-safe algorithms.
+	  </para>
+	</listitem>
+	<listitem>
+	  <para>
+	    The <function>gnutls_global_init</function> function must
+	    be called before using any functionality provided by the
+	    library.  This function is not thread-safe, so external
+	    locking is required, but it is not clear which lock should
+	    be used.  Omitting the synchronization does not just lead
+	    to a memory leak, as it is suggested in the GNUTLS
+	    documentation, but to undefined behavior because there is
+	    no barrier that would enforce memory ordering.
+	  </para>
+	</listitem>
+	<listitem>
+	  <para>
+	    The <function>gnutls_global_deinit</function> function
+	    does not actually deallocate all resources allocated by
+	    <function>gnutls_global_init</function>.  It is currently
+	    not thread-safe.  Therefore, it is best to avoid calling
+	    it altogether.
+	  </para>
+	</listitem>
+	<listitem>
+	  <para>
+	    The X.509 implementation in GNUTLS is rather lenient.  For
+	    example, it is possible to create and process X.509
+	    version&nbsp;1 certificates which carry extensions.  These
+	    certificates are (correctly) rejected by other
+	    implementations.
+	  </para>
+	</listitem>
+      </itemizedlist>
     </section>
     <section id="sect-Defensive_Coding-TLS-Pitfalls-OpenJDK">
       <title>OpenJDK Pitfalls</title>
