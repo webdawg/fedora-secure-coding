@@ -25,7 +25,7 @@ def check_host_name(peercert, name):
         # Only check the subject DN if there is no subject alternative
         # name.
         cn = None
-        for attr, val in peercert["subject"]:
+        for attr, val in peercert["subject"][0]:
             # Use most-specific (last) commonName attribute.
             if attr == "commonName":
                 cn = val
